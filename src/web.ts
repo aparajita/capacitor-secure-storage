@@ -1,47 +1,52 @@
-import { registerWebPlugin, WebPlugin } from '@capacitor/core';
+import { Capacitor, registerWebPlugin, WebPlugin } from '@capacitor/core';
+import { Blowfish } from 'javascript-blowfish';
 import {
-  ClearResult,
-  KeyOption,
-  RetrieveResult,
-  SetKeyPrefixOptions,
   StorageError,
   StorageErrorType,
   StorageType,
-  StoreOptions,
   WSSecureStoragePlugin,
 } from './definitions';
-import { Blowfish } from 'javascript-blowfish';
+import { native } from 'ws-capacitor-native-decorator';
 
 export class WSSecureStorageWeb
   extends WebPlugin
   implements WSSecureStoragePlugin {
-  private blowfish: Blowfish;
-  private storageType: StorageType = StorageType.localStorage;
-  private storage: Storage;
-  private prefix: string = 'secure-storage_';
+  private _blowfish: Blowfish;
+  private _storageType: StorageType = StorageType.localStorage;
+  private _storage: Storage;
+  private _prefix: string = 'secure-storage_';
 
   constructor() {
     super({
       name: 'WSSecureStorage',
-      platforms: ['web'],
+      platforms: ['web', 'ios', 'android'],
     });
 
-    this.setStorageType(this.storageType);
+    this.storageType = this._storageType;
   }
 
-  setStorageType(type: StorageType) {
-    this.storageType = type;
-    this.storage =
+  private static missingKey() {
+    throw new StorageError('No key provided', StorageErrorType.missingKey);
+  }
+
+  set storageType(type: StorageType) {
+    this._storageType = type;
+    this._storage =
       type === StorageType.sessionStorage ? sessionStorage : localStorage;
   }
 
-  getStorageType(): StorageType {
-    return this.storageType;
+  get storageType(): StorageType {
+    return this._storageType;
   }
 
   setEncryptionKey(key: string) {
+    // This is web-only
+    if (Capacitor.isNative) {
+      return;
+    }
+
     if (key) {
-      this.blowfish = new Blowfish(key);
+      this._blowfish = new Blowfish(key);
     } else {
       throw new StorageError(
         'Encryption key must be non-null and non-empty',
@@ -50,49 +55,45 @@ export class WSSecureStorageWeb
     }
   }
 
-  setKeyPrefix(options: SetKeyPrefixOptions) {
-    this.prefix = options.prefix || '';
+  @native()
+  setKeyPrefix(prefix: string): Promise<void> {
+    this._prefix = prefix || '';
+    return Promise.resolve();
   }
 
-  getStoragePrefix(): string {
-    return this.prefix;
+  @native()
+  getKeyPrefix(): Promise<string> {
+    return Promise.resolve(this._prefix);
   }
 
-  checkForEncryptionKey() {
-    if (!this.blowfish) {
-      throw new StorageError(
-        'The encryption key has not been set',
-        StorageErrorType.encryptionKeyNotSet,
-      );
-    }
-  }
-
-  store(options: StoreOptions): Promise<void> {
-    this.checkForEncryptionKey();
-
-    if (options.key) {
-      const encoded = this.encryptData(options.data);
-      this.storage.setItem(this.prefix + options.key, encoded);
-      return Promise.resolve();
-    } else {
-      this.missingKey();
-    }
-  }
-
-  retrieve({ key }: KeyOption): Promise<RetrieveResult> {
+  @native()
+  setItem(key: string, data: string): Promise<void> {
     this.checkForEncryptionKey();
 
     if (key) {
-      const data = this.storage.getItem(this.prefix + key);
+      const encoded = this.encryptData(data);
+      this._storage.setItem(this._prefix + key, encoded);
+      return Promise.resolve();
+    } else {
+      WSSecureStorageWeb.missingKey();
+    }
+  }
+
+  @native()
+  getItem(key: string): Promise<string> {
+    this.checkForEncryptionKey();
+
+    if (key) {
+      const data = this._storage.getItem(this._prefix + key);
 
       if (data) {
         try {
-          return Promise.resolve({ data: this.decryptData(data) });
+          return Promise.resolve(this.decryptData(data));
         } catch (e) {
           throw new StorageError(e.message, StorageErrorType.invalidData);
         }
       } else {
-        const storage = StorageType[this.storageType];
+        const storage = StorageType[this._storageType];
 
         throw new StorageError(
           `Data not found for key "${key}" in ${storage}`,
@@ -100,33 +101,43 @@ export class WSSecureStorageWeb
         );
       }
     } else {
-      this.missingKey();
+      WSSecureStorageWeb.missingKey();
     }
   }
 
-  clear({ key }: KeyOption): Promise<ClearResult> {
+  @native()
+  removeItem(key: string): Promise<boolean> {
     if (key) {
-      const item = this.storage.getItem(this.prefix + key);
+      const item = this._storage.getItem(this._prefix + key);
 
       if (item !== null) {
-        this.storage.removeItem(this.prefix + key);
-        return Promise.resolve({ success: true });
+        this._storage.removeItem(this._prefix + key);
+        return Promise.resolve(true);
       }
 
-      return Promise.resolve({ success: false });
+      return Promise.resolve(false);
     } else {
-      this.missingKey();
+      WSSecureStorageWeb.missingKey();
+    }
+  }
+
+  private checkForEncryptionKey() {
+    if (!Capacitor.isNative && !this._blowfish) {
+      throw new StorageError(
+        'The encryption key has not been set',
+        StorageErrorType.encryptionKeyNotSet,
+      );
     }
   }
 
   private encryptData(data: string): string {
     const json = JSON.stringify(data);
-    return this.blowfish.base64Encode(this.blowfish.encryptECB(json));
+    return this._blowfish.base64Encode(this._blowfish.encryptECB(json));
   }
 
   private decryptData(ciphertext: string): string {
-    const json = this.blowfish.trimZeros(
-      this.blowfish.decryptECB(this.blowfish.base64Decode(ciphertext)),
+    const json = this._blowfish.trimZeros(
+      this._blowfish.decryptECB(this._blowfish.base64Decode(ciphertext)),
     );
 
     try {
@@ -137,10 +148,6 @@ export class WSSecureStorageWeb
         StorageErrorType.invalidData,
       );
     }
-  }
-
-  private missingKey() {
-    throw new StorageError('No key provided', StorageErrorType.missingKey);
   }
 }
 

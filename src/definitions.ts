@@ -38,61 +38,36 @@ export class StorageError extends Error implements StorageResultError {
   }
 }
 
-export interface SetKeyPrefixOptions {
-  prefix: string;
-}
-
-export interface KeyOption {
-  key: string;
-}
-
-export interface StoreOptions extends KeyOption {
-  data: string;
-}
-
-export interface RetrieveResult {
-  data: string;
-}
-
-export interface ClearResult {
-  success: boolean;
-}
-
 export interface WSSecureStoragePlugin {
   /**
    * web only
    *
-   * Set the storage type used on the web: sessionStorage or localStorage.
-   * sessionStorage is the default. Typically you will want to call this method
+   * The storage type used on the web: sessionStorage or localStorage.
+   * sessionStorage is the default. Typically you will want to set this
    * before calling any methods that modify the store.
    *
    * Default: localStorage
    */
-  setStorageType(type: StorageType): void;
+  storageType: StorageType;
 
   /**
-   * web only
-   *
-   * Return the currently set storage type.
-   */
-  getStorageType(): StorageType;
-
-  /**
-   * A prefix is added to the key under which an item is stored.
-   * The prefix defaults to "secure-storage_", you may change it with this
+   * To prevent possible name clashes, a prefix is added to the key
+   * under which items are stored. You may change the prefix with this
    * method (an empty prefix is valid). Typically you will want to call
    * this method before calling any methods that modify the store.
    *
    * Default: 'secure-storage_'
    */
-  setKeyPrefix(options: SetKeyPrefixOptions): void;
+  setKeyPrefix(prefix: string): Promise<void>;
 
   /**
-   * Return the current storage prefix. (web-only)
+   * Return the current storage prefix.
    */
-  getStoragePrefix(): string;
+  getKeyPrefix(): Promise<string>;
 
   /**
+   * web only
+   *
    * Set the secret key used to encrypt/decrypt data on the web,
    * using blowfish/ECB encryption without an IV.
    *
@@ -100,7 +75,7 @@ export interface WSSecureStoragePlugin {
    * then you do not need to call this method.
    *
    * If you are using this plugin on the web, this method MUST be called
-   * before store() or retrieve().
+   * before setItem() or getItem().
    *
    * If key is null or empty, StorageError(code: encryptionKeyNotSet)
    * is thrown.
@@ -110,35 +85,30 @@ export interface WSSecureStoragePlugin {
   setEncryptionKey(key: string): void;
 
   /**
-   * Store data under a given key in the secure system store.
-   * If setEncryptionKey() has not been called successfully,
+   * Store data under a given key in the store.
+   *
+   * On the web, if setEncryptionKey() has not been called successfully,
    * StorageError(code: encryptionKeyNotSet) is thrown.
    *
-   * @param {StoreOptions} options
-   * @returns {Promise<void>}
    * @rejects {StorageError}
    */
-  store(options: StoreOptions): Promise<void>;
+  setItem(key: string, data: string): Promise<void>;
 
   /**
-   * Retrieve the data for a given key from the secure system store.
-   * If setEncryptionKey() has not been called successfully,
+   * Retrieve data for a given key from the store.
+   *
+   * On the web, if setEncryptionKey() has not been called successfully,
    * StorageError(code: encryptionKeyNotSet) is thrown.
    *
-   * @param {KeyOption} options
-   * @returns {Promise<RetrieveResult>}
    * @rejects {StorageError}
    */
-  retrieve(options: KeyOption): Promise<RetrieveResult>;
+  getItem(key: string): Promise<string>;
 
   /**
-   * Remove data for a given key from secure storage.
-   * If an item exists for the given key in the current storage,
-   * true is returned, else false.
+   * Remove the data for a given key from the store.
    *
-   * @param {KeyOption} options
-   * @returns {Promise<ClearResult>}
-   * @rejects {StorageError} If options.key is null or empty, or an OS error occurs
+   * @returns {Promise<boolean>} true if data existed with the given key, false if not
+   * @rejects {StorageError} If key is null or empty, or an OS error occurs
    */
-  clear(options: KeyOption): Promise<ClearResult>;
+  removeItem(key: string): Promise<boolean>;
 }

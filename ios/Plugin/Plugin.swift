@@ -1,18 +1,26 @@
 import Foundation
 import Capacitor
 
-private let kKeyParam = "key"
-private let kDataParam = "data"
 
 @objc(WSSecureStorage)
 public class WSSecureStorage: CAPPlugin {
+  private static let keyOption = "key"
+  private static let dataOption = "data"
   let keychain = KeychainSwift()
+
+  override public func load() {
+    keychain.keyPrefix = "secure-storage_"
+  }
 
   @objc func setKeyPrefix(_ call: CAPPluginCall) {
     keychain.keyPrefix = call.getString("prefix") ?? ""
   }
 
-  @objc func store(_ call: CAPPluginCall) {
+  @objc func getKeyPrefix(_ call: CAPPluginCall) {
+    call.resolve(["prefix": keychain.keyPrefix])
+  }
+
+  @objc func setItem(_ call: CAPPluginCall) {
     guard let key = getKeyParam(from: call),
           let data = getDataParam(from: call) else {
       return
@@ -24,9 +32,8 @@ public class WSSecureStorage: CAPPlugin {
     })
   }
 
-  @objc func retrieve(_ call: CAPPluginCall) {
+  @objc func getItem(_ call: CAPPluginCall) {
     guard let key = getKeyParam(from: call) else {
-      KeychainError.reject(call: call, kind: .missingKey)
       return
     }
 
@@ -36,7 +43,7 @@ public class WSSecureStorage: CAPPlugin {
     })
   }
 
-  @objc func clear(_ call: CAPPluginCall) {
+  @objc func removeItem(_ call: CAPPluginCall) {
     guard let key = getKeyParam(from: call) else {
       return
     }
@@ -48,17 +55,17 @@ public class WSSecureStorage: CAPPlugin {
   }
 
   func getKeyParam(from call: CAPPluginCall) -> String? {
-    if let key = call.getString(kKeyParam),
+    if let key = call.getString(WSSecureStorage.keyOption),
        !key.isEmpty {
       return key
-    } else {
-      KeychainError.reject(call: call, kind: .missingKey)
-      return nil
     }
+
+    KeychainError.reject(call: call, kind: .missingKey)
+    return nil
   }
 
   func getDataParam(from call: CAPPluginCall) -> String? {
-    if let value = call.getString(kDataParam) {
+    if let value = call.getString(WSSecureStorage.dataOption) {
       return value
     }
 
@@ -94,26 +101,16 @@ public class WSSecureStorage: CAPPlugin {
       return data
     }
 
-    throw KeychainError(.notFound, param: key)
+    throw KeychainError(.notFound, key: key)
   }
 
   func deleteDataFromKeychain(_ key: String) throws -> Bool {
     let success = keychain.delete(key)
 
-    if keychain.lastResultCode != 0 && keychain.lastResultCode != errSecItemNotFound {
+    if !success && keychain.lastResultCode != 0 && keychain.lastResultCode != errSecItemNotFound {
       throw KeychainError(.osError, status: keychain.lastResultCode)
     }
 
     return success
-  }
-
-  func checkStatus(_ status: OSStatus, _ domain: String) throws {
-    guard status != errSecItemNotFound else {
-      throw KeychainError(.notFound, param: domain)
-    }
-
-    guard status == errSecSuccess else {
-      throw KeychainError(.osError, status: status)
-    }
   }
 }

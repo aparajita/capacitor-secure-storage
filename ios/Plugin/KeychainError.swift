@@ -16,10 +16,10 @@ public class KeychainError: Error {
     case unknownError
   }
 
-  static let keychainErrorMap: [KeychainError.ErrorKind: String] = [
-    .notFound: "Data for the key \"%@\" not found",
+  private static let errorMap: [KeychainError.ErrorKind: String] = [
+    .notFound: "Item for the key \"%@\" not found",
     .missingKey: "Empty key",
-    .invalidData: "The data in the store is in an invalid format",
+    .invalidData: "The data is in an invalid format",
     .osError: "An OS error occurred (%d)",
     .unknownError: "An unknown error occurred"
   ]
@@ -32,25 +32,25 @@ public class KeychainError: Error {
   }
 
   init(_ kind: ErrorKind, status: OSStatus) {
-    _init(kind, param: "", status: status)
+    _init(kind, key: "", status: status)
   }
 
-  init(_ kind: ErrorKind, param: String) {
-    _init(kind, param: param)
+  init(_ kind: ErrorKind, key: String) {
+    _init(kind, key: key)
   }
 
-  init(_ kind: ErrorKind, param: String, status: OSStatus) {
-    _init(kind, param: param, status: status)
+  init(_ kind: ErrorKind, key: String, status: OSStatus) {
+    _init(kind, key: key, status: status)
   }
 
-  private func _init(_ kind: ErrorKind, param: String = "", status: OSStatus = 0) {
-    if let message = KeychainError.keychainErrorMap[kind] {
+  private func _init(_ kind: ErrorKind, key: String = "", status: OSStatus = 0) {
+    if let message = KeychainError.errorMap[kind] {
       switch kind {
       case .osError:
         self.message = String(format: message, status)
 
       case .notFound:
-        self.message = String(format: message, param)
+        self.message = String(format: message, key)
 
       default:
         self.message = message
@@ -64,8 +64,8 @@ public class KeychainError: Error {
     call.reject(message, code)
   }
 
-  static func reject(call: CAPPluginCall, kind: ErrorKind, param: String = "", status: OSStatus = 0) {
-    let err = KeychainError(kind, param: param, status: status)
+  static func reject(call: CAPPluginCall, kind: ErrorKind, key: String = "", status: OSStatus = 0) {
+    let err = KeychainError(kind, key: key, status: status)
     err.rejectCall(call)
   }
 }

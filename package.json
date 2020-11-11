@@ -1,6 +1,6 @@
 {
   "name": "ws-capacitor-secure-storage",
-  "version": "1.0.0",
+  "version": "0.8.0",
   "description": "Provides secure storage for web and Capacitor apps",
   "main": "dist/esm/index.js",
   "module": "dist/esm/index.js",
@@ -72,6 +72,8 @@
     "url": "https://github.com/willsub/ws-capacitor-biometric-auth.git/issues"
   },
   "dependencies": {
-    "javascript-blowfish": "^1.0.4"
+    "javascript-blowfish": "^1.0.4",
+    "tslib": "^2.0.3",
+    "ws-capacitor-native-decorator": "link:../ws-capacitor-native-decorator"
   }
 }
