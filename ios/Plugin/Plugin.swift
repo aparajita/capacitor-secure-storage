@@ -1,7 +1,6 @@
 import Foundation
 import Capacitor
 
-
 @objc(WSSecureStorage)
 public class WSSecureStorage: CAPPlugin {
   private static let keyOption = "key"

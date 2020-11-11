@@ -12,6 +12,8 @@
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
 		50ADFFA82020EE4F00D50D53 /* Plugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* Plugin.m */; };
 		50E1A94820377CB70090CE1A /* Plugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* Plugin.swift */; };
+		E1035937255C9850007B8D7F /* KeychainSwiftConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1035936255C9850007B8D7F /* KeychainSwiftConstants.swift */; };
+		E103593A255C987B007B8D7F /* KeychainSwiftAccessOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1035939255C987B007B8D7F /* KeychainSwiftAccessOptions.swift */; };
 		E194C2C8255A3C7900FA1FD9 /* KeychainSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = E194C2C7255A3C7900FA1FD9 /* KeychainSwift.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +28,8 @@
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E1035936255C9850007B8D7F /* KeychainSwiftConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainSwiftConstants.swift; sourceTree = "<group>"; };
+		E1035939255C987B007B8D7F /* KeychainSwiftAccessOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainSwiftAccessOptions.swift; sourceTree = "<group>"; };
 		E194C2C7255A3C7900FA1FD9 /* KeychainSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainSwift.swift; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
 		F6753A823D3815DB436415E3 /* Pods_PluginTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PluginTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +74,8 @@
 				50ADFFA72020EE4F00D50D53 /* Plugin.m */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
 				E194C2C7255A3C7900FA1FD9 /* KeychainSwift.swift */,
+				E1035936255C9850007B8D7F /* KeychainSwiftConstants.swift */,
+				E1035939255C987B007B8D7F /* KeychainSwiftAccessOptions.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -203,6 +209,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				50E1A94820377CB70090CE1A /* Plugin.swift in Sources */,
+				E103593A255C987B007B8D7F /* KeychainSwiftAccessOptions.swift in Sources */,
+				E1035937255C9850007B8D7F /* KeychainSwiftConstants.swift in Sources */,
 				50ADFFA82020EE4F00D50D53 /* Plugin.m in Sources */,
 				E194C2C8255A3C7900FA1FD9 /* KeychainSwift.swift in Sources */,
 			);

@@ -28,8 +28,9 @@ interface StorageOp {
     void run() throws KeyStoreException;
 }
 
-@NativePlugin()
+@NativePlugin
 public class WSSecureStorage extends Plugin {
+
     // KeyStore-related stuff
     private static final String ANDROID_KEY_STORE = "AndroidKeyStore";
     private static final String CIPHER_TRANSFORMATION = "AES/GCM/NoPadding";
@@ -130,10 +131,7 @@ public class WSSecureStorage extends Plugin {
 
         // When we get here, we know that the values are not null
         try {
-            getPrefs()
-                .edit()
-                .putString(prefixedKey, encryptString(data, prefixedKey))
-                .apply();
+            getPrefs().edit().putString(prefixedKey, encryptString(data, prefixedKey)).apply();
         } catch (GeneralSecurityException | IOException e) {
             throw new KeyStoreException(KeyStoreException.ErrorKind.osError, e);
         }
