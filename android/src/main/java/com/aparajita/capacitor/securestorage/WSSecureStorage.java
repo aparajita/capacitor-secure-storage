@@ -34,7 +34,7 @@ public class WSSecureStorage extends Plugin {
     // KeyStore-related stuff
     private static final String ANDROID_KEY_STORE = "AndroidKeyStore";
     private static final String CIPHER_TRANSFORMATION = "AES/GCM/NoPadding";
-    private static final String SHARED_PREFERENCES = "WSBiometricAuthSharedPreferences";
+    private static final String SHARED_PREFERENCES = "WSSecureStorageSharedPreferences";
     private static final Character DATA_IV_SEPARATOR = '\u0010';
     private static final int BASE64_FLAGS = Base64.NO_PADDING + Base64.NO_WRAP;
 

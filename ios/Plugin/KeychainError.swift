@@ -1,6 +1,6 @@
 //
 //  KeychainError.swift
-//  WsCapacitorBiometricAuth
+//  WsCapacitorSecureStorage
 //
 //  Created by Aparajita on 11/5/20.
 //
