@@ -79,6 +79,10 @@ export class WSSecureStorageWeb
     }
   }
 
+  setJsonItem(key: string, data: any): Promise<void> {
+    return this.setItem(key, JSON.stringify(data));
+  }
+
   @native()
   getItem(key: string): Promise<string> {
     this.checkForEncryptionKey();
@@ -103,6 +107,10 @@ export class WSSecureStorageWeb
     } else {
       WSSecureStorageWeb.missingKey();
     }
+  }
+
+  getJsonItem(key: string): Promise<any> {
+    return this.getItem(key).then(data => JSON.parse(data));
   }
 
   @native()

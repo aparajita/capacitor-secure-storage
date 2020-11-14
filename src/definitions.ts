@@ -95,6 +95,17 @@ export interface WSSecureStoragePlugin {
   setItem(key: string, data: string): Promise<void>;
 
   /**
+   * Store JSON data under a given key in the store. This is a convenience
+   * method that converts data to JSON and calls setItem().
+   *
+   * On the web, if setEncryptionKey() has not been called successfully,
+   * StorageError(code: encryptionKeyNotSet) is thrown.
+   *
+   * @rejects {StorageError | TypeError}
+   */
+  setJsonItem(key: string, data: any): Promise<void>;
+
+  /**
    * Retrieve data for a given key from the store.
    *
    * On the web, if setEncryptionKey() has not been called successfully,
@@ -103,6 +114,17 @@ export interface WSSecureStoragePlugin {
    * @rejects {StorageError}
    */
   getItem(key: string): Promise<string>;
+
+  /**
+   * Retrieve JSON data for a given key from the store. This is a convenience
+   * method that returns the result of JSON.parse(this.getItem(key)).
+   *
+   * On the web, if setEncryptionKey() has not been called successfully,
+   * StorageError(code: encryptionKeyNotSet) is thrown.
+   *
+   * @rejects {StorageError | TypeError}
+   */
+  getJsonItem(key: string): Promise<any>;
 
   /**
    * Remove the data for a given key from the store.
