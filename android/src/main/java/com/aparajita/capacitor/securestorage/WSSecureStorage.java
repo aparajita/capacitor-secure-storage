@@ -11,6 +11,7 @@ import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
+import org.json.JSONArray;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -26,7 +27,6 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.security.auth.x500.X500Principal;
-import org.json.JSONArray;
 
 interface StorageOp {
     void run() throws KeyStoreException, GeneralSecurityException, IOException;
