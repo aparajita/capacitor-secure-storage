@@ -16,16 +16,20 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
+import java.security.UnrecoverableKeyException;
 import java.security.spec.AlgorithmParameterSpec;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Enumeration;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.security.auth.x500.X500Principal;
+import org.json.JSONArray;
 
 interface StorageOp {
-    void run() throws KeyStoreException;
+    void run() throws KeyStoreException, GeneralSecurityException, IOException;
 }
 
 @NativePlugin
@@ -39,19 +43,6 @@ public class WSSecureStorage extends Plugin {
     private static final int BASE64_FLAGS = Base64.NO_PADDING + Base64.NO_WRAP;
 
     private KeyStore keyStore;
-    private String keyPrefix = "secure-storage_";
-
-    @PluginMethod
-    public void setKeyPrefix(final PluginCall call) {
-        keyPrefix = call.getString("prefix", "");
-    }
-
-    @PluginMethod
-    public void getKeyPrefix(final PluginCall call) {
-        JSObject result = new JSObject();
-        result.put("prefix", keyPrefix);
-        call.resolve(result);
-    }
 
     @PluginMethod
     public void setItem(final PluginCall call) {
@@ -70,7 +61,7 @@ public class WSSecureStorage extends Plugin {
         tryStorageOp(
             call,
             () -> {
-                storeDataInKeyStore(data, key);
+                storeDataInKeyStore(key, data);
                 call.resolve();
             }
         );
@@ -118,29 +109,46 @@ public class WSSecureStorage extends Plugin {
         );
     }
 
-    private String getPrefixedKey(String key) {
-        return keyPrefix + key;
+    @PluginMethod
+    public void clearItemsWithPrefix(final PluginCall call) {
+        tryStorageOp(
+            call,
+            () -> {
+                String prefix = call.getString("_prefix", "");
+                clearKeyStore(prefix);
+                call.resolve();
+            }
+        );
+    }
+
+    @PluginMethod
+    public void getPrefixedKeys(final PluginCall call) {
+        tryStorageOp(
+            call,
+            () -> {
+                String prefix = call.getString("prefix", "");
+                ArrayList<String> keys = getKeysWithPrefix(prefix);
+                JSONArray array = new JSONArray(keys);
+
+                JSObject result = new JSObject();
+                result.put("keys", array);
+                call.resolve(result);
+            }
+        );
     }
 
     private SharedPreferences getPrefs() {
         return getContext().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
     }
 
-    private void storeDataInKeyStore(String data, String key) throws KeyStoreException {
-        String prefixedKey = getPrefixedKey(key);
-
+    private void storeDataInKeyStore(String prefixedKey, String data) throws GeneralSecurityException, IOException {
         // When we get here, we know that the values are not null
-        try {
-            getPrefs().edit().putString(prefixedKey, encryptString(data, prefixedKey)).apply();
-        } catch (GeneralSecurityException | IOException e) {
-            throw new KeyStoreException(KeyStoreException.ErrorKind.osError, e);
-        }
+        getPrefs().edit().putString(prefixedKey, encryptString(data, prefixedKey)).apply();
     }
 
-    private String getDataFromKeyStore(String key) throws KeyStoreException {
+    private String getDataFromKeyStore(String prefixedKey) throws KeyStoreException, GeneralSecurityException, IOException {
         SharedPreferences sharedPreferences = getPrefs();
         String data;
-        String prefixedKey = getPrefixedKey(key);
 
         try {
             data = sharedPreferences.getString(prefixedKey, null);
@@ -149,31 +157,48 @@ public class WSSecureStorage extends Plugin {
         }
 
         if (data != null) {
-            try {
-                return decryptString(data, key);
-            } catch (GeneralSecurityException | IOException e) {
-                throw new KeyStoreException(KeyStoreException.ErrorKind.osError, e);
-            }
+            return decryptString(data, prefixedKey);
         } else {
-            throw new KeyStoreException(KeyStoreException.ErrorKind.notFound, key);
+            throw new KeyStoreException(KeyStoreException.ErrorKind.notFound, prefixedKey);
         }
     }
 
-    private boolean removeDataFromKeyStore(String key) throws KeyStoreException {
-        try {
-            boolean success = false;
-            KeyStore keyStore = getKeyStore();
-            String prefixedKey = getPrefixedKey(key);
+    private boolean removeDataFromKeyStore(String prefixedKey) throws GeneralSecurityException, IOException {
+        KeyStore keyStore = getKeyStore();
+        return removeAlias(keyStore, prefixedKey);
+    }
 
-            if (keyStore.containsAlias(prefixedKey)) {
-                getKeyStore().deleteEntry(prefixedKey);
-                getPrefs().edit().remove(prefixedKey).apply();
-                success = true;
+    private boolean removeAlias(KeyStore keyStore, String alias) throws java.security.KeyStoreException {
+        if (keyStore.containsAlias(alias)) {
+            keyStore.deleteEntry(alias);
+            getPrefs().edit().remove(alias).apply();
+            return true;
+        }
+
+        return false;
+    }
+
+    private ArrayList<String> getKeysWithPrefix(String prefix) throws GeneralSecurityException, IOException {
+        ArrayList<String> keys = new ArrayList<>();
+        KeyStore keyStore = getKeyStore();
+
+        for (Enumeration<String> aliases = keyStore.aliases(); aliases.hasMoreElements();) {
+            String alias = aliases.nextElement();
+
+            if (alias.startsWith(prefix)) {
+                keys.add(alias);
             }
+        }
 
-            return success;
-        } catch (GeneralSecurityException | IOException e) {
-            throw new KeyStoreException(KeyStoreException.ErrorKind.osError, e);
+        return keys;
+    }
+
+    private void clearKeyStore(String prefix) throws GeneralSecurityException, IOException {
+        ArrayList<String> keys = getKeysWithPrefix(prefix);
+        KeyStore keyStore = getKeyStore();
+
+        for (String key : keys) {
+            removeAlias(keyStore, key);
         }
     }
 
@@ -185,6 +210,8 @@ public class WSSecureStorage extends Plugin {
             return;
         } catch (KeyStoreException e) {
             exception = e;
+        } catch (GeneralSecurityException | IOException e) {
+            exception = new KeyStoreException(KeyStoreException.ErrorKind.osError, e);
         } catch (Exception e) {
             exception = new KeyStoreException(KeyStoreException.ErrorKind.unknownError);
         }
@@ -193,7 +220,7 @@ public class WSSecureStorage extends Plugin {
     }
 
     private String getKeyParam(PluginCall call) {
-        String key = call.getString("key");
+        String key = call.getString("prefixedKey");
 
         if (key != null && !key.isEmpty()) {
             return key;
@@ -230,7 +257,7 @@ public class WSSecureStorage extends Plugin {
         return encryptedStr + DATA_IV_SEPARATOR + ivStr;
     }
 
-    private String decryptString(String ciphertext, String key) throws GeneralSecurityException, IOException, KeyStoreException {
+    private String decryptString(String ciphertext, String prefixedKey) throws GeneralSecurityException, IOException, KeyStoreException {
         // Code taken from https://medium.com/@josiassena/using-the-android-keystore-system-to-store-sensitive-information-3a56175a454b
 
         // Split the ciphertext into data + IV
@@ -245,13 +272,12 @@ public class WSSecureStorage extends Plugin {
         byte[] encryptedData = Base64.decode(parts[0], BASE64_FLAGS);
         byte[] iv = Base64.decode(parts[1], BASE64_FLAGS);
 
-        String prefixedKey = getPrefixedKey(key);
         KeyStore keyStore = getKeyStore();
         KeyStore.SecretKeyEntry secretKeyEntry = (KeyStore.SecretKeyEntry) keyStore.getEntry(prefixedKey, null);
 
         // Make sure there is an entry in the KeyStore for the given domain
         if (secretKeyEntry == null) {
-            throw new KeyStoreException(KeyStoreException.ErrorKind.notFound, key);
+            throw new KeyStoreException(KeyStoreException.ErrorKind.notFound, prefixedKey);
         }
 
         SecretKey secretKey = secretKeyEntry.getSecretKey();
@@ -266,7 +292,14 @@ public class WSSecureStorage extends Plugin {
     private SecretKey getSecretKey(String prefixedKey) throws GeneralSecurityException, IOException {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES", ANDROID_KEY_STORE);
         KeyStore keyStore = getKeyStore();
-        KeyStore.SecretKeyEntry entry = (KeyStore.SecretKeyEntry) keyStore.getEntry(prefixedKey, null);
+        KeyStore.SecretKeyEntry entry = null;
+
+        try {
+            entry = (KeyStore.SecretKeyEntry) keyStore.getEntry(prefixedKey, null);
+        } catch (UnrecoverableKeyException e) {
+            // We haven't yet generated a secret key for prefixedKey, generate one
+        }
+
         SecretKey secretKey;
 
         if (entry == null) {
