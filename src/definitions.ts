@@ -6,6 +6,11 @@ declare module '@capacitor/core' {
 
 import { PluginResultError } from '@capacitor/core';
 
+/**
+ * web only
+ *
+ * Where you would like to store your data on the web.
+ */
 export enum StorageType {
   sessionStorage,
   localStorage,
@@ -17,26 +22,57 @@ export enum StorageType {
  * message property will have a message suitable for debug purposes.
  */
 export enum StorageErrorType {
-  encryptionKeyNotSet, // web-only
+  /**
+   * You tried to modify the store on the web without first calling setEncryptionKey().
+   */
+  encryptionKeyNotSet,
+
+  /**
+   * get() could not find an item for the given key.
+   */
   notFound,
+
+  /**
+   * The key is null or empty.
+   */
   missingKey,
+
+  /**
+   * get() found the data, but it is corrupted.
+   */
   invalidData,
+
+  /**
+   * A system-level error occurred when getting/setting data from/to the store.
+   */
   osError,
+
+  /**
+   * An unclassified system-level error occurred.
+   */
   unknownError,
 }
 
+/**
+ * If an error occurs, the returned Error object has a .code property
+ * which is the string name of a StorageErrorType.
+ */
 export interface StorageResultError extends PluginResultError {
   code: string;
 }
 
-export class StorageError extends Error implements StorageResultError {
-  code: string;
-
-  constructor(message: string, code: StorageErrorType) {
-    super(message);
-    this.code = StorageErrorType[code];
-  }
-}
+/**
+ * The types of data we can store. Basically anything JSON.stringify/parse
+ * can deal with, plus Date objects.
+ */
+export type DataType =
+  | string
+  | number
+  | boolean
+  | Object
+  | Array<any>
+  | Date
+  | null;
 
 export interface WSSecureStoragePlugin {
   /**
@@ -52,18 +88,19 @@ export interface WSSecureStoragePlugin {
 
   /**
    * To prevent possible name clashes, a prefix is added to the key
-   * under which items are stored. You may change the prefix with this
-   * method (an empty prefix is valid). Typically you will want to call
-   * this method before calling any methods that modify the store.
+   * under which items are stored. You may change the prefix by setting
+   * this property (an empty prefix is valid). Usually you will always
+   * set the prefix before calling any methods that modify the store.
    *
-   * Default: 'secure-storage_'
+   * Default: 'capacitor-storage_'
    */
-  setKeyPrefix(prefix: string): Promise<void>;
+  keyPrefix: string;
 
   /**
-   * Return the current storage prefix.
+   * Return a list of all keys with the current storage prefix.
+   * The returned keys do not have the prefix.
    */
-  getKeyPrefix(): Promise<string>;
+  keys(): Promise<string[]>;
 
   /**
    * web only
@@ -75,7 +112,7 @@ export interface WSSecureStoragePlugin {
    * then you do not need to call this method.
    *
    * If you are using this plugin on the web, this method MUST be called
-   * before setItem() or getItem().
+   * before set() or get().
    *
    * If key is null or empty, StorageError(code: encryptionKeyNotSet)
    * is thrown.
@@ -85,46 +122,31 @@ export interface WSSecureStoragePlugin {
   setEncryptionKey(key: string): void;
 
   /**
-   * Store data under a given key in the store.
-   *
-   * On the web, if setEncryptionKey() has not been called successfully,
-   * StorageError(code: encryptionKeyNotSet) is thrown.
-   *
-   * @rejects {StorageError}
-   */
-  setItem(key: string, data: string): Promise<void>;
-
-  /**
-   * Store JSON data under a given key in the store. This is a convenience
-   * method that converts data to JSON and calls setItem().
+   * Store data under a given key in the store. If data is not a string,
+   * it is converted to stringified JSON first. If data is a Date and
+   * convertDate is true (the default), it is converted to an ISO 8601 string
+   * and stored as such. Note that dates within an object or an array
+   * are converted to ISO strings by JSON.stringify, but will not be
+   * converted back to dates by get().
    *
    * On the web, if setEncryptionKey() has not been called successfully,
    * StorageError(code: encryptionKeyNotSet) is thrown.
    *
    * @rejects {StorageError | TypeError}
    */
-  setJsonItem(key: string, data: any): Promise<void>;
+  set(key: string, data: DataType, convertDate?: boolean): Promise<void>;
 
   /**
-   * Retrieve data for a given key from the store.
+   * Retrieve data for a given key from the store. If the retrieved data
+   * is in the form of an ISO 8601 date string and convertDate is true
+   * (the default), it is converted to a Date.
    *
    * On the web, if setEncryptionKey() has not been called successfully,
    * StorageError(code: encryptionKeyNotSet) is thrown.
    *
    * @rejects {StorageError}
    */
-  getItem(key: string): Promise<string>;
-
-  /**
-   * Retrieve JSON data for a given key from the store. This is a convenience
-   * method that returns the result of JSON.parse(this.getItem(key)).
-   *
-   * On the web, if setEncryptionKey() has not been called successfully,
-   * StorageError(code: encryptionKeyNotSet) is thrown.
-   *
-   * @rejects {StorageError | TypeError}
-   */
-  getJsonItem(key: string): Promise<any>;
+  get(key: string, convertDate?: boolean): Promise<DataType>;
 
   /**
    * Remove the data for a given key from the store.
@@ -132,5 +154,10 @@ export interface WSSecureStoragePlugin {
    * @returns {Promise<boolean>} true if data existed with the given key, false if not
    * @rejects {StorageError} If key is null or empty, or an OS error occurs
    */
-  removeItem(key: string): Promise<boolean>;
+  remove(key: string): Promise<boolean>;
+
+  /**
+   * Remove all items from the store with the current key prefix.
+   */
+  clear(): Promise<void>;
 }

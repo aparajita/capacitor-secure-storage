@@ -3,21 +3,9 @@ import Capacitor
 
 @objc(WSSecureStorage)
 public class WSSecureStorage: CAPPlugin {
-  private static let keyOption = "key"
+  private static let keyOption = "prefixedKey"
   private static let dataOption = "data"
   let keychain = KeychainSwift()
-
-  override public func load() {
-    keychain.keyPrefix = "secure-storage_"
-  }
-
-  @objc func setKeyPrefix(_ call: CAPPluginCall) {
-    keychain.keyPrefix = call.getString("prefix") ?? ""
-  }
-
-  @objc func getKeyPrefix(_ call: CAPPluginCall) {
-    call.resolve(["prefix": keychain.keyPrefix])
-  }
 
   @objc func setItem(_ call: CAPPluginCall) {
     guard let key = getKeyParam(from: call),
@@ -26,7 +14,7 @@ public class WSSecureStorage: CAPPlugin {
     }
 
     tryKeychainOp(call, {
-      try storeDataInKeychain(data, forKey: key)
+      try storeData(data, withKey: key)
       call.resolve()
     })
   }
@@ -37,7 +25,7 @@ public class WSSecureStorage: CAPPlugin {
     }
 
     tryKeychainOp(call, {
-      let data = try getDataFromKeychain(key)
+      let data = try getData(withKey: key)
       call.resolve(["data": data])
     })
   }
@@ -48,9 +36,22 @@ public class WSSecureStorage: CAPPlugin {
     }
 
     tryKeychainOp(call, {
-      let success = try deleteDataFromKeychain(key)
+      let success = try deleteData(withKey: key)
       call.resolve(["success": success])
     })
+  }
+
+  @objc func clearItemsWithPrefix(_ call: CAPPluginCall) {
+    tryKeychainOp(call, {
+      let prefix = call.getString("_prefix") ?? ""
+      try clearData(withPrefix: prefix)
+      call.resolve()
+    })
+  }
+
+  @objc func getPrefixedKeys(_ call: CAPPluginCall) {
+    let prefix = call.getString("prefix") ?? ""
+    call.resolve(["keys": keychain.allKeys.filter { $0.starts(with: prefix) }])
   }
 
   func getKeyParam(from call: CAPPluginCall) -> String? {
@@ -87,7 +88,7 @@ public class WSSecureStorage: CAPPlugin {
     err.rejectCall(call)
   }
 
-  func storeDataInKeychain(_ data: String, forKey key: String) throws {
+  func storeData(_ data: String, withKey key: String) throws {
     let success = keychain.set(data, forKey: key)
 
     if !success {
@@ -95,7 +96,7 @@ public class WSSecureStorage: CAPPlugin {
     }
   }
 
-  func getDataFromKeychain(_ key: String) throws -> String {
+  func getData(withKey key: String) throws -> String {
     if let data = keychain.get(key) {
       return data
     }
@@ -103,7 +104,7 @@ public class WSSecureStorage: CAPPlugin {
     throw KeychainError(.notFound, key: key)
   }
 
-  func deleteDataFromKeychain(_ key: String) throws -> Bool {
+  func deleteData(withKey key: String) throws -> Bool {
     let success = keychain.delete(key)
 
     if !success && keychain.lastResultCode != 0 && keychain.lastResultCode != errSecItemNotFound {
@@ -111,5 +112,17 @@ public class WSSecureStorage: CAPPlugin {
     }
 
     return success
+  }
+
+  func clearData(withPrefix prefix: String) throws {
+    for key in keychain.allKeys {
+      if key.starts(with: prefix) {
+        // delete() adds the prefix, but keychain.keyPrefix is empty,
+        // so we don't need to remove the prefix.
+        if !keychain.delete(key) {
+          throw KeychainError(.osError, status: keychain.lastResultCode)
+        }
+      }
+    }
   }
 }
