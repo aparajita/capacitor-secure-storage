@@ -2,9 +2,6 @@
 
 This plugin for [Capacitor](https://capacitorjs.com) provides secure key/value storage on the web, iOS, and Android, with an API closely matching that of the Capacitor [Storage](https://capacitorjs.com/docs/apis/storage) plugin. If you are using the Storage plugin, this plugin is (more or less) a secure drop-in replacement.
 
-[Installation](#installation)<br>
-[Usage](#usage)
-
 ## Installation
 
 ```sh
@@ -17,9 +14,9 @@ Not using [pnpm](https://pnpm.js.org/)? You owe it to yourself to give it a try.
 
 ## Usage
 
-The API is thoroughly documented [here](./src/definitions.ts). For a complete example of how to use this plugin in practice, see the [demo app](https://github.com/ws-capacitor-secure-storage-demo).
+The API is thoroughly documented [here](./src/definitions.ts). For a complete example of how to use this plugin in practice, see the [demo app](https://github.com/aparajita/ws-capacitor-secure-storage-demo).
 
-The source of this plugin is also a good example of how to use the [@​native decorator](https://github.com/aparajita/ws-capacacitor-native-decorator). Thanks to `@native`, TypeScript code is freely mixed with native code, and state can be maintained in the TypeScript class. If you’re a plugin author, you’ll definitely want to check `@native` out.
+The source of this plugin is also a good example of how to use the [@​native decorator](https://github.com/aparajita/ws-capacitor-native-decorator). Thanks to `@native`, TypeScript code is freely mixed with native code, and state can be maintained in the TypeScript class. If you’re a plugin author, you’ll definitely want to check `@native` out.
 
 ### web
 
@@ -29,7 +26,7 @@ Data is encrypted on the web using Blowfish encryption with no IV. Before modify
 
 ### iOS
 
-On iOS, data is stored in the encrypted system keychain and is specific to your app. Please note that currently iOS will **not** delete an app’s keychain data when the app is deleted. But since only an app with the same app id — which is guaranteed by Apple to be unique across all apps — can access that data, this is not be a security issue.
+On iOS, data is stored in the encrypted system keychain and is specific to your app. Please note that currently iOS will **not** delete an app’s keychain data when the app is deleted. But since only an app with the same app id — which is guaranteed by Apple to be unique across all apps — can access that data, this is not a security issue.
 
 ### Android
 
