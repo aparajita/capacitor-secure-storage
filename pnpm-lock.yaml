@@ -1,11 +1,11 @@
 dependencies:
-  '@capacitor/android': 2.4.3_@capacitor+core@2.4.3
   '@capacitor/core': 2.4.3
-  '@capacitor/ios': 2.4.3_@capacitor+core@2.4.3
   javascript-blowfish: 1.0.4
   tslib: 2.0.3
   ws-capacitor-native-decorator: 1.0.1
 devDependencies:
+  '@capacitor/android': 2.4.3_@capacitor+core@2.4.3
+  '@capacitor/ios': 2.4.3_@capacitor+core@2.4.3
   '@ionic/prettier-config': 1.0.1_prettier@2.2.1
   '@ionic/swiftlint-config': 1.1.2
   '@rollup/plugin-commonjs': 16.0.0_rollup@2.33.3
@@ -41,7 +41,7 @@ packages:
   /@capacitor/android/2.4.3_@capacitor+core@2.4.3:
     dependencies:
       '@capacitor/core': 2.4.3
-    dev: false
+    dev: true
     peerDependencies:
       '@capacitor/core': ~2.4.0
     resolution:
@@ -55,7 +55,7 @@ packages:
   /@capacitor/ios/2.4.3_@capacitor+core@2.4.3:
     dependencies:
       '@capacitor/core': 2.4.3
-    dev: false
+    dev: true
     peerDependencies:
       '@capacitor/core': ~2.4.0
     resolution:

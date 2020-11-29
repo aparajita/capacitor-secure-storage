@@ -62,7 +62,7 @@ export class WSSecureStorageWeb
   }
 
   set keyPrefix(prefix: string) {
-    this._prefix = prefix ?? '';
+    this._prefix = prefix || '';
   }
 
   get keyPrefix(): string {
