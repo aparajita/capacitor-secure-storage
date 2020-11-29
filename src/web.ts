@@ -219,9 +219,6 @@ export class WSSecureStorageWeb
 
   private getKeys(): Promise<string[]> {
     return this.getPrefixedKeys(this._prefix).then(prefixedKeys => {
-      console.log(prefixedKeys);
-      console.log(typeof prefixedKeys);
-      console.log(Array.isArray(prefixedKeys));
       const prefixLength = this._prefix.length;
       return prefixedKeys.map(key => key.slice(prefixLength));
     });
