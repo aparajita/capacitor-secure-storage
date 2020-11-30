@@ -15,7 +15,8 @@
     "noUnusedParameters": true,
     "outDir": "dist/esm",
     "sourceMap": true,
-    "target": "esnext"
+    "strict": true,
+    "target": "es6"
   },
   "files": [
     "src/index.ts"

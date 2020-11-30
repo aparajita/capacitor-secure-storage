@@ -21,10 +21,9 @@ export class StorageError extends Error implements StorageResultError {
 export class WSSecureStorageWeb
   extends WebPlugin
   implements WSSecureStoragePlugin {
-  private _blowfish: Blowfish;
-  private _storage: Storage;
+  private _blowfish: Blowfish | null = null;
+  private _storage: Storage = localStorage;
   private _prefix: string = 'capacitor-storage_';
-  private _storageType: StorageType = StorageType.localStorage;
 
   constructor() {
     super({
@@ -35,6 +34,8 @@ export class WSSecureStorageWeb
     this.storageType = this._storageType;
   }
 
+  private _storageType: StorageType = StorageType.localStorage;
+
   get storageType(): StorageType {
     return this._storageType;
   }
@@ -43,6 +44,18 @@ export class WSSecureStorageWeb
     this._storageType = type;
     this._storage =
       type === StorageType.sessionStorage ? sessionStorage : localStorage;
+  }
+
+  get keyPrefix(): string {
+    return this._prefix;
+  }
+
+  set keyPrefix(prefix: string) {
+    this._prefix = prefix || '';
+  }
+
+  private static missingKey(): never {
+    throw new StorageError('No key provided', StorageErrorType.missingKey);
   }
 
   setEncryptionKey(key: string) {
@@ -61,21 +74,13 @@ export class WSSecureStorageWeb
     }
   }
 
-  set keyPrefix(prefix: string) {
-    this._prefix = prefix || '';
-  }
-
-  get keyPrefix(): string {
-    return this._prefix;
-  }
-
   keys(): Promise<string[]> {
     return this.getKeys();
   }
 
   set(key: string, data: DataType, convertDate: boolean = true): Promise<void> {
     if (key) {
-      if (convertDate && typeof data === 'object' && data instanceof Date) {
+      if (convertDate && data instanceof Date) {
         data = data.toISOString();
       }
 
@@ -88,8 +93,12 @@ export class WSSecureStorageWeb
   get(key: string, convertDate: boolean = true): Promise<DataType> {
     if (key) {
       return this.getItem(this.prefixedKey(key)).then(data => {
-        if (convertDate && isoDateRE.test(data)) {
-          return parseISODate(data);
+        if (convertDate) {
+          const date = parseISODate(data);
+
+          if (date) {
+            return date;
+          }
         }
 
         return JSON.parse(data);
@@ -125,7 +134,6 @@ export class WSSecureStorageWeb
 
   @native()
   private setItem(prefixedKey: string, data: string): Promise<void> {
-    this.checkForEncryptionKey();
     const encoded = this.encryptData(data);
     this._storage.setItem(prefixedKey, encoded);
     return Promise.resolve();
@@ -133,7 +141,6 @@ export class WSSecureStorageWeb
 
   @native()
   private getItem(prefixedKey: string): Promise<string> {
-    this.checkForEncryptionKey();
     const data = this._storage.getItem(prefixedKey);
 
     if (data) {
@@ -169,8 +176,15 @@ export class WSSecureStorageWeb
     return Promise.resolve();
   }
 
-  private checkForEncryptionKey() {
-    if (!Capacitor.isNative && !this._blowfish) {
+  private prefixedKey(key: string): string {
+    return this._prefix + key;
+  }
+
+  private encryptData(data: string): string {
+    if (this._blowfish) {
+      const json = JSON.stringify(data);
+      return this._blowfish.base64Encode(this._blowfish.encryptECB(json));
+    } else {
       throw new StorageError(
         'The encryption key has not been set',
         StorageErrorType.encryptionKeyNotSet,
@@ -178,19 +192,19 @@ export class WSSecureStorageWeb
     }
   }
 
-  private prefixedKey(key: string): string {
-    return this._prefix + key;
-  }
-
-  private encryptData(data: string): string {
-    const json = JSON.stringify(data);
-    return this._blowfish.base64Encode(this._blowfish.encryptECB(json));
-  }
-
   private decryptData(ciphertext: string): string {
-    const json = this._blowfish.trimZeros(
-      this._blowfish.decryptECB(this._blowfish.base64Decode(ciphertext)),
-    );
+    let json;
+
+    if (this._blowfish) {
+      json = this._blowfish.trimZeros(
+        this._blowfish.decryptECB(this._blowfish.base64Decode(ciphertext)),
+      );
+    } else {
+      throw new StorageError(
+        'The encryption key has not been set',
+        StorageErrorType.encryptionKeyNotSet,
+      );
+    }
 
     try {
       return JSON.parse(json);
@@ -209,7 +223,7 @@ export class WSSecureStorageWeb
     for (let i = 0; i < this._storage.length; i++) {
       const key = this._storage.key(i);
 
-      if (key.startsWith(prefix)) {
+      if (key?.startsWith(prefix)) {
         keys.push(key);
       }
     }
@@ -223,26 +237,27 @@ export class WSSecureStorageWeb
       return prefixedKeys.map(key => key.slice(prefixLength));
     });
   }
-
-  private static missingKey() {
-    throw new StorageError('No key provided', StorageErrorType.missingKey);
-  }
 }
 
 // RegExp to match an ISO 8601 date string in the form YYYY-MM-DDTHH:mm:ss.sssZ
 const isoDateRE = /^"(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}).(\d{3})Z"$/;
 
-function parseISODate(isoDate: string): Date {
+function parseISODate(isoDate: string): Date | null {
   const match = isoDateRE.exec(isoDate);
-  const year = parseInt(match[1], 10);
-  const month = parseInt(match[2], 10) - 1; // month is zero-based
-  const day = parseInt(match[3], 10);
-  const hour = parseInt(match[4], 10);
-  const minute = parseInt(match[5], 10);
-  const second = parseInt(match[6], 10);
-  const millis = parseInt(match[7], 10);
-  const epochTime = Date.UTC(year, month, day, hour, minute, second, millis);
-  return new Date(epochTime);
+
+  if (match) {
+    const year = parseInt(match[1], 10);
+    const month = parseInt(match[2], 10) - 1; // month is zero-based
+    const day = parseInt(match[3], 10);
+    const hour = parseInt(match[4], 10);
+    const minute = parseInt(match[5], 10);
+    const second = parseInt(match[6], 10);
+    const millis = parseInt(match[7], 10);
+    const epochTime = Date.UTC(year, month, day, hour, minute, second, millis);
+    return new Date(epochTime);
+  }
+
+  return null;
 }
 
 const WSSecureStorage = new WSSecureStorageWeb();
