@@ -39,7 +39,7 @@
     "@capacitor/core": "^2.4.3",
     "javascript-blowfish": "^1.0.4",
     "tslib": "^2.0.3",
-    "ws-capacitor-native-decorator": "^1.0.3"
+    "ws-capacitor-native-decorator": "^1.1.0"
   },
   "peerDependencies": {
     "standard-version": "^9.0.0"

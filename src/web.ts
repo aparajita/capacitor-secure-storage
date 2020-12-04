@@ -84,7 +84,10 @@ export class WSSecureStorageWeb
         data = data.toISOString();
       }
 
-      return this.setItem(this.prefixedKey(key), JSON.stringify(data));
+      return this.setItem({
+        prefixedKey: this.prefixedKey(key),
+        data: JSON.stringify(data),
+      });
     } else {
       WSSecureStorageWeb.missingKey();
     }
@@ -92,7 +95,7 @@ export class WSSecureStorageWeb
 
   get(key: string, convertDate: boolean = true): Promise<DataType> {
     if (key) {
-      return this.getItem(this.prefixedKey(key)).then(data => {
+      return this.getItem({ prefixedKey: this.prefixedKey(key) }).then(data => {
         if (convertDate) {
           const date = parseISODate(data);
 
@@ -110,7 +113,7 @@ export class WSSecureStorageWeb
 
   remove(key: string): Promise<boolean> {
     if (key) {
-      return this.removeItem(this.prefixedKey(key));
+      return this.removeItem({ prefixedKey: this.prefixedKey(key) });
     } else {
       WSSecureStorageWeb.missingKey();
     }
@@ -120,9 +123,9 @@ export class WSSecureStorageWeb
     // We use a separate native call because we want to avoid
     // the overhead of a plugin call to removeItem() for every item.
     if (Capacitor.isNative) {
-      return this.clearItemsWithPrefix(this._prefix);
+      return this.clearItemsWithPrefix({ prefix: this._prefix });
     } else {
-      this.getPrefixedKeys(this._prefix).then(keys => {
+      this.getPrefixedKeys({ prefix: this._prefix }).then(keys => {
         keys.forEach(key => {
           this._storage.removeItem(key);
         });
@@ -133,15 +136,18 @@ export class WSSecureStorageWeb
   }
 
   @native()
-  private setItem(prefixedKey: string, data: string): Promise<void> {
-    const encoded = this.encryptData(data);
-    this._storage.setItem(prefixedKey, encoded);
+  private setItem(options: {
+    prefixedKey: string;
+    data: string;
+  }): Promise<void> {
+    const encoded = this.encryptData(options.data);
+    this._storage.setItem(options.prefixedKey, encoded);
     return Promise.resolve();
   }
 
   @native()
-  private getItem(prefixedKey: string): Promise<string> {
-    const data = this._storage.getItem(prefixedKey);
+  private getItem(options: { prefixedKey: string }): Promise<string> {
+    const data = this._storage.getItem(options.prefixedKey);
 
     if (data) {
       try {
@@ -153,18 +159,18 @@ export class WSSecureStorageWeb
       const storage = StorageType[this._storageType];
 
       throw new StorageError(
-        `Data not found for key "${prefixedKey}" in ${storage}`,
+        `Data not found for key "${options.prefixedKey}" in ${storage}`,
         StorageErrorType.notFound,
       );
     }
   }
 
   @native()
-  private removeItem(prefixedKey: string): Promise<boolean> {
-    const item = this._storage.getItem(prefixedKey);
+  private removeItem(options: { prefixedKey: string }): Promise<boolean> {
+    const item = this._storage.getItem(options.prefixedKey);
 
     if (item !== null) {
-      this._storage.removeItem(prefixedKey);
+      this._storage.removeItem(options.prefixedKey);
       return Promise.resolve(true);
     }
 
@@ -172,7 +178,7 @@ export class WSSecureStorageWeb
   }
 
   @native()
-  private clearItemsWithPrefix(_prefix: string): Promise<void> {
+  private clearItemsWithPrefix(_options: { prefix: string }): Promise<void> {
     return Promise.resolve();
   }
 
@@ -217,13 +223,13 @@ export class WSSecureStorageWeb
   }
 
   @native()
-  private getPrefixedKeys(prefix: string): Promise<string[]> {
+  private getPrefixedKeys(options: { prefix: string }): Promise<string[]> {
     const keys: string[] = [];
 
     for (let i = 0; i < this._storage.length; i++) {
       const key = this._storage.key(i);
 
-      if (key?.startsWith(prefix)) {
+      if (key?.startsWith(options.prefix)) {
         keys.push(key);
       }
     }
@@ -232,7 +238,7 @@ export class WSSecureStorageWeb
   }
 
   private getKeys(): Promise<string[]> {
-    return this.getPrefixedKeys(this._prefix).then(prefixedKeys => {
+    return this.getPrefixedKeys({ prefix: this._prefix }).then(prefixedKeys => {
       const prefixLength = this._prefix.length;
       return prefixedKeys.map(key => key.slice(prefixLength));
     });
