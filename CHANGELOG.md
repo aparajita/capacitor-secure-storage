@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.3](https://github.com/aparajita/ws-capacitor-secure-storage/compare/v1.0.2...v1.0.3) (2020-12-07)
+
+
+### Docs
+
+* document notFound error ([08e4b58](https://github.com/aparajita/ws-capacitor-secure-storage/commit/08e4b582691116d805508d7203986058b936467c))
+
 ### [1.0.2](https://github.com/aparajita/ws-capacitor-secure-storage/compare/v1.0.1...v1.0.2) (2020-12-04)
 
 * update to ws-capacitor-native-decorator v1.1.0. Native calls must receive an object. Public API of this plugin did not change.
