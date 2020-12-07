@@ -141,6 +141,9 @@ export interface WSSecureStoragePlugin {
    * is in the form of an ISO 8601 date string and convertDate is true
    * (the default), it is converted to a Date.
    *
+   * If no item with the given key can be found, StorageError(code: notFound)
+   * is thrown.
+   *
    * On the web, if setEncryptionKey() has not been called successfully,
    * StorageError(code: encryptionKeyNotSet) is thrown.
    *
