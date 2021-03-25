@@ -1,5 +1,5 @@
 {
-  "name": "ws-capacitor-secure-storage",
+  "name": "@aparajita/capacitor-secure-storage",
   "version": "1.0.3",
   "description": "Capacitor plugin that provides secure storage for the web, iOS and Android",
   "main": "dist/esm/index.js",
@@ -48,7 +48,7 @@
     "dist",
     "ios",
     "android",
-    "WsCapacitorSecureStorage.podspec"
+    "AparajitaCapacitorSecureStorage.podspec"
   ],
   "keywords": [
     "capacitor",

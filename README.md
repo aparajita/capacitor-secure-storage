@@ -1,22 +1,20 @@
-# ws-capacitor-secure-storage
+# capacitor-secure-storage
 
 This plugin for [Capacitor](https://capacitorjs.com) provides secure key/value storage on the web, iOS, and Android, with an API closely matching that of the Capacitor [Storage](https://capacitorjs.com/docs/apis/storage) plugin. If you are using the Storage plugin, this plugin is (more or less) a secure drop-in replacement.
 
 ## Installation
 
 ```sh
-pnpm install ws-capacitor-secure-storage # 'pnpm add' also works
-npm install ws-capacitor-secure-storage
-yarn add ws-capacitor-secure-storage
+pnpm install @aparajita/capacitor-secure-storage # 'pnpm add' also works
+npm install @aparajita/capacitor-secure-storage
+yarn add @aparajita/capacitor-secure-storage
 ```
 
 Not using [pnpm](https://pnpm.js.org/)? You owe it to yourself to give it a try. It’s faster, better with monorepos, and uses *way, way* less disk space than the alternatives.
 
 ## Usage
 
-The API is thoroughly documented [here](./src/definitions.ts). For a complete example of how to use this plugin in practice, see the [demo app](https://github.com/aparajita/ws-capacitor-secure-storage-demo).
-
-The source of this plugin is also a good example of how to use the [@​native decorator](https://github.com/aparajita/ws-capacitor-native-decorator). Thanks to `@native`, TypeScript code is freely mixed with native code, and state can be maintained in the TypeScript class. If you’re a plugin author, you’ll definitely want to check `@native` out.
+The API is thoroughly documented [here](#api). For a complete example of how to use this plugin in practice, see the [demo app](https://github.com/aparajita/capacitor-secure-storage-demo).
 
 ### web
 
