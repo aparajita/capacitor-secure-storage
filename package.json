@@ -21,7 +21,7 @@
   "author": "Aparajita Fishman",
   "license": "MIT",
   "devDependencies": {
-    "@aparajita/capacitor-docgen": "^0.0.10",
+    "@aparajita/capacitor-docgen": "^0.0.10-2",
     "@capacitor/android": "^2.4.4",
     "@capacitor/ios": "^2.4.4",
     "@ionic/prettier-config": "^1.0.1",

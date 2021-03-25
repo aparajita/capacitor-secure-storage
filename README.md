@@ -34,12 +34,12 @@ On Android, data is encrypted using AES in GCM mode with a secret key generated 
 
 <docgen-index>
 
-**Methods**
-[keys()](#keys)
-[setEncryptionKey(...)](#setencryptionkey)
-[set(...)](#set)
-[get(...)](#get)
-[remove(...)](#remove)
+**Methods**<br>
+[keys()](#keys)<br>
+[setEncryptionKey(...)](#setencryptionkey)<br>
+[set(...)](#set)<br>
+[get(...)](#get)<br>
+[remove(...)](#remove)<br>
 [clear()](#clear)
 
 
