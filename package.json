@@ -71,9 +71,9 @@
   "swiftlint": "@ionic/swiftlint-config",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aparajita/ws-capacitor-secure-storage.git"
+    "url": "https://github.com/aparajita/capacitor-secure-storage.git"
   },
   "bugs": {
-    "url": "https://github.com/aparajita/ws-capacitor-secure-storage.git/issues"
+    "url": "https://github.com/aparajita/capacitor-secure-storage.git/issues"
   }
 }

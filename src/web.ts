@@ -7,7 +7,7 @@ import {
   StorageType,
   WSSecureStoragePlugin,
 } from './definitions';
-import { native } from 'ws-capacitor-native-decorator';
+import { native } from '@aparajita/capacitor-native-decorator';
 
 export class StorageError extends Error implements StorageResultError {
   code: string;

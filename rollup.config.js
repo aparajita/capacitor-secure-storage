@@ -19,7 +19,7 @@ export default {
       resolveOnly: [
         'tslib',
         'javascript-blowfish',
-        'ws-capacitor-native-decorator',
+        '@aparajita/capacitor-native-decorator',
       ],
     }),
     commonjs(),
