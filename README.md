@@ -1,6 +1,8 @@
 # capacitor-secure-storage
 
-This plugin for [Capacitor](https://capacitorjs.com) provides secure key/value storage on the web, iOS, and Android, with an API closely matching that of the Capacitor [Storage](https://capacitorjs.com/docs/apis/storage) plugin. If you are using the Storage plugin, this plugin is (more or less) a secure drop-in replacement.
+This plugin for [Capacitor 2](https://capacitorjs.com) provides secure key/value storage on the web, iOS, and Android, with an API closely matching that of the Capacitor [Storage](https://capacitorjs.com/docs/apis/storage) plugin. If you are using the Storage plugin, this plugin is (more or less) a secure drop-in replacement.
+
+**NOTE:** This plugin has only been tested with Capacitor 2.
 
 ## Installation
 
