@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.4](https://github.com/aparajita/capacitor-secure-storage/compare/v1.0.3...v1.0.4) (2021-03-26)
+
+
+### Maintenance
+
+* dep updates ([9fdfc3f](https://github.com/aparajita/capacitor-secure-storage/commit/9fdfc3f4707184e5c88d24cf7c58f5400d2a2342))
+* lint ([a27271f](https://github.com/aparajita/capacitor-secure-storage/commit/a27271f581520616d3a607f467ba4fccbb030ce3))
+* rename package ([5448784](https://github.com/aparajita/capacitor-secure-storage/commit/5448784064af0193ebc7ff024667e49fc203db1e))
+* renamed package ([77a55ea](https://github.com/aparajita/capacitor-secure-storage/commit/77a55ea7229265361afdaace4c1503e5e85fc31e))
+* update deps ([f131624](https://github.com/aparajita/capacitor-secure-storage/commit/f13162475fe9b2465a4f3101ce85ed14311c25ec))
+
+
+### Docs
+
+* add API docs ([0f29212](https://github.com/aparajita/capacitor-secure-storage/commit/0f292122d290fdf73af85e4c41e28ec5b0c23847))
+* note capacitor 2 only ([ac6eeef](https://github.com/aparajita/capacitor-secure-storage/commit/ac6eeef7318c3ca4f613b6d8df53b783f994aa89))
+* update docgen to fix method list format ([b4d8372](https://github.com/aparajita/capacitor-secure-storage/commit/b4d8372f375614c3d185190d080a337805f80476))
+
 ### [1.0.3](https://github.com/aparajita/capacitor-secure-storage/compare/v1.0.2...v1.0.3) (2020-12-07)
 
 
