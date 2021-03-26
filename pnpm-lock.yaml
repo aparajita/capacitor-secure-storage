@@ -1,24 +1,24 @@
 dependencies:
-  '@capacitor/core': 2.4.4
+  '@aparajita/capacitor-native-decorator': 1.1.1
+  '@capacitor/core': 2.4.7
   javascript-blowfish: 1.0.4
-  tslib: 2.0.3
-  ws-capacitor-native-decorator: 1.1.0
+  tslib: 2.1.0
 devDependencies:
   '@aparajita/capacitor-docgen': 0.0.10-2
-  '@capacitor/android': 2.4.4_@capacitor+core@2.4.4
-  '@capacitor/ios': 2.4.4_@capacitor+core@2.4.4
+  '@capacitor/android': 2.4.7_@capacitor+core@2.4.7
+  '@capacitor/ios': 2.4.7_@capacitor+core@2.4.7
   '@ionic/prettier-config': 1.0.1_prettier@2.2.1
   '@ionic/swiftlint-config': 1.1.2
-  '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.1
-  '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.1
-  '@types/node': 14.14.10
-  nodemon: 2.0.6
+  '@rollup/plugin-commonjs': 17.1.0_rollup@2.42.4
+  '@rollup/plugin-node-resolve': 11.2.0_rollup@2.42.4
+  '@types/node': 14.14.36
+  nodemon: 2.0.7
   prettier: 2.2.1
-  prettier-plugin-java: 1.0.1
+  prettier-plugin-java: 1.0.2
   rimraf: 3.0.2
-  rollup: 2.34.1
+  rollup: 2.42.4
   swiftlint: 1.0.1
-  typescript: 4.1.2
+  typescript: 4.2.3
 lockfileVersion: 5.2
 packages:
   /@aparajita/capacitor-docgen/0.0.10-2:
@@ -33,6 +33,14 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-zVX/YKTZ/gywKaOUJ2lPWbizR1edNajd1w9t5I7xVEMeSYYsYfZMXDfOqhMy0rnHHeFt4ffTGmcvgINSy+75mw==
+      tarball: '@aparajita/capacitor-docgen/-/capacitor-docgen-0.0.10-2.tgz'
+  /@aparajita/capacitor-native-decorator/1.1.1:
+    dependencies:
+      '@capacitor/core': 2.4.7
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-Zci0V1MN0npvH7lBEQhCh5HTTr6VKKXej4+utaCB0E1Rb51RnjSOAYwjfFWF7OLNuc1eYcxcN8j5rfkyG3YpqA==
   /@babel/code-frame/7.10.4:
     dependencies:
       '@babel/highlight': 7.10.4
@@ -51,28 +59,28 @@ packages:
     dev: true
     resolution:
       integrity: sha512-i6rgnR/YgPEQzZZnbTHHuZdlE8qyoBNalD6F+q4vAFlcMEcqmkoG+mPqJYJCo63qPf74+Y1UZsl3l6f7/RIkmA==
-  /@capacitor/android/2.4.4_@capacitor+core@2.4.4:
+  /@capacitor/android/2.4.7_@capacitor+core@2.4.7:
     dependencies:
-      '@capacitor/core': 2.4.4
+      '@capacitor/core': 2.4.7
     dev: true
     peerDependencies:
       '@capacitor/core': ~2.4.0
     resolution:
-      integrity: sha512-0ueuW7R6PUCSI/bRdVlyM156JtvdJWhIInptC/yIdz/FjdvX8G8Rcb7lVoRk15eVUapqSQZ/S09F8JajaGnJjA==
-  /@capacitor/core/2.4.4:
+      integrity: sha512-7jcmwheo94dJEOX1z4r3SlZrL+MvESav1xsUwC5ydLFZCpuvBKJ0szbDNWzCAglgpXmW9hC0WdwYBErgDrDPRg==
+  /@capacitor/core/2.4.7:
     dependencies:
       tslib: 1.14.1
     dev: false
     resolution:
-      integrity: sha512-Cc+g2MjHAaAlIotkQUdaZT/A5taGOXBjPK3ehSdezXX/lztp2zaBHFmO87cx0huasiFelFjwzQwY+Rh6soMNdg==
-  /@capacitor/ios/2.4.4_@capacitor+core@2.4.4:
+      integrity: sha512-ZPzXXQ4EPwR/ZhNDkmlxyzw4FvquIl/ROj8HMMM0MEd4xZfM8ulNGPIL6br9TWdlFLGBKq40eymPZjKaivGnig==
+  /@capacitor/ios/2.4.7_@capacitor+core@2.4.7:
     dependencies:
-      '@capacitor/core': 2.4.4
+      '@capacitor/core': 2.4.7
     dev: true
     peerDependencies:
       '@capacitor/core': ~2.4.0
     resolution:
-      integrity: sha512-dQQeJ5xD4sGzakCg9wtFdzRNkwkDuUBl1EK8ilg8DAvh6iYzwWZ6Z0lYLJoA4Nq5Y1WmXDwYoVaTAZ19Lwqm2A==
+      integrity: sha512-XKYU67ZM+yY4/vDJ3ZVfs+phjtWK8TcKwq75fGoxB9PKXuCmMi5bihPuA3Xs/sIFXuozpnaYnspp0eTRJ7bG0w==
   /@ionic/prettier-config/1.0.1_prettier@2.2.1:
     dependencies:
       prettier: 2.2.1
@@ -165,45 +173,45 @@ packages:
       node: '>=10.3.0'
     resolution:
       integrity: sha512-cglsSd2AckI3Ldtdfczeq64vIIDjtPspV5QJtky8f8uIdxkeOIGeRV7bCj1+BEf1hyo+ZuggQxLviHnbMZhiRw==
-  /@rollup/plugin-commonjs/17.0.0_rollup@2.34.1:
+  /@rollup/plugin-commonjs/17.1.0_rollup@2.42.4:
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.34.1
+      '@rollup/pluginutils': 3.1.0_rollup@2.42.4
       commondir: 1.0.1
       estree-walker: 2.0.1
       glob: 7.1.6
       is-reference: 1.2.1
       magic-string: 0.25.7
       resolve: 1.19.0
-      rollup: 2.34.1
+      rollup: 2.42.4
     dev: true
     engines:
       node: '>= 8.0.0'
     peerDependencies:
       rollup: ^2.30.0
     resolution:
-      integrity: sha512-/omBIJG1nHQc+bgkYDuLpb/V08QyutP9amOrJRUSlYJZP+b/68gM//D8sxJe3Yry2QnYIr3QjR3x4AlxJEN3GA==
-  /@rollup/plugin-node-resolve/11.0.0_rollup@2.34.1:
+      integrity: sha512-PoMdXCw0ZyvjpCMT5aV4nkL0QywxP29sODQsSGeDpr/oI49Qq9tRtAsb/LbYbDzFlOydVEqHmmZWFtXJEAX9ew==
+  /@rollup/plugin-node-resolve/11.2.0_rollup@2.42.4:
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.34.1
+      '@rollup/pluginutils': 3.1.0_rollup@2.42.4
       '@types/resolve': 1.17.1
       builtin-modules: 3.1.0
       deepmerge: 4.2.2
       is-module: 1.0.0
       resolve: 1.19.0
-      rollup: 2.34.1
+      rollup: 2.42.4
     dev: true
     engines:
       node: '>= 10.0.0'
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
     resolution:
-      integrity: sha512-8Hrmwjn1pLYjUxcv7U7IPP0qfnzEJWHyHE6CaZ8jbLM+8axaarJRB1jB6JgKTDp5gNga+TpsgX6F8iuvgOerKQ==
-  /@rollup/pluginutils/3.1.0_rollup@2.34.1:
+      integrity: sha512-qHjNIKYt5pCcn+5RUBQxK8krhRvf1HnyVgUCcFFcweDS7fhkOLZeYh0mhHK6Ery8/bb9tvN/ubPzmfF0qjDCTA==
+  /@rollup/pluginutils/3.1.0_rollup@2.42.4:
     dependencies:
       '@types/estree': 0.0.39
       estree-walker: 1.0.1
       picomatch: 2.2.2
-      rollup: 2.34.1
+      rollup: 2.42.4
     dev: true
     engines:
       node: '>= 8.0.0'
@@ -233,17 +241,17 @@ packages:
     dev: true
     resolution:
       integrity: sha512-jnqIUKDUqJbDIUxm0Uj7bnlMnRm1T/eZ9N+AVMqhPgzrba2GhGG5o/jCTwmdPK709nEZsGoMzXEDUjcXHa3W0g==
-  /@types/node/14.14.10:
+  /@types/node/14.14.36:
     dev: true
     resolution:
-      integrity: sha512-J32dgx2hw8vXrSbu4ZlVhn1Nm3GbeCFNw2FWL8S5QKucHGY0cyNwjdQdO+KMBZ4wpmC7KhLCiNsdk1RFRIYUQQ==
+      integrity: sha512-kjivUwDJfIjngzbhooRnOLhGYz6oRFi+L+EpMjxroDYXwDw9lHrJJ43E+dJ6KAd3V3WxWAJ/qZE9XKYHhjPOFQ==
   /@types/parse-json/4.0.0:
     dev: true
     resolution:
       integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
   /@types/resolve/1.17.1:
     dependencies:
-      '@types/node': 14.14.10
+      '@types/node': 14.14.36
     dev: true
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
@@ -639,6 +647,7 @@ packages:
     resolution:
       integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=
   /fsevents/2.1.3:
+    deprecated: '"Please update to latest v2.3 or v2.2"'
     dev: true
     engines:
       node: ^8.16.0 || ^10.6.0 || >=11.0.0
@@ -647,6 +656,15 @@ packages:
       - darwin
     resolution:
       integrity: sha512-Auw9a4AxqWpa9GUfj370BMPzzyncfBABW8Mab7BGWBYDj4Isgq+cDKtx0i6u9jcX9pQDnswsaaOTgTmA5pEjuQ==
+  /fsevents/2.3.2:
+    dev: true
+    engines:
+      node: ^8.16.0 || ^10.6.0 || >=11.0.0
+    optional: true
+    os:
+      - darwin
+    resolution:
+      integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
   /function-bind/1.1.1:
     dev: true
     resolution:
@@ -789,6 +807,7 @@ packages:
     resolution:
       integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
   /ini/1.3.5:
+    deprecated: Please update to ini >=1.3.6 to avoid a prototype pollution issue
     dev: true
     resolution:
       integrity: sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
@@ -898,13 +917,13 @@ packages:
     dev: true
     resolution:
       integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
-  /java-parser/1.0.0:
+  /java-parser/1.0.2:
     dependencies:
       chevrotain: 6.5.0
-      lodash: 4.17.20
+      lodash: 4.17.21
     dev: true
     resolution:
-      integrity: sha512-z+1shDR4S1uC/v44uITWV87kP+PtaBT7dnZgmwZcAUhnA0wldJSlA6KhGHU8IXJHaLKtjgYPbSxvmWVaMbtM6g==
+      integrity: sha512-lBXc+F62ds2W83eH5MwGnzuWdb6kgGBV0x0R7w0B4JKGDrJzolMUEhRMzzzlIX68HvRU7XtfPon22YaB+dVg+A==
   /javascript-blowfish/1.0.4:
     dev: false
     resolution:
@@ -947,10 +966,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
-  /lodash/4.17.20:
+  /lodash/4.17.21:
     dev: true
     resolution:
-      integrity: sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
+      integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
   /lowercase-keys/1.0.1:
     dev: true
     engines:
@@ -1001,7 +1020,7 @@ packages:
     dev: true
     resolution:
       integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
-  /nodemon/2.0.6:
+  /nodemon/2.0.7:
     dependencies:
       chokidar: 3.4.3
       debug: 3.2.7
@@ -1019,7 +1038,7 @@ packages:
     hasBin: true
     requiresBuild: true
     resolution:
-      integrity: sha512-4I3YDSKXg6ltYpcnZeHompqac4E6JeAMpGm8tJnB9Y3T0ehasLa4139dJOcCrB93HHrUMsCrKtoAlXTqT5n4AQ==
+      integrity: sha512-XHzK69Awgnec9UzHr1kc8EomQh4sjTQ8oRf8TsGrSmHDx9/UmiGG9E/mM3BuTfNeFwdNBvrqQq/RHL0xIeyFOA==
   /nopt/1.0.10:
     dependencies:
       abbrev: 1.1.1
@@ -1115,14 +1134,14 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
-  /prettier-plugin-java/1.0.1:
+  /prettier-plugin-java/1.0.2:
     dependencies:
-      java-parser: 1.0.0
-      lodash: 4.17.20
+      java-parser: 1.0.2
+      lodash: 4.17.21
       prettier: 2.2.1
     dev: true
     resolution:
-      integrity: sha512-QaNLrBra0pzSba29cq7N5JPqHPlEM+3FRp17ViL66fKcStu+5mDOS+YV99mbkpHTrsMAuChW3rZ85ZDs4Smupw==
+      integrity: sha512-YgcN1WGZlrH0E+bHdqtIYtfDp6k2PHBnIaGjzdff/7t/NyDWAA6ypAmnD7YQVG2OuoIaXYkC37HN7cz68lLWLg==
   /prettier/2.2.1:
     dev: true
     engines:
@@ -1213,15 +1232,15 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
-  /rollup/2.34.1:
+  /rollup/2.42.4:
     dev: true
     engines:
       node: '>=10.0.0'
     hasBin: true
     optionalDependencies:
-      fsevents: 2.1.3
+      fsevents: 2.3.2
     resolution:
-      integrity: sha512-tGveB6NU5x4MS/iXaIsjfUkEv4hxzJJ4o0FRy5LO62Ndx3R2cmE1qsLYlSfRkvHUUPqWiFoxEm8pRftzh1a5HA==
+      integrity: sha512-Zqv3EvNfcllBHyyEUM754npqsZw82VIjK34cDQMwrQ1d6aqxzeYu5yFb7smGkPU4C1Bj7HupIMeT6WU7uIdnMw==
   /semver-diff/3.1.1:
     dependencies:
       semver: 6.3.0
@@ -1377,8 +1396,13 @@ packages:
     resolution:
       integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
   /tslib/2.0.3:
+    dev: true
     resolution:
       integrity: sha512-uZtkfKblCEQtZKBF6EBXVZeQNl82yqtDQdv+eck8u7tdPxjLu2/lp5/uPW+um2tpuxINHWy3GhiccY7QgEaVHQ==
+  /tslib/2.1.0:
+    dev: false
+    resolution:
+      integrity: sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
   /type-fest/0.8.1:
     dev: true
     engines:
@@ -1391,13 +1415,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==
-  /typescript/4.1.2:
-    dev: true
-    engines:
-      node: '>=4.2.0'
-    hasBin: true
-    resolution:
-      integrity: sha512-thGloWsGH3SOxv1SoY7QojKi0tc+8FnOmiarEGMbd/lar7QOEd3hvlx3Fp5y6FlDUGl9L+pd4n2e+oToGMmhRQ==
   /typescript/4.2.3:
     dev: true
     engines:
@@ -1505,13 +1522,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-AvHcyZ5JnSfq3ioSyjrBkH9yW4m7Ayk8/9My/DD9onKeu/94fwrMocemO2QAJFAlnnDN+ZDS+ZjAR5ua1/PV/Q==
-  /ws-capacitor-native-decorator/1.1.0:
-    dependencies:
-      '@capacitor/core': 2.4.4
-    dev: false
-    hasBin: true
-    resolution:
-      integrity: sha512-7yaCZWQILzFL5FXOY95fgFs6QHI34G7ea2MNwz1pw3/gXQUsYogSfgVTpXC7x0F21pQg1ZUVfixyx+hEpUaspA==
   /xdg-basedir/4.0.0:
     dev: true
     engines:
@@ -1526,21 +1536,21 @@ packages:
       integrity: sha512-yr2icI4glYaNG+KWONODapy2/jDdMSDnrONSjblABjD9B4Z5LgiircSt8m8sRZFNi08kG9Sm0uSHtEmP3zaEGg==
 specifiers:
   '@aparajita/capacitor-docgen': ^0.0.10-2
-  '@capacitor/android': ^2.4.4
-  '@capacitor/core': ^2.4.4
-  '@capacitor/ios': ^2.4.4
+  '@aparajita/capacitor-native-decorator': ^1.1.1
+  '@capacitor/android': ^2.4.7
+  '@capacitor/core': ^2.4.7
+  '@capacitor/ios': ^2.4.7
   '@ionic/prettier-config': ^1.0.1
   '@ionic/swiftlint-config': ^1.1.2
-  '@rollup/plugin-commonjs': ^17.0.0
-  '@rollup/plugin-node-resolve': ^11.0.0
-  '@types/node': ^14.14.10
+  '@rollup/plugin-commonjs': ^17.1.0
+  '@rollup/plugin-node-resolve': ^11.2.0
+  '@types/node': ^14.14.36
   javascript-blowfish: ^1.0.4
-  nodemon: ^2.0.6
+  nodemon: ^2.0.7
   prettier: ^2.2.1
-  prettier-plugin-java: ^1.0.1
+  prettier-plugin-java: ^1.0.2
   rimraf: ^3.0.2
-  rollup: ^2.34.1
+  rollup: ^2.42.4
   swiftlint: ^1.0.1
-  tslib: ^2.0.3
-  typescript: ~4.1.2
-  ws-capacitor-native-decorator: ^1.1.0
+  tslib: ^2.1.0
+  typescript: ~4.2.3

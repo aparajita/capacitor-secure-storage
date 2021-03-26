@@ -22,29 +22,29 @@
   "license": "MIT",
   "devDependencies": {
     "@aparajita/capacitor-docgen": "^0.0.10-2",
-    "@capacitor/android": "^2.4.4",
-    "@capacitor/ios": "^2.4.4",
+    "@capacitor/android": "^2.4.7",
+    "@capacitor/ios": "^2.4.7",
     "@ionic/prettier-config": "^1.0.1",
     "@ionic/swiftlint-config": "^1.1.2",
-    "@rollup/plugin-commonjs": "^17.0.0",
-    "@rollup/plugin-node-resolve": "^11.0.0",
-    "@types/node": "^14.14.10",
-    "nodemon": "^2.0.6",
+    "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-node-resolve": "^11.2.0",
+    "@types/node": "^14.14.36",
+    "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
-    "prettier-plugin-java": "^1.0.1",
+    "prettier-plugin-java": "^1.0.2",
     "rimraf": "^3.0.2",
-    "rollup": "^2.34.1",
+    "rollup": "^2.42.4",
     "swiftlint": "^1.0.1",
-    "typescript": "~4.1.2"
+    "typescript": "~4.2.3"
   },
   "dependencies": {
-    "@capacitor/core": "^2.4.4",
+    "@aparajita/capacitor-native-decorator": "^1.1.1",
+    "@capacitor/core": "^2.4.7",
     "javascript-blowfish": "^1.0.4",
-    "tslib": "^2.0.3",
-    "ws-capacitor-native-decorator": "^1.1.0"
+    "tslib": "^2.1.0"
   },
   "peerDependencies": {
-    "standard-version": "^9.0.0"
+    "standard-version": "^9.1.1"
   },
   "files": [
     "dist",
