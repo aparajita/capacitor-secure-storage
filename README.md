@@ -2,7 +2,7 @@
 
 This plugin for [Capacitor 2](https://capacitorjs.com) provides secure key/value storage on the web, iOS, and Android, with an API closely matching that of the Capacitor [Storage](https://capacitorjs.com/docs/apis/storage) plugin. If you are using the Storage plugin, this plugin is (more or less) a secure drop-in replacement.
 
-**NOTE:** This plugin has only been tested with Capacitor 2.
+👉 **NOTE:** This plugin has only been tested with Capacitor 2.
 
 ## Installation
 
@@ -16,9 +16,9 @@ Not using [pnpm](https://pnpm.js.org/)? You owe it to yourself to give it a try.
 
 ## Usage
 
-The API is thoroughly documented [here](#api). For a complete example of how to use this plugin in practice, see the [demo app](https://github.com/aparajita/capacitor-secure-storage-demo).
+The API is thoroughly documented [here](src/definitions.ts) and [below](#api). For a complete example of how to use this plugin in practice, see the [demo app](https://github.com/aparajita/capacitor-secure-storage-demo).
 
-### web
+### Web
 
 On the web, data is stored in `localStorage` by default. You may change that to `sessionStorage` by setting the `storageType` property.
 
