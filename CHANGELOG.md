@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.5](https://github.com/aparajita/capacitor-secure-storage/compare/v1.0.4...v1.0.5) (2021-04-01)
+
+
+### Docs
+
+* tweaks ([1a4ed2a](https://github.com/aparajita/capacitor-secure-storage/commit/1a4ed2a7bfb044128a9908148c384a83803fcfe8))
+
+
+### Maintenance
+
+* fix urls ([9f5825d](https://github.com/aparajita/capacitor-secure-storage/commit/9f5825d8d50ad238b86b0c1d184f83f02bb269c4))
+* update deps ([f6f59c5](https://github.com/aparajita/capacitor-secure-storage/commit/f6f59c5fc332bfc8e3fc7c4cdbbcb51c5445b841))
+
 ### [1.0.4](https://github.com/aparajita/capacitor-secure-storage/compare/v1.0.3...v1.0.4) (2021-03-26)
 
 
