@@ -48,10 +48,16 @@
     "standard-version": "^9.1.1"
   },
   "files": [
-    "dist",
-    "ios",
-    "android",
-    "AparajitaCapacitorSecureStorage.podspec"
+    "dist/esm/*.d.ts",
+    "dist/esm/*.js",
+    "ios/Plugin",
+    "ios/Podfile",
+    "ios/Podfile.lock",
+    "android/build.gradle",
+    "android/gradle.properties",
+    "android/settings.gradle",
+    "android/src/main",
+    "*.podspec"
   ],
   "keywords": [
     "capacitor",
