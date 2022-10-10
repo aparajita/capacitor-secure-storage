@@ -1,2 +1,6 @@
-build
 dist
+ios
+android/*
+!android/src
+CHANGELOG.md
+pnpm-lock.yaml

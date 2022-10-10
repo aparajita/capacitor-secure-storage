@@ -1,273 +1,153 @@
-import { Capacitor, registerWebPlugin, WebPlugin } from '@capacitor/core';
-import { Blowfish } from 'javascript-blowfish';
-import {
-  DataType,
-  StorageErrorType,
-  StorageResultError,
-  StorageType,
-  WSSecureStoragePlugin,
-} from './definitions';
-import { native } from '@aparajita/capacitor-native-decorator';
+import { Blowfish } from 'javascript-blowfish'
+import { SecureStorageBase, StorageError } from './base'
+import { StorageErrorType, StorageType } from './definitions'
 
-export class StorageError extends Error implements StorageResultError {
-  code: string;
+// eslint-disable-next-line import/prefer-default-export
+export class SecureStorageWeb extends SecureStorageBase {
+  private blowfish: Blowfish | null = null
+  private encryptionKey = ''
+  private storage: Storage = localStorage
+  private storageType: StorageType = StorageType.localStorage
 
-  constructor(message: string, code: StorageErrorType) {
-    super(message);
-    this.code = StorageErrorType[code];
-  }
-}
-
-export class WSSecureStorageWeb
-  extends WebPlugin
-  implements WSSecureStoragePlugin {
-  private _blowfish: Blowfish | null = null;
-  private _storage: Storage = localStorage;
-  private _prefix: string = 'capacitor-storage_';
-
-  constructor() {
-    super({
-      name: 'WSSecureStorage',
-      platforms: ['web', 'ios', 'android'],
-    });
-
-    this.storageType = this._storageType;
+  // @native
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async setSynchronizeKeychain(options: { sync: boolean }): Promise<void> {
+    return Promise.resolve()
   }
 
-  private _storageType: StorageType = StorageType.localStorage;
-
-  get storageType(): StorageType {
-    return this._storageType;
-  }
-
-  set storageType(type: StorageType) {
-    this._storageType = type;
-    this._storage =
-      type === StorageType.sessionStorage ? sessionStorage : localStorage;
-  }
-
-  get keyPrefix(): string {
-    return this._prefix;
-  }
-
-  set keyPrefix(prefix: string) {
-    this._prefix = prefix || '';
-  }
-
-  private static missingKey(): never {
-    throw new StorageError('No key provided', StorageErrorType.missingKey);
-  }
-
-  setEncryptionKey(key: string) {
-    // This is web-only
-    if (Capacitor.isNative) {
-      return;
-    }
-
+  async setEncryptionKey(key: string): Promise<void> {
     if (key) {
-      this._blowfish = new Blowfish(key);
-    } else {
-      throw new StorageError(
-        'Encryption key must be non-null and non-empty',
-        StorageErrorType.encryptionKeyNotSet,
-      );
+      this.blowfish = new Blowfish(key)
+      this.encryptionKey = key
+      return Promise.resolve()
     }
+
+    throw new StorageError(
+      'Encryption key must be non-null and non-empty',
+      StorageErrorType.encryptionKeyNotSet
+    )
   }
 
-  keys(): Promise<string[]> {
-    return this.getKeys();
+  async getStorageType(): Promise<StorageType> {
+    return Promise.resolve(this.storageType)
   }
 
-  set(key: string, data: DataType, convertDate: boolean = true): Promise<void> {
-    if (key) {
-      if (convertDate && data instanceof Date) {
-        data = data.toISOString();
-      }
-
-      return this.setItem({
-        prefixedKey: this.prefixedKey(key),
-        data: JSON.stringify(data),
-      });
-    } else {
-      WSSecureStorageWeb.missingKey();
-    }
+  async setStorageType(type: StorageType): Promise<void> {
+    this.storageType = type
+    this.storage =
+      type === StorageType.sessionStorage ? sessionStorage : localStorage
+    return Promise.resolve()
   }
 
-  get(key: string, convertDate: boolean = true): Promise<DataType> {
-    if (key) {
-      return this.getItem({ prefixedKey: this.prefixedKey(key) }).then(data => {
-        if (convertDate) {
-          const date = parseISODate(data);
-
-          if (date) {
-            return date;
-          }
-        }
-
-        return JSON.parse(data);
-      });
-    } else {
-      WSSecureStorageWeb.missingKey();
-    }
-  }
-
-  remove(key: string): Promise<boolean> {
-    if (key) {
-      return this.removeItem({ prefixedKey: this.prefixedKey(key) });
-    } else {
-      WSSecureStorageWeb.missingKey();
-    }
-  }
-
-  clear(): Promise<void> {
-    // We use a separate native call because we want to avoid
-    // the overhead of a plugin call to removeItem() for every item.
-    if (Capacitor.isNative) {
-      return this.clearItemsWithPrefix({ prefix: this._prefix });
-    } else {
-      this.getPrefixedKeys({ prefix: this._prefix }).then(keys => {
-        keys.forEach(key => {
-          this._storage.removeItem(key);
-        });
-      });
-
-      return Promise.resolve();
-    }
-  }
-
-  @native()
-  private setItem(options: {
-    prefixedKey: string;
-    data: string;
-  }): Promise<void> {
-    const encoded = this.encryptData(options.data);
-    this._storage.setItem(options.prefixedKey, encoded);
-    return Promise.resolve();
-  }
-
-  @native()
-  private getItem(options: { prefixedKey: string }): Promise<string> {
-    const data = this._storage.getItem(options.prefixedKey);
+  // @native
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async getItem(options: { prefixedKey: string }): Promise<{ data: string }> {
+    const data = this.storage.getItem(options.prefixedKey)
 
     if (data) {
       try {
-        return Promise.resolve(this.decryptData(data));
-      } catch (e) {
-        throw new StorageError(e.message, StorageErrorType.invalidData);
+        return { data: this.decryptData(data) }
+      } catch (err) {
+        const message =
+          err instanceof Error ? err.message : 'Unknown error occurred'
+        throw new StorageError(message, StorageErrorType.invalidData)
       }
     } else {
-      const storage = StorageType[this._storageType];
+      const storage = StorageType[this.storageType]
 
       throw new StorageError(
         `Data not found for key "${options.prefixedKey}" in ${storage}`,
-        StorageErrorType.notFound,
-      );
+        StorageErrorType.notFound
+      )
     }
   }
 
-  @native()
-  private removeItem(options: { prefixedKey: string }): Promise<boolean> {
-    const item = this._storage.getItem(options.prefixedKey);
+  // @native
+  async setItem(options: { prefixedKey: string; data: string }): Promise<void> {
+    const encoded = this.encryptData(options.data)
+    this.storage.setItem(options.prefixedKey, encoded)
+    return Promise.resolve()
+  }
+
+  // @native
+  async removeItem(options: {
+    prefixedKey: string
+  }): Promise<{ success: boolean }> {
+    const item = this.storage.getItem(options.prefixedKey)
 
     if (item !== null) {
-      this._storage.removeItem(options.prefixedKey);
-      return Promise.resolve(true);
+      this.storage.removeItem(options.prefixedKey)
+      return Promise.resolve({ success: true })
     }
 
-    return Promise.resolve(false);
+    return Promise.resolve({ success: false })
   }
 
-  @native()
-  private clearItemsWithPrefix(_options: { prefix: string }): Promise<void> {
-    return Promise.resolve();
+  async clear(): Promise<void> {
+    const { keys } = await this.getPrefixedKeys({ prefix: this.prefix })
+    keys.forEach((key) => {
+      this.storage.removeItem(key)
+    })
+
+    return Promise.resolve()
   }
 
-  private prefixedKey(key: string): string {
-    return this._prefix + key;
+  // @native
+  // eslint-disable-next-line @typescript-eslint/require-await,@typescript-eslint/no-unused-vars
+  async clearItemsWithPrefix(options: { prefix: string }): Promise<void> {
+    this.unimplemented('clearItemsWithPrefix is native only')
   }
 
-  private encryptData(data: string): string {
-    if (this._blowfish) {
-      const json = JSON.stringify(data);
-      return this._blowfish.base64Encode(this._blowfish.encryptECB(json));
-    } else {
-      throw new StorageError(
-        'The encryption key has not been set',
-        StorageErrorType.encryptionKeyNotSet,
-      );
-    }
-  }
+  // @native
+  async getPrefixedKeys(options: {
+    prefix: string
+  }): Promise<{ keys: string[] }> {
+    const keys: string[] = []
 
-  private decryptData(ciphertext: string): string {
-    let json;
-
-    if (this._blowfish) {
-      json = this._blowfish.trimZeros(
-        this._blowfish.decryptECB(this._blowfish.base64Decode(ciphertext)),
-      );
-    } else {
-      throw new StorageError(
-        'The encryption key has not been set',
-        StorageErrorType.encryptionKeyNotSet,
-      );
-    }
-
-    try {
-      return JSON.parse(json);
-    } catch (e) {
-      throw new StorageError(
-        'Could not parse data object',
-        StorageErrorType.invalidData,
-      );
-    }
-  }
-
-  @native()
-  private getPrefixedKeys(options: { prefix: string }): Promise<string[]> {
-    const keys: string[] = [];
-
-    for (let i = 0; i < this._storage.length; i++) {
-      const key = this._storage.key(i);
+    for (let i = 0; i < this.storage.length; i++) {
+      const key = this.storage.key(i)
 
       if (key?.startsWith(options.prefix)) {
-        keys.push(key);
+        keys.push(key)
       }
     }
 
-    return Promise.resolve(keys);
+    return Promise.resolve({ keys })
   }
 
-  private getKeys(): Promise<string[]> {
-    return this.getPrefixedKeys({ prefix: this._prefix }).then(prefixedKeys => {
-      const prefixLength = this._prefix.length;
-      return prefixedKeys.map(key => key.slice(prefixLength));
-    });
+  private encryptData(data: string): string {
+    if (this.blowfish) {
+      const json = JSON.stringify(data)
+      return this.blowfish.base64Encode(this.blowfish.encryptECB(json))
+    }
+
+    throw new StorageError(
+      'The encryption key has not been set',
+      StorageErrorType.encryptionKeyNotSet
+    )
+  }
+
+  private decryptData(ciphertext: string): string {
+    let json
+
+    if (this.blowfish) {
+      json = this.blowfish.trimZeros(
+        this.blowfish.decryptECB(this.blowfish.base64Decode(ciphertext))
+      )
+    } else {
+      throw new StorageError(
+        'The encryption key has not been set',
+        StorageErrorType.encryptionKeyNotSet
+      )
+    }
+
+    try {
+      return String(JSON.parse(json))
+    } catch (e) {
+      throw new StorageError(
+        'Could not parse data object',
+        StorageErrorType.invalidData
+      )
+    }
   }
 }
-
-// RegExp to match an ISO 8601 date string in the form YYYY-MM-DDTHH:mm:ss.sssZ
-const isoDateRE = /^"(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}).(\d{3})Z"$/;
-
-function parseISODate(isoDate: string): Date | null {
-  const match = isoDateRE.exec(isoDate);
-
-  if (match) {
-    const year = parseInt(match[1], 10);
-    const month = parseInt(match[2], 10) - 1; // month is zero-based
-    const day = parseInt(match[3], 10);
-    const hour = parseInt(match[4], 10);
-    const minute = parseInt(match[5], 10);
-    const second = parseInt(match[6], 10);
-    const millis = parseInt(match[7], 10);
-    const epochTime = Date.UTC(year, month, day, hour, minute, second, millis);
-    return new Date(epochTime);
-  }
-
-  return null;
-}
-
-const WSSecureStorage = new WSSecureStorageWeb();
-
-export { WSSecureStorage };
-
-registerWebPlugin(WSSecureStorage);

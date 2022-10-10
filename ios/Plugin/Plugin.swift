@@ -1,11 +1,17 @@
 import Foundation
 import Capacitor
 
-@objc(WSSecureStorage)
-public class WSSecureStorage: CAPPlugin {
-  private static let keyOption = "prefixedKey"
-  private static let dataOption = "data"
+@objc(SecureStorage)
+public class SecureStorage: CAPPlugin {
+  let kKeyOption = "prefixedKey"
+  let kDataOption = "data"
+  let kSyncOption = "sync"
   let keychain = KeychainSwift()
+
+  @objc func setSynchronizeKeychain(_ call: CAPPluginCall) {
+    keychain.synchronizable = getSyncParam(from: call)
+    call.resolve()
+  }
 
   @objc func setItem(_ call: CAPPluginCall) {
     guard let key = getKeyParam(from: call),
@@ -13,7 +19,7 @@ public class WSSecureStorage: CAPPlugin {
       return
     }
 
-    tryKeychainOp(call, {
+    tryKeychainOp(call, getSyncParam(from: call), {
       try storeData(data, withKey: key)
       call.resolve()
     })
@@ -24,7 +30,7 @@ public class WSSecureStorage: CAPPlugin {
       return
     }
 
-    tryKeychainOp(call, {
+    tryKeychainOp(call, getSyncParam(from: call), {
       let data = try getData(withKey: key)
       call.resolve(["data": data])
     })
@@ -35,14 +41,14 @@ public class WSSecureStorage: CAPPlugin {
       return
     }
 
-    tryKeychainOp(call, {
+    tryKeychainOp(call, getSyncParam(from: call), {
       let success = try deleteData(withKey: key)
       call.resolve(["success": success])
     })
   }
 
   @objc func clearItemsWithPrefix(_ call: CAPPluginCall) {
-    tryKeychainOp(call, {
+    tryKeychainOp(call, getSyncParam(from: call), {
       let prefix = call.getString("_prefix") ?? ""
       try clearData(withPrefix: prefix)
       call.resolve()
@@ -50,12 +56,14 @@ public class WSSecureStorage: CAPPlugin {
   }
 
   @objc func getPrefixedKeys(_ call: CAPPluginCall) {
-    let prefix = call.getString("prefix") ?? ""
-    call.resolve(["keys": keychain.allKeys.filter { $0.starts(with: prefix) }])
+    tryKeychainOp(call, getSyncParam(from: call), {
+      let prefix = call.getString("prefix") ?? ""
+      call.resolve(["keys": keychain.allKeys.filter { $0.starts(with: prefix) }])
+    })
   }
 
   func getKeyParam(from call: CAPPluginCall) -> String? {
-    if let key = call.getString(WSSecureStorage.keyOption),
+    if let key = call.getString(kKeyOption),
        !key.isEmpty {
       return key
     }
@@ -65,7 +73,7 @@ public class WSSecureStorage: CAPPlugin {
   }
 
   func getDataParam(from call: CAPPluginCall) -> String? {
-    if let value = call.getString(WSSecureStorage.dataOption) {
+    if let value = call.getString(kDataOption) {
       return value
     }
 
@@ -73,19 +81,33 @@ public class WSSecureStorage: CAPPlugin {
     return nil
   }
 
-  func tryKeychainOp(_ call: CAPPluginCall, _ operation: () throws -> Void) {
-    var err: KeychainError
+  func getSyncParam(from call: CAPPluginCall) -> Bool {
+    if let value = call.getBool(kSyncOption) {
+      return value
+    }
+
+    return keychain.synchronizable
+  }
+
+  func tryKeychainOp(_ call: CAPPluginCall, _ sync: Bool, _ operation: () throws -> Void) {
+    var err: KeychainError?
+
+    let saveSync = keychain.synchronizable
+    keychain.synchronizable = sync
 
     do {
       try operation()
-      return
     } catch let error as KeychainError {
       err = error
     } catch {
       err = KeychainError(.unknownError)
     }
 
-    err.rejectCall(call)
+    keychain.synchronizable = saveSync
+
+    if let err = err {
+      err.rejectCall(call)
+    }
   }
 
   func storeData(_ data: String, withKey key: String) throws {

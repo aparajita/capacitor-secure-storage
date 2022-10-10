@@ -1,64 +1,52 @@
 {
   "name": "@aparajita/capacitor-secure-storage",
   "version": "1.0.7",
-  "description": "Capacitor plugin that provides secure storage for the web, iOS and Android",
-  "main": "dist/esm/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
-  "scripts": {
-    "build": "npm run clean && tsc && rollup -c rollup.config.js && make-ios-plugin",
-    "clean": "rimraf ./dist",
-    "watch": "nodemon -w ./src -w tsconfig.json -w rollup.config.js --exec 'npm run build --silent' -e ts",
-    "lint": "npm run prettier && npm run swiftlint",
-    "lint.fix": "npm run prettier.fix && npm run swiftlint.fix",
-    "prettier": "prettier --check --plugin=./node_modules/prettier-plugin-java \"**/*.{css,html,ts,js,java}\"",
-    "prettier.fix": "prettier --write --check --plugin=./node_modules/prettier-plugin-java \"**/*.{css,html,ts,js,java}\"",
-    "swiftlint": "cd ios; node-swiftlint; cd ..",
-    "swiftlint.fix": "cd ios; node-swiftlint autocorrect; cd ..",
-    "docgen": "docgen --api WSSecureStoragePlugin --output-readme README.md",
-    "release": "standard-version",
-    "push": "git push --follow-tags origin main && npm publish"
-  },
+  "description": "Capacitor 4+ plugin that provides secure storage for the web, iOS and Android",
   "author": "Aparajita Fishman",
   "license": "MIT",
-  "devDependencies": {
-    "@aparajita/capacitor-docgen": "^0.0.10-3",
-    "@ionic/prettier-config": "^1.0.1",
-    "@ionic/swiftlint-config": "^1.1.2",
-    "@rollup/plugin-commonjs": "^18.0.0",
-    "@rollup/plugin-node-resolve": "^11.2.1",
-    "@types/node": "^14.14.37",
-    "nodemon": "^2.0.7",
-    "prettier": "^2.2.1",
-    "prettier-plugin-java": "^1.0.2",
-    "rimraf": "^3.0.2",
-    "rollup": "^2.44.0",
-    "swiftlint": "^1.0.1",
-    "typescript": "~4.2.3"
-  },
-  "dependencies": {
-    "@aparajita/capacitor-native-decorator": "^1.1.1",
-    "@capacitor/android": "^2.4.7",
-    "@capacitor/core": "^2.4.7",
-    "@capacitor/ios": "^2.4.7",
-    "javascript-blowfish": "^1.0.4",
-    "tslib": "^2.1.0"
-  },
-  "peerDependencies": {
-    "standard-version": "^9.1.1"
+  "main": "dist/plugin.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "unpkg": "dist/plugin.js",
+  "engines": {
+    "node": ">=16.15.1"
   },
   "files": [
-    "dist/esm/*.d.ts",
-    "dist/esm/*.js",
-    "ios/Plugin",
-    "ios/Podfile",
-    "ios/Podfile.lock",
+    "android/src/main/",
     "android/build.gradle",
-    "android/gradle.properties",
-    "android/settings.gradle",
-    "android/src/main",
-    "*.podspec"
+    "dist/",
+    "ios/Plugin/",
+    "*.podspec",
+    "LICENSE"
   ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "extract-info": "node scripts/extractPackageInfo.js",
+    "lint.eslint": "eslint --fix --cache --ext .js,.cjs,.mjs,.ts --max-warnings 0",
+    "lint.prettier": "prettier --write --cache --list-different",
+    "lint.tsc": "tsc --noEmit",
+    "lint": "pnpm lint.eslint . && pnpm lint.prettier . && pnpm lint.tsc",
+    "prebuilder": "pnpm clean && pnpm extract-info",
+    "builder": "tsc ${SOURCE_MAP:-} && rollup -c rollup.config.mjs",
+    "prebuild": "pnpm lint",
+    "build": "pnpm builder",
+    "build.dev": "SOURCE_MAP=--sourceMap pnpm build",
+    "watch": "nodemon --exec 'pnpm build.dev'",
+    "open.ios": "open ios/Plugin.xcworkspace",
+    "open.android": "open -b com.google.android.studio android",
+    "verify.ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin -quiet && cd ..",
+    "verify.android": "cd android && ./gradlew clean build test && cd ..",
+    "verify": "pnpm verify.ios && pnpm verify.android",
+    "prepare": "husky install",
+    "prerelease": "scripts/ensure-clean.sh && pnpm build",
+    "release.preview": "commit-and-tag-version --dry-run",
+    "release": "commit-and-tag-version --commit-all && git push --follow-tags && pnpm publish"
+  },
+  "commit-and-tag-version": {
+    "scripts": {
+      "postbump": "pnpm builder"
+    }
+  },
   "keywords": [
     "capacitor",
     "plugin",
@@ -74,13 +62,49 @@
       "src": "android"
     }
   },
-  "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aparajita/capacitor-secure-storage"
+    "url": "https://github.com/aparajita/capacitor-secure-storage.git"
   },
   "bugs": {
     "url": "https://github.com/aparajita/capacitor-secure-storage/issues"
+  },
+  "devDependencies": {
+    "@aparajita/eslint-config-base": "^1.1.5",
+    "@aparajita/prettier-config": "^1.0.0",
+    "@aparajita/swiftly": "^1.0.4",
+    "@capacitor/cli": "^4.3.0",
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@ionic/swiftlint-config": "^1.1.2",
+    "@rollup/plugin-json": "^5.0.0",
+    "@types/node": "^18.8.3",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
+    "commit-and-tag-version": "^10.1.0",
+    "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-import-resolver-typescript": "^3.5.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.3.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.1",
+    "husky": "^8.0.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.7.1",
+    "prettier-plugin-java": "^1.6.2",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.79.1",
+    "swiftlint": "^1.0.1",
+    "typescript": "~4.8.4"
+  },
+  "dependencies": {
+    "@capacitor/android": "^4.3.0",
+    "@capacitor/app": "^4.0.1",
+    "@capacitor/core": "^4.3.0",
+    "@capacitor/ios": "^4.3.0",
+    "javascript-blowfish": "^1.0.4"
   }
 }
