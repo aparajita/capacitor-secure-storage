@@ -1,6 +1,17 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [2.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v1.0.7...v2.0.0) (2022-10-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* The API has changed since v1, please see the documentation.
+
+### Features
+
+* overhaul for Cap 4, iCloud sync ([37b1501](https://github.com/aparajita/capacitor-secure-storage/commit/37b15018d723b89eed5ef9d78a3932cea568d0a6))
 
 ### [1.0.7](https://github.com/aparajita/capacitor-secure-storage/compare/v1.0.6...v1.0.7) (2021-04-02)
 
