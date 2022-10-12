@@ -1,6 +1,6 @@
 # capacitor-secure-storage
 
-This plugin for [Capacitor 4+](https://capacitorjs.com) provides secure key/value storage on the web, iOS, and Android. It was designed to be a companion to [@aparajita/capacitor-biometric-auth](https://github.com/aparajita/capacitor-biometric-auth/#readme) in order to securely store login credentials.
+This plugin for [Capacitor 4+](https://capacitorjs.com) provides secure key/value storage on the web, iOS, and Android. It was originally designed to be a companion to [@aparajita/capacitor-biometric-auth](https://github.com/aparajita/capacitor-biometric-auth/#readme) in order to securely store login credentials, but can be used to store any JSON data types.
 
 ## Installation
 
