@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+### [2.0.1](https://github.com/aparajita/capacitor-secure-storage/compare/v2.0.0...v2.0.1) (2022-10-24)
+
+
+### Bug Fixes
+
+* remove unused cruft ([23b5a36](https://github.com/aparajita/capacitor-secure-storage/commit/23b5a3699c86e73e2c3edbd17c7e25297f168d65))
+
+
+### Maintenance
+
+* clarify data types that can be stored ([4dc99cb](https://github.com/aparajita/capacitor-secure-storage/commit/4dc99cb5f5e34bff8c20ba2bc4a0c6dd4cc4a944))
+
 ## [2.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v1.0.7...v2.0.0) (2022-10-10)
 
 
