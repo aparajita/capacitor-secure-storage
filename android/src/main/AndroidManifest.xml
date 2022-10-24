@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.aparajita.capacitor.securestoragedemo">
-
-    <application>
-      <activity
-        android:name=".AuthActivity"
-        android:label="@string/title_activity_auth_acitivy"
-        android:theme="@style/AppTheme.Transparent"/>
-    </application>
-
+    package="com.aparajita.capacitor.securestorage">
 </manifest>
