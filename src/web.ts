@@ -11,7 +11,9 @@ export class SecureStorageWeb extends SecureStorageBase {
 
   // @native
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async setSynchronizeKeychain(options: { sync: boolean }): Promise<void> {
+  protected async setSynchronizeKeychain(options: {
+    sync: boolean
+  }): Promise<void> {
     return Promise.resolve()
   }
 
@@ -41,7 +43,9 @@ export class SecureStorageWeb extends SecureStorageBase {
 
   // @native
   // eslint-disable-next-line @typescript-eslint/require-await
-  async getItem(options: { prefixedKey: string }): Promise<{ data: string }> {
+  protected async internalGetItem(options: {
+    prefixedKey: string
+  }): Promise<{ data: string }> {
     const data = this.storage.getItem(options.prefixedKey)
 
     if (data) {
@@ -63,14 +67,17 @@ export class SecureStorageWeb extends SecureStorageBase {
   }
 
   // @native
-  async setItem(options: { prefixedKey: string; data: string }): Promise<void> {
+  protected async internalSetItem(options: {
+    prefixedKey: string
+    data: string
+  }): Promise<void> {
     const encoded = this.encryptData(options.data)
     this.storage.setItem(options.prefixedKey, encoded)
     return Promise.resolve()
   }
 
   // @native
-  async removeItem(options: {
+  protected async internalRemoveItem(options: {
     prefixedKey: string
   }): Promise<{ success: boolean }> {
     const item = this.storage.getItem(options.prefixedKey)
@@ -94,12 +101,14 @@ export class SecureStorageWeb extends SecureStorageBase {
 
   // @native
   // eslint-disable-next-line @typescript-eslint/require-await,@typescript-eslint/no-unused-vars
-  async clearItemsWithPrefix(options: { prefix: string }): Promise<void> {
+  protected async clearItemsWithPrefix(options: {
+    prefix: string
+  }): Promise<void> {
     this.unimplemented('clearItemsWithPrefix is native only')
   }
 
   // @native
-  async getPrefixedKeys(options: {
+  protected async getPrefixedKeys(options: {
     prefix: string
   }): Promise<{ keys: string[] }> {
     const keys: string[] = []

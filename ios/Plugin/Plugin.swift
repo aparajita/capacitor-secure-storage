@@ -13,7 +13,7 @@ public class SecureStorage: CAPPlugin {
     call.resolve()
   }
 
-  @objc func setItem(_ call: CAPPluginCall) {
+  @objc func internalSetItem(_ call: CAPPluginCall) {
     guard let key = getKeyParam(from: call),
           let data = getDataParam(from: call) else {
       return
@@ -25,7 +25,7 @@ public class SecureStorage: CAPPlugin {
     })
   }
 
-  @objc func getItem(_ call: CAPPluginCall) {
+  @objc func internalGetItem(_ call: CAPPluginCall) {
     guard let key = getKeyParam(from: call) else {
       return
     }
@@ -36,7 +36,7 @@ public class SecureStorage: CAPPlugin {
     })
   }
 
-  @objc func removeItem(_ call: CAPPluginCall) {
+  @objc func internalRemoveItem(_ call: CAPPluginCall) {
     guard let key = getKeyParam(from: call) else {
       return
     }

@@ -18,14 +18,20 @@ export class StorageError extends Error implements StorageResultError {
 
 // This interface is used internally to model native plugin calls
 // that are not visible to the user.
+// noinspection JSUnusedGlobalSymbols
 export interface SecureStoragePluginNative {
   setSynchronizeKeychain: (options: { sync: boolean }) => Promise<void>
 
-  getItem: (options: { prefixedKey: string }) => Promise<{ data: string }>
+  internalGetItem: (options: {
+    prefixedKey: string
+  }) => Promise<{ data: string }>
 
-  setItem: (options: { prefixedKey: string; data: string }) => Promise<void>
+  internalSetItem: (options: {
+    prefixedKey: string
+    data: string
+  }) => Promise<void>
 
-  removeItem: (options: {
+  internalRemoveItem: (options: {
     prefixedKey: string
   }) => Promise<{ success: boolean }>
 
@@ -65,7 +71,7 @@ export abstract class SecureStorageBase
 
   abstract getStorageType(): Promise<StorageType>
 
-  abstract setStorageType(type: DataType): Promise<void>
+  abstract setStorageType(type: StorageType): Promise<void>
 
   abstract setEncryptionKey(key: string): Promise<void>
 
@@ -75,7 +81,7 @@ export abstract class SecureStorageBase
     sync?: boolean
   ): Promise<DataType> {
     if (key) {
-      const { data } = await this.getItem({
+      const { data } = await this.internalGetItem({
         prefixedKey: this.prefixedKey(key),
         sync: sync ?? this.sync
       })
@@ -95,8 +101,33 @@ export abstract class SecureStorageBase
     return SecureStorageBase.missingKey()
   }
 
+  async getItem(key: string): Promise<string | null> {
+    if (key) {
+      try {
+        const { data } = await this.internalGetItem({
+          prefixedKey: this.prefixedKey(key),
+          sync: this.sync
+        })
+
+        return data
+      } catch (err) {
+        // To act like native Storage, return null if the key is not found
+        if (
+          err instanceof StorageError &&
+          err.code === StorageErrorType[StorageErrorType.notFound]
+        ) {
+          return null
+        }
+
+        throw err
+      }
+    }
+
+    return null
+  }
+
   // @native
-  protected abstract getItem(options: {
+  protected abstract internalGetItem(options: {
     prefixedKey: string
     sync: boolean
   }): Promise<{ data: string }>
@@ -114,7 +145,7 @@ export abstract class SecureStorageBase
         convertedData = data.toISOString()
       }
 
-      return this.setItem({
+      return this.internalSetItem({
         prefixedKey: this.prefixedKey(key),
         data: JSON.stringify(convertedData),
         sync: sync ?? this.sync
@@ -124,8 +155,20 @@ export abstract class SecureStorageBase
     return SecureStorageBase.missingKey()
   }
 
+  async setItem(key: string, value: string): Promise<void> {
+    if (key) {
+      return this.internalSetItem({
+        prefixedKey: this.prefixedKey(key),
+        data: value,
+        sync: this.sync
+      })
+    }
+
+    return SecureStorageBase.missingKey()
+  }
+
   // @native
-  protected abstract setItem(options: {
+  protected abstract internalSetItem(options: {
     prefixedKey: string
     data: string
     sync: boolean
@@ -133,7 +176,7 @@ export abstract class SecureStorageBase
 
   async remove(key: string, sync?: boolean): Promise<boolean> {
     if (key) {
-      const { success } = await this.removeItem({
+      const { success } = await this.internalRemoveItem({
         prefixedKey: this.prefixedKey(key),
         sync: sync ?? this.sync
       })
@@ -143,8 +186,19 @@ export abstract class SecureStorageBase
     return SecureStorageBase.missingKey()
   }
 
+  async removeItem(key: string): Promise<void> {
+    if (key) {
+      await this.internalRemoveItem({
+        prefixedKey: this.prefixedKey(key),
+        sync: this.sync
+      })
+    }
+
+    return SecureStorageBase.missingKey()
+  }
+
   // @native
-  protected abstract removeItem(options: {
+  protected abstract internalRemoveItem(options: {
     prefixedKey: string
     sync: boolean
   }): Promise<{ success: boolean }>

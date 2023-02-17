@@ -7,6 +7,14 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
 
+import com.getcapacitor.JSObject;
+import com.getcapacitor.Plugin;
+import com.getcapacitor.PluginCall;
+import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.CapacitorPlugin;
+
+import org.json.JSONArray;
+
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -17,19 +25,12 @@ import java.security.spec.AlgorithmParameterSpec;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.security.auth.x500.X500Principal;
-
-import com.getcapacitor.JSObject;
-import com.getcapacitor.Plugin;
-import com.getcapacitor.PluginCall;
-import com.getcapacitor.PluginMethod;
-import com.getcapacitor.annotation.CapacitorPlugin;
-
-import org.json.JSONArray;
 
 interface StorageOp {
   void run() throws KeyStoreException, GeneralSecurityException, IOException;
@@ -48,7 +49,7 @@ public class SecureStorage extends Plugin {
   private KeyStore keyStore;
 
   @PluginMethod
-  public void setItem(final PluginCall call) {
+  public void internalSetItem(final PluginCall call) {
     String key = getKeyParam(call);
 
     if (key == null) {
@@ -71,7 +72,7 @@ public class SecureStorage extends Plugin {
   }
 
   @PluginMethod
-  public void getItem(final PluginCall call) {
+  public void internalGetItem(final PluginCall call) {
     String key = getKeyParam(call);
 
     if (key == null) {
@@ -92,7 +93,7 @@ public class SecureStorage extends Plugin {
   }
 
   @PluginMethod
-  public void removeItem(final PluginCall call) {
+  public void internalRemoveItem(final PluginCall call) {
     String key = getKeyParam(call);
 
     if (key == null) {

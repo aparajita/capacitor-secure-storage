@@ -12,9 +12,9 @@ export class SecureStorageNative extends SecureStorageBase {
 
     /* eslint-disable @typescript-eslint/unbound-method */
     this.setSynchronizeKeychain = proxy.setSynchronizeKeychain
-    this.getItem = proxy.getItem
-    this.setItem = proxy.setItem
-    this.removeItem = proxy.removeItem
+    this.internalGetItem = proxy.internalGetItem
+    this.internalSetItem = proxy.internalSetItem
+    this.internalRemoveItem = proxy.internalRemoveItem
     this.clearItemsWithPrefix = proxy.clearItemsWithPrefix
     this.getPrefixedKeys = proxy.getPrefixedKeys
     /* eslint-enable */
@@ -22,7 +22,9 @@ export class SecureStorageNative extends SecureStorageBase {
 
   // @native
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async setSynchronizeKeychain(options: { sync: boolean }): Promise<void> {
+  protected async setSynchronizeKeychain(options: {
+    sync: boolean
+  }): Promise<void> {
     return Promise.resolve()
   }
 
@@ -43,7 +45,7 @@ export class SecureStorageNative extends SecureStorageBase {
 
   // @native
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async getItem(options: {
+  protected async internalGetItem(options: {
     prefixedKey: string
     sync: boolean
   }): Promise<{ data: string }> {
@@ -52,7 +54,7 @@ export class SecureStorageNative extends SecureStorageBase {
 
   // @native
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async setItem(options: {
+  protected async internalSetItem(options: {
     prefixedKey: string
     data: string
     sync: boolean
@@ -62,7 +64,7 @@ export class SecureStorageNative extends SecureStorageBase {
 
   // @native
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async removeItem(options: {
+  protected async internalRemoveItem(options: {
     prefixedKey: string
     sync: boolean
   }): Promise<{ success: boolean }> {
@@ -78,7 +80,7 @@ export class SecureStorageNative extends SecureStorageBase {
 
   // @native
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async clearItemsWithPrefix(options: {
+  protected async clearItemsWithPrefix(options: {
     prefix: string
     sync: boolean
   }): Promise<void> {
@@ -87,7 +89,7 @@ export class SecureStorageNative extends SecureStorageBase {
 
   // @native
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async getPrefixedKeys(options: {
+  protected async getPrefixedKeys(options: {
     prefix: string
     sync: boolean
   }): Promise<{ keys: string[] }> {

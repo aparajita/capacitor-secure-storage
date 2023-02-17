@@ -188,6 +188,15 @@ export interface SecureStoragePlugin extends WebPlugin {
   get: (key: string, convertDate?: boolean, sync?: boolean) => Promise<DataType>
 
   /**
+   * Gets a string value from storage, or `null` if the key does not exist.
+   * This is a low level method meant to conform with the @vueuse
+   * StorageLikeAsync interface.
+   *
+   * https://github.com/vueuse/vueuse/blob/main/packages/core/ssr-handlers.ts#L3
+   */
+  getItem: (key: string) => Promise<string | null>
+
+  /**
    * Stores `data` under a given key in the store. If `data` is not a string,
    * it is converted to stringified JSON first.
    *
@@ -213,6 +222,14 @@ export interface SecureStoragePlugin extends WebPlugin {
   ) => Promise<void>
 
   /**
+   * Puts a string value into storage. This is a low level method meant
+   * to conform with the @vueuse StorageLikeAsync interface.
+   *
+   * https://github.com/vueuse/vueuse/blob/main/packages/core/ssr-handlers.ts#L3
+   */
+  setItem: (key: string, value: string) => Promise<void>
+
+  /**
    * Removes the data for a given key from the store. Returns true if data
    * existed with the given key, false if not.
    *
@@ -223,6 +240,14 @@ export interface SecureStoragePlugin extends WebPlugin {
    * @throws StorageError if `key` is null or empty, or an OS error occurs
    */
   remove: (key: string, sync?: boolean) => Promise<boolean>
+
+  /**
+   * Removes a value from storage. This is a low level method meant
+   * to conform with the @vueuse StorageLikeAsync interface.
+   *
+   * https://github.com/vueuse/vueuse/blob/main/packages/core/ssr-handlers.ts#L3
+   */
+  removeItem: (key: string) => Promise<void>
 
   /**
    * Removes all items from the store with the current key prefix.
