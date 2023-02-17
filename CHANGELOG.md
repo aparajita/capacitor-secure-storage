@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.1.0](https://github.com/aparajita/capacitor-secure-storage/compare/v2.0.1...v2.1.0) (2023-02-17)
+
+
+### Features
+
+* add compatibility w/ @vueuse/useStorageAsync ([c4a7c44](https://github.com/aparajita/capacitor-secure-storage/commit/c4a7c4458ee401bfac7600c528b6e1df66e5faa3))
+
+
+### Maintenance
+
+* update deps ([e3dd686](https://github.com/aparajita/capacitor-secure-storage/commit/e3dd68646cbef4ac1e1a59e752992d3cfde2f94f))
+
 ### [2.0.1](https://github.com/aparajita/capacitor-secure-storage/compare/v2.0.0...v2.0.1) (2022-10-24)
 
 
