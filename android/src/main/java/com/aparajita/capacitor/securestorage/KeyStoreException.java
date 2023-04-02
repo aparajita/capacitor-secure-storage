@@ -1,8 +1,8 @@
 package com.aparajita.capacitor.securestorage;
 
-import java.util.HashMap;
-
 import com.getcapacitor.PluginCall;
+
+import java.util.HashMap;
 
 public class KeyStoreException extends Throwable {
 
@@ -10,7 +10,6 @@ public class KeyStoreException extends Throwable {
 
   static {
     errorMap = new HashMap<>();
-    errorMap.put(ErrorKind.notFound, "Data for the key \"%s\" not found");
     errorMap.put(ErrorKind.missingKey, "Empty key");
     errorMap.put(ErrorKind.invalidData, "The data in the store is in an invalid format");
     errorMap.put(ErrorKind.osError, "An OS error occurred (%s)");

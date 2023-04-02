@@ -83,10 +83,8 @@ public class SecureStorage extends Plugin {
         call,
         () -> {
           String data = getDataFromKeyStore(key);
-
           JSObject result = new JSObject();
-          result.put("data", data);
-
+          result.put("data", data != null ? data : JSObject.NULL);
           call.resolve(result);
         }
     );
@@ -104,10 +102,8 @@ public class SecureStorage extends Plugin {
         call,
         () -> {
           boolean success = removeDataFromKeyStore(key);
-
           JSObject result = new JSObject();
           result.put("success", success);
-
           call.resolve(result);
         }
     );
@@ -163,7 +159,7 @@ public class SecureStorage extends Plugin {
     if (data != null) {
       return decryptString(data, prefixedKey);
     } else {
-      throw new KeyStoreException(KeyStoreException.ErrorKind.notFound, prefixedKey);
+      return null;
     }
   }
 

@@ -2,8 +2,7 @@ import { Capacitor, WebPlugin } from '@capacitor/core'
 import type {
   DataType,
   SecureStoragePlugin,
-  StorageResultError,
-  StorageType
+  StorageResultError
 } from './definitions'
 import { StorageErrorType } from './definitions'
 
@@ -69,33 +68,35 @@ export abstract class SecureStorageBase
     sync: boolean
   }): Promise<void>
 
-  abstract getStorageType(): Promise<StorageType>
-
-  abstract setStorageType(type: StorageType): Promise<void>
-
-  abstract setEncryptionKey(key: string): Promise<void>
-
   async get(
     key: string,
     convertDate = true,
     sync?: boolean
-  ): Promise<DataType> {
+  ): Promise<DataType | null> {
     if (key) {
       const { data } = await this.internalGetItem({
         prefixedKey: this.prefixedKey(key),
         sync: sync ?? this.sync
       })
 
+      if (data === null) {
+        return null
+      }
+
       if (convertDate) {
         const date = parseISODate(data)
 
         if (date) {
-          return Promise.resolve(date)
+          return date
         }
       }
 
-      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-      return Promise.resolve(JSON.parse(data) as DataType)
+      try {
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+        return JSON.parse(data) as DataType
+      } catch (e) {
+        throw new StorageError('Invalid data', StorageErrorType.invalidData)
+      }
     }
 
     return SecureStorageBase.missingKey()
@@ -103,24 +104,12 @@ export abstract class SecureStorageBase
 
   async getItem(key: string): Promise<string | null> {
     if (key) {
-      try {
-        const { data } = await this.internalGetItem({
-          prefixedKey: this.prefixedKey(key),
-          sync: this.sync
-        })
+      const { data } = await this.internalGetItem({
+        prefixedKey: this.prefixedKey(key),
+        sync: this.sync
+      })
 
-        return data
-      } catch (err) {
-        // To act like native Storage, return null if the key is not found
-        if (
-          err instanceof StorageError &&
-          err.code === StorageErrorType[StorageErrorType.notFound]
-        ) {
-          return null
-        }
-
-        throw err
-      }
+      return data
     }
 
     return null
@@ -130,7 +119,7 @@ export abstract class SecureStorageBase
   protected abstract internalGetItem(options: {
     prefixedKey: string
     sync: boolean
-  }): Promise<{ data: string }>
+  }): Promise<{ data: string | null }>
 
   async set(
     key: string,
@@ -180,7 +169,7 @@ export abstract class SecureStorageBase
         prefixedKey: this.prefixedKey(key),
         sync: sync ?? this.sync
       })
-      return Promise.resolve(success)
+      return success
     }
 
     return SecureStorageBase.missingKey()
@@ -192,9 +181,11 @@ export abstract class SecureStorageBase
         prefixedKey: this.prefixedKey(key),
         sync: this.sync
       })
+
+      return
     }
 
-    return SecureStorageBase.missingKey()
+    SecureStorageBase.missingKey()
   }
 
   // @native
@@ -217,7 +208,7 @@ export abstract class SecureStorageBase
       sync: sync ?? this.sync
     })
     const prefixLength = this.prefix.length
-    return Promise.resolve(keys.map((key) => key.slice(prefixLength)))
+    return keys.map((key) => key.slice(prefixLength))
   }
 
   // @native

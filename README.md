@@ -1,6 +1,12 @@
 # capacitor-secure-storage
 
-This plugin for [Capacitor 4+](https://capacitorjs.com) provides secure key/value storage on the web, iOS, and Android. It was originally designed to be a companion to [@aparajita/capacitor-biometric-auth](https://github.com/aparajita/capacitor-biometric-auth/#readme) in order to securely store login credentials, but can be used to store any JSON data types.
+This plugin for [Capacitor 4+](https://capacitorjs.com) provides secure key/value storage on iOS and Android. It was originally designed to be a companion to [@aparajita/capacitor-biometric-auth](https://github.com/aparajita/capacitor-biometric-auth/#readme) in order to securely store login credentials, but can be used to store any JSON data types.
+
+## BREAKING CHANGES: Upgrading from 2.x
+
+To be consistent with JavaScript’s `Storage` and `@capacitor/preferences`, the plugin now returns `null` instead of throwing an exception when getting a non-existent item.
+
+Also, the plugin no longer encrypts data on the web, since this plugin is designed for native storage, and including blowfish was unnecessary bloat.
 
 ## Installation
 
@@ -36,8 +42,4 @@ On Android, data is encrypted using AES in GCM mode with a secret key generated 
 
 ### Web
 
-On the web, data is stored in `localStorage` by default. You may change that to `sessionStorage` by setting the `storageType` property.
-
-Data is encrypted on the web using Blowfish encryption with no IV. Before modifying storage, you must call `setEncryptionKey` to set the passphrase used to encrypt/decrypt the data.
-
-> :point_right: This provides only partial security. If your site has XSS vulnerabilities, a determined hacker can read storage and find the encryption key in your source code. Providing real security on the web is beyond the scope of this plugin.
+On the web, data is stored unencrypted in `localStorage`, so that you can see the data you are storing. This is for debugging purposes only; you should not use this plugin on the web in production.

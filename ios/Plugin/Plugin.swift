@@ -31,7 +31,7 @@ public class SecureStorage: CAPPlugin {
     }
 
     tryKeychainOp(call, getSyncParam(from: call), {
-      let data = try getData(withKey: key)
+      let data = getData(withKey: key)
       call.resolve(["data": data])
     })
   }
@@ -118,12 +118,8 @@ public class SecureStorage: CAPPlugin {
     }
   }
 
-  func getData(withKey key: String) throws -> String {
-    if let data = keychain.get(key) {
-      return data
-    }
-
-    throw KeychainError(.notFound, key: key)
+  func getData(withKey key: String) -> Any {
+    return keychain.get(key) as Any
   }
 
   func deleteData(withKey key: String) throws -> Bool {

@@ -1,32 +1,11 @@
 import type { PluginResultError, WebPlugin } from '@capacitor/core'
 
 /**
- * web only
- *
- * Where you would like to store your data on the web.
- */
-export enum StorageType {
-  sessionStorage,
-  localStorage
-}
-
-/**
  * If one of the storage functions throws, the error object will
  * have a code property that contains one of these values, and the
  * message property will have a message suitable for debug purposes.
  */
 export enum StorageErrorType {
-  /**
-   * You tried to modify the store on the web without first calling
-   * `setEncryptionKey()`.
-   */
-  encryptionKeyNotSet,
-
-  /**
-   * `get()` could not find an item for the given key.
-   */
-  notFound,
-
   /**
    * The key is null or empty.
    */
@@ -67,56 +46,8 @@ export type DataType =
   | Record<string, unknown>
   | unknown[]
   | Date
-  | null
 
 export interface SecureStoragePlugin extends WebPlugin {
-  /**
-   * web only
-   *
-   * Set the storage type used on the web: `sessionStorage` or `localStorage`.
-   * Typically you will want to set this before calling any methods that modify
-   * the store.
-   *
-   * @since 2.0.0
-   * @default StorageType.localStorage
-   * @throws CapacitorException if called on a native platform
-   */
-  setStorageType: (storageType: StorageType) => Promise<void>
-
-  /**
-   * web only
-   *
-   * The storage type used on the web: `sessionStorage` or `localStorage`.
-   * `sessionStorage` is the default. Typically you will want to set this
-   * before calling any methods that modify the store.
-   *
-   * @since 2.0.0
-   * @default localStorage
-   * @throws CapacitorException if called on a native platform
-   */
-  getStorageType: () => Promise<StorageType>
-
-  /**
-   * web only
-   *
-   * Set the secret key used to encrypt/decrypt data on the web,
-   * using Blowfish/ECB encryption without an IV.
-   *
-   * If you are not using this plugin on the web (including testing),
-   * then you do not need to call this method.
-   *
-   * If you are using this plugin on the web, this method MUST be called
-   * before `set()` or `get()`.
-   *
-   * If `key` is null or empty, `StorageError(code: encryptionKeyNotSet)`
-   * is thrown.
-   *
-   * @since 2.0.0
-   * @throws StorageError if `key` is null or empty
-   * @throws CapacitorException if called on a native platform
-   */
-  setEncryptionKey: (key: string) => Promise<void>
-
   /**
    * iOS only
    *
@@ -176,16 +107,16 @@ export interface SecureStoragePlugin extends WebPlugin {
    * If `sync` is not `undefined`, it temporarily overrides the value set by
    * `setSynchronize()`.
    *
-   * If no item with the given key can be found, `StorageError(code: notFound)`
-   * is thrown.
-   *
-   * On the web, if `setEncryptionKey()` has not been called successfully,
-   * `StorageError(code: encryptionKeyNotSet)` is thrown.
+   * If no item with the given key can be found, null is returned.
    *
    * @since 1.0.0
    * @throws StorageError
    */
-  get: (key: string, convertDate?: boolean, sync?: boolean) => Promise<DataType>
+  get: (
+    key: string,
+    convertDate?: boolean,
+    sync?: boolean
+  ) => Promise<DataType | null>
 
   /**
    * Gets a string value from storage, or `null` if the key does not exist.
@@ -207,9 +138,6 @@ export interface SecureStoragePlugin extends WebPlugin {
    *
    * If `sync` is not `undefined`, it temporarily overrides the value set by
    * `setSynchronize()`.
-   *
-   * On the web, if `setEncryptionKey()` has not been called successfully,
-   * `StorageError(code: encryptionKeyNotSet)` is thrown.
    *
    * @since 1.0.0
    * @throws StorageError | TypeError

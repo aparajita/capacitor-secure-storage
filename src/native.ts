@@ -1,5 +1,5 @@
 import { SecureStorageBase } from './base'
-import type { SecureStoragePlugin, StorageType } from './definitions'
+import type { SecureStoragePlugin } from './definitions'
 
 // eslint-disable-next-line import/prefer-default-export
 export class SecureStorageNative extends SecureStorageBase {
@@ -26,21 +26,6 @@ export class SecureStorageNative extends SecureStorageBase {
     sync: boolean
   }): Promise<void> {
     return Promise.resolve()
-  }
-
-  // eslint-disable-next-line @typescript-eslint/require-await,@typescript-eslint/no-unused-vars
-  async setEncryptionKey(key: string): Promise<void> {
-    throw this.unimplemented('setEncryptionKey is web only')
-  }
-
-  // eslint-disable-next-line @typescript-eslint/require-await,@typescript-eslint/no-unused-vars
-  async setStorageType(type: StorageType): Promise<void> {
-    throw this.unimplemented('setStorageType is web only')
-  }
-
-  // eslint-disable-next-line @typescript-eslint/require-await
-  async getStorageType(): Promise<StorageType> {
-    throw this.unimplemented('getStorageType is web only')
   }
 
   // @native

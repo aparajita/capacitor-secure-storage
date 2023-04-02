@@ -1,7 +1,7 @@
 {
   "name": "@aparajita/capacitor-secure-storage",
   "version": "2.1.0",
-  "description": "Capacitor 4+ plugin that provides secure storage for the web, iOS and Android",
+  "description": "Capacitor 4+ plugin that provides secure storage for the iOS and Android",
   "author": "Aparajita Fishman",
   "license": "MIT",
   "main": "dist/plugin.cjs.js",
