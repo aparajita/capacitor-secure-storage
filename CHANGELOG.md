@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v2.1.0...v3.0.0) (2023-04-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* To be consistent with JavaScript's Storage and @capacitor/preferences, the plugin now returns `null` instead of throwing an exception when getting a non-existent item.
+
+Also, the plugin no longer encrypts data on the web, since this plugin is designed for native storage, and including blowfish was unnecessary bloat.
+
+### Features
+
+* no blowfish, return null ([0f2491a](https://github.com/aparajita/capacitor-secure-storage/commit/0f2491ae565571e002d4893ed063da92f8c1a4da))
+
+
+### Maintenance
+
+* updated deps ([b69f5c5](https://github.com/aparajita/capacitor-secure-storage/commit/b69f5c5e4e1c1a864f284b8b76a678e44a36fc19))
+
 ## [2.1.0](https://github.com/aparajita/capacitor-secure-storage/compare/v2.0.1...v2.1.0) (2023-02-17)
 
 
