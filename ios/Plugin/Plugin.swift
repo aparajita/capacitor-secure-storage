@@ -49,7 +49,7 @@ public class SecureStorage: CAPPlugin {
 
   @objc func clearItemsWithPrefix(_ call: CAPPluginCall) {
     tryKeychainOp(call, getSyncParam(from: call), {
-      let prefix = call.getString("_prefix") ?? ""
+      let prefix = call.getString("prefix") ?? ""
       try clearData(withPrefix: prefix)
       call.resolve()
     })
