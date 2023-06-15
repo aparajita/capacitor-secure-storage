@@ -36,7 +36,6 @@
     "verify.ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin -quiet && cd ..",
     "verify.android": "cd android && ./gradlew clean build test && cd ..",
     "verify": "pnpm verify.ios && pnpm verify.android",
-    "prepare": "husky install",
     "prerelease": "scripts/ensure-clean.sh && pnpm build",
     "release.preview": "commit-and-tag-version --dry-run",
     "release": "commit-and-tag-version --commit-all && git push --follow-tags && pnpm publish"
