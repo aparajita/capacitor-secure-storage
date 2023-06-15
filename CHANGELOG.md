@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v3.0.2...v4.0.0) (2023-06-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* The plugin now requires Capacitor 5.
+
+### Features
+
+* upgrade to Capacitor 5 ([2386df5](https://github.com/aparajita/capacitor-secure-storage/commit/2386df5a018779e1319ed373dd4409f461547c57))
+
+
+### Maintenance
+
+* don’t log name + version at startup ([0f636e9](https://github.com/aparajita/capacitor-secure-storage/commit/0f636e9bb8e3fb463cca58bb1c6618541cb56bff))
+* no more husky ([2986725](https://github.com/aparajita/capacitor-secure-storage/commit/29867255b3e582b674acb90f55ca259c1233de84))
+* update dev environment ([19fada5](https://github.com/aparajita/capacitor-secure-storage/commit/19fada5c737780b60224ebbe8fd3c13b9183e3c4))
+
 ## [3.0.2](https://github.com/aparajita/capacitor-secure-storage/compare/v3.0.1...v3.0.2) (2023-05-03)
 
 
