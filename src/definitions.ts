@@ -24,7 +24,7 @@ export enum StorageErrorType {
   /**
    * An unclassified system-level error occurred.
    */
-  unknownError
+  unknownError,
 }
 
 /**

@@ -7,7 +7,7 @@ const proxy = registerPlugin<SecureStoragePlugin>('SecureStorage', {
   ios: async () =>
     import('./native').then((module) => new module.SecureStorageNative(proxy)),
   android: async () =>
-    import('./native').then((module) => new module.SecureStorageNative(proxy))
+    import('./native').then((module) => new module.SecureStorageNative(proxy)),
 })
 
 export * from './definitions'
