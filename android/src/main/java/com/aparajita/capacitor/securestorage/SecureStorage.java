@@ -2,10 +2,14 @@ package com.aparajita.capacitor.securestorage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.security.KeyPairGeneratorSpec;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
+
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -47,6 +51,7 @@ public class SecureStorage extends Plugin {
   private static final int BASE64_FLAGS = Base64.NO_PADDING + Base64.NO_WRAP;
 
   private KeyStore keyStore;
+  private SharedPreferences sharedPreferences = null;
 
   @PluginMethod
   public void internalSetItem(final PluginCall call) {
@@ -138,7 +143,26 @@ public class SecureStorage extends Plugin {
   }
 
   private SharedPreferences getPrefs() {
-    return getContext().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+    if (sharedPreferences == null){
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        try {
+          String masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+          sharedPreferences = EncryptedSharedPreferences.create(
+            SHARED_PREFERENCES,
+            masterKey,
+            getContext(),
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
+        } catch (GeneralSecurityException | IOException e) {
+          e.printStackTrace();
+        }
+      }
+      if (sharedPreferences == null){
+        //Use default
+        sharedPreferences = getContext().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+      }
+    }
+    return sharedPreferences;
   }
 
   private void storeDataInKeyStore(String prefixedKey, String data) throws GeneralSecurityException, IOException {
