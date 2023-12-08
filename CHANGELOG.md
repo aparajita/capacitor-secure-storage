@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [5.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v4.0.0...v5.0.0) (2023-12-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* Storage calls that are implemented on the current platform now throw an instance of StorageError. This provides better typing, as you can use `instanceof StorageError` to narrow a caught error to StorageError, then compare error.code against StorageErrorType, which is now a string.
+
+### Features
+
+* throw StorageError instance from storage ops ([a34dbe3](https://github.com/aparajita/capacitor-secure-storage/commit/a34dbe3f2b0f533e7c0712fa718674ac4e5848bb))
+
+
+### Bug Fixes
+
+* notFound is no longer returned as an error ([31cbfe9](https://github.com/aparajita/capacitor-secure-storage/commit/31cbfe9726e72ea74b00fc46f31ac26fafb396ca))
+* return null if entry is missing in KeyStore ([9cf5d4d](https://github.com/aparajita/capacitor-secure-storage/commit/9cf5d4da67a09637e8db2d17c3dac9338f900e83))
+
+
+### Maintenance
+
+* prettier ([4dc4e20](https://github.com/aparajita/capacitor-secure-storage/commit/4dc4e20131d916e9b1cfbebb301ab32f2c0bc28a))
+* remove unused notFound ([0a2376a](https://github.com/aparajita/capacitor-secure-storage/commit/0a2376a3581199835c02f4210735112850e904d4))
+* update deps ([6eb5ff4](https://github.com/aparajita/capacitor-secure-storage/commit/6eb5ff4499b622dd29c94e60eca8e4a5df3f97a8))
+* update deps ([72dc9c0](https://github.com/aparajita/capacitor-secure-storage/commit/72dc9c06ea50855efd9b3d98609c7d38ae0a98f3))
+
 ## [4.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v3.0.2...v4.0.0) (2023-06-15)
 
 
