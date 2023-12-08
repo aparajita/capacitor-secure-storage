@@ -277,7 +277,7 @@ public class SecureStorage extends Plugin {
 
     // Make sure there is an entry in the KeyStore for the given domain
     if (secretKeyEntry == null) {
-      throw new KeyStoreException(KeyStoreException.ErrorKind.notFound, prefixedKey);
+      return null;
     }
 
     SecretKey secretKey = secretKeyEntry.getSecretKey();
