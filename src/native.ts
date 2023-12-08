@@ -57,10 +57,12 @@ export class SecureStorageNative extends SecureStorageBase {
   }
 
   async clear(sync?: boolean): Promise<void> {
-    return this.clearItemsWithPrefix({
-      prefix: this.prefix,
-      sync: sync ?? this.sync,
-    })
+    return this.tryOperation(async () =>
+      this.clearItemsWithPrefix({
+        prefix: this.prefix,
+        sync: sync ?? this.sync,
+      })
+    )
   }
 
   // @native

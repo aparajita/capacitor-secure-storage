@@ -1,38 +1,48 @@
-import type { PluginResultError, WebPlugin } from '@capacitor/core'
+import type { WebPlugin } from '@capacitor/core'
 
 /**
- * If one of the storage functions throws, the error object will
- * have a code property that contains one of these values, and the
- * message property will have a message suitable for debug purposes.
+ * When one of the storage functions throws, the thrown StorageError
+ * will have a .code property that contains one of these values.
+ *
+ * @modified 5.0.0
  */
 export enum StorageErrorType {
   /**
    * The key is null or empty.
    */
-  missingKey,
+  missingKey = 'missingKey',
 
   /**
    * `get()` found the data, but it is corrupted.
    */
-  invalidData,
+  invalidData = 'invalidData',
 
   /**
    * A system-level error occurred when getting/setting data from/to the store.
    */
-  osError,
+  osError = 'osError',
 
   /**
    * An unclassified system-level error occurred.
    */
-  unknownError,
+  unknownError = 'unknownError',
 }
 
 /**
- * If an error occurs, the returned `Error` object has a `.code` property
- * which is the string name of a `StorageErrorType`.
+ * If one of the storage functions throws, it will throw a StorageError which
+ * will have a .code property that can be tested against StorageErrorType,
+ * and a .message property will have a message suitable for debugging purposes.
+ *
+ * @modified 5.0.0
  */
-export interface StorageResultError extends PluginResultError {
-  code: string
+export class StorageError extends Error {
+  code: StorageErrorType
+
+  constructor(message: string, code: StorageErrorType) {
+    super(message)
+    this.name = this.constructor.name
+    this.code = code
+  }
 }
 
 /**
@@ -95,6 +105,7 @@ export interface SecureStoragePlugin extends WebPlugin {
    * from **both** the iCloud and local keychains are returned.
    *
    * @since 1.0.0
+   * @throw StorageError
    */
   keys: (sync?: boolean) => Promise<string[]>
 
@@ -110,7 +121,7 @@ export interface SecureStoragePlugin extends WebPlugin {
    * If no item with the given key can be found, null is returned.
    *
    * @since 1.0.0
-   * @throws StorageError
+   * @throw StorageError
    */
   get: (
     key: string,
@@ -124,6 +135,8 @@ export interface SecureStoragePlugin extends WebPlugin {
    * StorageLikeAsync interface.
    *
    * https://github.com/vueuse/vueuse/blob/main/packages/core/ssr-handlers.ts#L3
+   *
+   * @throw StorageError
    */
   getItem: (key: string) => Promise<string | null>
 
@@ -140,7 +153,7 @@ export interface SecureStoragePlugin extends WebPlugin {
    * `setSynchronize()`.
    *
    * @since 1.0.0
-   * @throws StorageError | TypeError
+   * @throw StorageError | TypeError
    */
   set: (
     key: string,
@@ -165,7 +178,7 @@ export interface SecureStoragePlugin extends WebPlugin {
    * `setSynchronize()`.
    *
    * @since 1.0.0
-   * @throws StorageError if `key` is null or empty, or an OS error occurs
+   * @throw StorageError if `key` is null or empty, or an OS error occurs
    */
   remove: (key: string, sync?: boolean) => Promise<boolean>
 
@@ -174,6 +187,8 @@ export interface SecureStoragePlugin extends WebPlugin {
    * to conform with the @vueuse StorageLikeAsync interface.
    *
    * https://github.com/vueuse/vueuse/blob/main/packages/core/ssr-handlers.ts#L3
+   *
+   * @throw StorageError
    */
   removeItem: (key: string) => Promise<void>
 
@@ -184,6 +199,7 @@ export interface SecureStoragePlugin extends WebPlugin {
    * `setSynchronize()`.
    *
    * @since 1.0.0
+   * @throw StorageError
    */
   clear: (sync?: boolean) => Promise<void>
 }

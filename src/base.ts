@@ -1,18 +1,11 @@
-import { Capacitor, WebPlugin } from '@capacitor/core'
-import type {
-  DataType,
-  SecureStoragePlugin,
-  StorageResultError,
-} from './definitions'
-import { StorageErrorType } from './definitions'
+import { Capacitor, CapacitorException, WebPlugin } from '@capacitor/core'
+import type { DataType, SecureStoragePlugin } from './definitions'
+import { StorageError, StorageErrorType } from './definitions'
 
-export class StorageError extends Error implements StorageResultError {
-  code: string
-
-  constructor(message: string, code: StorageErrorType) {
-    super(message)
-    this.code = StorageErrorType[code]
-  }
+function isStorageErrorType(
+  value: string | undefined
+): value is keyof typeof StorageErrorType {
+  return value !== undefined && Object.keys(StorageErrorType).includes(value)
 }
 
 // This interface is used internally to model native plugin calls
@@ -68,16 +61,33 @@ export abstract class SecureStorageBase
     sync: boolean
   }): Promise<void>
 
+  // Native calls which reject will throw a CapacitorException with a code.
+  // We want to convert these to StorageErrors.
+  protected async tryOperation<T>(operation: () => Promise<T>): Promise<T> {
+    try {
+      return await operation()
+    } catch (e) {
+      if (e instanceof CapacitorException && isStorageErrorType(e.code)) {
+        console.log('converting CapacitorException to StorageError')
+        throw new StorageError(e.message, e.code)
+      }
+
+      throw e
+    }
+  }
+
   async get(
     key: string,
     convertDate = true,
     sync?: boolean
   ): Promise<DataType | null> {
     if (key) {
-      const { data } = await this.internalGetItem({
-        prefixedKey: this.prefixedKey(key),
-        sync: sync ?? this.sync,
-      })
+      const { data } = await this.tryOperation(async () =>
+        this.internalGetItem({
+          prefixedKey: this.prefixedKey(key),
+          sync: sync ?? this.sync,
+        })
+      )
 
       if (data === null) {
         return null
@@ -104,10 +114,12 @@ export abstract class SecureStorageBase
 
   async getItem(key: string): Promise<string | null> {
     if (key) {
-      const { data } = await this.internalGetItem({
-        prefixedKey: this.prefixedKey(key),
-        sync: this.sync,
-      })
+      const { data } = await this.tryOperation(async () =>
+        this.internalGetItem({
+          prefixedKey: this.prefixedKey(key),
+          sync: this.sync,
+        })
+      )
 
       return data
     }
@@ -134,11 +146,13 @@ export abstract class SecureStorageBase
         convertedData = data.toISOString()
       }
 
-      return this.internalSetItem({
-        prefixedKey: this.prefixedKey(key),
-        data: JSON.stringify(convertedData),
-        sync: sync ?? this.sync,
-      })
+      return this.tryOperation(async () =>
+        this.internalSetItem({
+          prefixedKey: this.prefixedKey(key),
+          data: JSON.stringify(convertedData),
+          sync: sync ?? this.sync,
+        })
+      )
     }
 
     return SecureStorageBase.missingKey()
@@ -146,11 +160,13 @@ export abstract class SecureStorageBase
 
   async setItem(key: string, value: string): Promise<void> {
     if (key) {
-      return this.internalSetItem({
-        prefixedKey: this.prefixedKey(key),
-        data: value,
-        sync: this.sync,
-      })
+      return this.tryOperation(async () =>
+        this.internalSetItem({
+          prefixedKey: this.prefixedKey(key),
+          data: value,
+          sync: this.sync,
+        })
+      )
     }
 
     return SecureStorageBase.missingKey()
@@ -165,10 +181,13 @@ export abstract class SecureStorageBase
 
   async remove(key: string, sync?: boolean): Promise<boolean> {
     if (key) {
-      const { success } = await this.internalRemoveItem({
-        prefixedKey: this.prefixedKey(key),
-        sync: sync ?? this.sync,
-      })
+      const { success } = await this.tryOperation(async () =>
+        this.internalRemoveItem({
+          prefixedKey: this.prefixedKey(key),
+          sync: sync ?? this.sync,
+        })
+      )
+
       return success
     }
 
@@ -177,10 +196,12 @@ export abstract class SecureStorageBase
 
   async removeItem(key: string): Promise<void> {
     if (key) {
-      await this.internalRemoveItem({
-        prefixedKey: this.prefixedKey(key),
-        sync: this.sync,
-      })
+      await this.tryOperation(async () =>
+        this.internalRemoveItem({
+          prefixedKey: this.prefixedKey(key),
+          sync: this.sync,
+        })
+      )
 
       return
     }
@@ -203,10 +224,13 @@ export abstract class SecureStorageBase
   }): Promise<void>
 
   async keys(sync?: boolean): Promise<string[]> {
-    const { keys } = await this.getPrefixedKeys({
-      prefix: this.prefix,
-      sync: sync ?? this.sync,
-    })
+    const { keys } = await this.tryOperation(async () =>
+      this.getPrefixedKeys({
+        prefix: this.prefix,
+        sync: sync ?? this.sync,
+      })
+    )
+
     const prefixLength = this.prefix.length
     return keys.map((key) => key.slice(prefixLength))
   }
