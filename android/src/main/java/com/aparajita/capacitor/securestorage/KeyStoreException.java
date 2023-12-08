@@ -16,48 +16,42 @@ public class KeyStoreException extends Throwable {
     errorMap.put(ErrorKind.unknownError, "An unknown error occurred: %s");
   }
 
-  private String message;
+  private String message = "";
   private String code = "";
 
   KeyStoreException(ErrorKind kind) {
-    init(kind, "", null);
+    init(kind, null);
   }
 
-  KeyStoreException(ErrorKind kind, String key) {
-    init(kind, key, null);
-  }
-
-  KeyStoreException(ErrorKind kind, Throwable osExcepton) {
-    init(kind, null, osExcepton);
-  }
-
-  KeyStoreException(ErrorKind kind, String key, Throwable osException) {
-    init(kind, key, osException);
+  KeyStoreException(ErrorKind kind, Throwable osException) {
+    init(kind, osException);
   }
 
   public static void reject(PluginCall call, ErrorKind kind) {
-    reject(call, kind, "", null);
+    reject(call, kind, null);
   }
 
-  public static void reject(PluginCall call, ErrorKind kind, String key, Throwable osException) {
-    KeyStoreException ex = new KeyStoreException(kind, key, osException);
+  public static void reject(
+    PluginCall call,
+    ErrorKind kind,
+    @Nullable Throwable osException
+  ) {
+    KeyStoreException ex = new KeyStoreException(kind, osException);
     call.reject(ex.message, ex.code);
   }
 
-  void init(ErrorKind kind, String key, Throwable osException) {
+  void init(ErrorKind kind, @Nullable Throwable osException) {
     String message = errorMap.get(kind);
 
     if (message != null) {
       switch (kind) {
-        case osError:
-        case unknownError:
-          this.message = String.format(message, osException.getClass().getSimpleName());
-          break;
-        case notFound:
-          this.message = String.format(message, key);
-          break;
-        default:
-          this.message = message;
+        case osError, unknownError -> {
+          if (osException != null) {
+            this.message =
+              String.format(message, osException.getClass().getSimpleName());
+          }
+        }
+        default -> this.message = message;
       }
 
       this.code = kind.toString();
@@ -77,10 +71,9 @@ public class KeyStoreException extends Throwable {
   }
 
   public enum ErrorKind {
-    notFound,
     missingKey,
     invalidData,
     osError,
-    unknownError
+    unknownError,
   }
 }
