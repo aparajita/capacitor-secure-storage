@@ -9,7 +9,6 @@ import Capacitor
 
 public class KeychainError: Error {
   enum ErrorKind: String {
-    case notFound
     case missingKey
     case invalidData
     case osError
@@ -17,7 +16,6 @@ public class KeychainError: Error {
   }
 
   private static let errorMap: [KeychainError.ErrorKind: String] = [
-    .notFound: "Item for the key \"%@\" not found",
     .missingKey: "Empty key",
     .invalidData: "The data is in an invalid format",
     .osError: "An OS error occurred (%d)",
@@ -32,25 +30,14 @@ public class KeychainError: Error {
   }
 
   init(_ kind: ErrorKind, status: OSStatus) {
-    _init(kind, key: "", status: status)
+    _init(kind, status: status)
   }
 
-  init(_ kind: ErrorKind, key: String) {
-    _init(kind, key: key)
-  }
-
-  init(_ kind: ErrorKind, key: String, status: OSStatus) {
-    _init(kind, key: key, status: status)
-  }
-
-  private func _init(_ kind: ErrorKind, key: String = "", status: OSStatus = 0) {
+  private func _init(_ kind: ErrorKind, status: OSStatus = 0) {
     if let message = KeychainError.errorMap[kind] {
       switch kind {
       case .osError:
         self.message = String(format: message, status)
-
-      case .notFound:
-        self.message = String(format: message, key)
 
       default:
         self.message = message
@@ -64,8 +51,8 @@ public class KeychainError: Error {
     call.reject(message, code)
   }
 
-  static func reject(call: CAPPluginCall, kind: ErrorKind, key: String = "", status: OSStatus = 0) {
-    let err = KeychainError(kind, key: key, status: status)
+  static func reject(call: CAPPluginCall, kind: ErrorKind, status: OSStatus = 0) {
+    let err = KeychainError(kind, status: status)
     err.rejectCall(call)
   }
 }
