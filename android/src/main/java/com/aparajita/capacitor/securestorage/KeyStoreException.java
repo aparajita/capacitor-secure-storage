@@ -1,7 +1,7 @@
 package com.aparajita.capacitor.securestorage;
 
+import androidx.annotation.Nullable;
 import com.getcapacitor.PluginCall;
-
 import java.util.HashMap;
 
 public class KeyStoreException extends Throwable {
@@ -10,8 +10,11 @@ public class KeyStoreException extends Throwable {
 
   static {
     errorMap = new HashMap<>();
-    errorMap.put(ErrorKind.missingKey, "Empty key");
-    errorMap.put(ErrorKind.invalidData, "The data in the store is in an invalid format");
+    errorMap.put(ErrorKind.missingKey, "Empty key or missing key param");
+    errorMap.put(
+      ErrorKind.invalidData,
+      "The data in the store is in an invalid format"
+    );
     errorMap.put(ErrorKind.osError, "An OS error occurred (%s)");
     errorMap.put(ErrorKind.unknownError, "An unknown error occurred: %s");
   }
