@@ -29,6 +29,76 @@ export enum StorageErrorType {
 }
 
 /**
+ * iOS only
+ *
+ * The keychain access option for the storage. The default is
+ * `whenUnlocked`. For more information, see:
+ * https://developer.apple.com/documentation/security/keychain_services/keychain_items/item_attribute_keys_and_values#1679100
+ */
+export enum KeychainAccess {
+  /**
+    The data in the keychain item can be accessed only while the device is
+    unlocked by the user.
+
+    This is recommended for items that need to be accessible only while the
+    application is in the foreground. Items with this attribute migrate to
+    a new device when using encrypted backups.
+
+    This is the default value for keychain items added without explicitly
+    setting an accessibility constant.
+   */
+  whenUnlocked,
+
+  /**
+    The data in the keychain item can be accessed only while the device is
+    unlocked by the user.
+
+    This is recommended for items that need to be accessible only while the
+    application is in the foreground. Items with this attribute do not migrate
+    to a new device. Thus, after restoring from a backup of a different device,
+    these items will not be present.
+   */
+  whenUnlockedThisDeviceOnly,
+
+  /**
+    The data in the keychain item cannot be accessed after a restart until the
+    device has been unlocked once by the user.
+
+    After the first unlock, the data remains accessible until the next restart.
+    This is recommended for items that need to be accessed by background
+    applications. Items with this attribute migrate to a new device when using
+    encrypted backups.
+   */
+
+  afterFirstUnlock,
+
+  /**
+    The data in the keychain item cannot be accessed after a restart until
+    the device has been unlocked once by the user.
+
+    After the first unlock, the data remains accessible until the next restart.
+    This is recommended for items that need to be accessed by background
+    applications. Items with this attribute do not migrate to a new device.
+    Thus, after restoring from a backup of a different device, these items
+    will not be present.
+   */
+  afterFirstUnlockThisDeviceOnly,
+
+  /**
+    The data in the keychain can only be accessed when the device is unlocked.
+    Only available if a passcode is set on the device.
+
+    This is recommended for items that only need to be accessible while the
+    application is in the foreground. Items with this attribute never migrate
+    to a new device. After a backup is restored to a new device, these items
+    are missing. No items can be stored in this class on devices without a
+    passcode. Disabling the device passcode causes all items in this class to
+    be deleted.
+   */
+  whenPasscodeSetThisDeviceOnly,
+}
+
+/**
  * If one of the storage functions throws, it will throw a StorageError which
  * will have a .code property that can be tested against StorageErrorType,
  * and a .message property will have a message suitable for debugging purposes.
@@ -79,6 +149,14 @@ export interface SecureStoragePlugin extends WebPlugin {
   getSynchronize: () => Promise<boolean>
 
   /**
+   * iOS only
+   *
+   * Set the default keychain access option for items added to storage.
+   * A no-op on other platforms.
+   */
+  setDefaultKeychainAccess: (access: KeychainAccess) => Promise<void>
+
+  /**
    * To prevent possible name clashes, a prefix is added to the key
    * under which items are stored. You may change the prefix by calling
    * this method (an empty prefix is valid). Usually you will always
@@ -126,7 +204,7 @@ export interface SecureStoragePlugin extends WebPlugin {
   get: (
     key: string,
     convertDate?: boolean,
-    sync?: boolean
+    sync?: boolean,
   ) => Promise<DataType | null>
 
   /**
@@ -152,6 +230,9 @@ export interface SecureStoragePlugin extends WebPlugin {
    * If `sync` is not `undefined`, it temporarily overrides the value set by
    * `setSynchronize()`.
    *
+   * If `access` is not `undefined`, it temporarily overrides the current
+   * default keychain access option.
+   *
    * @since 1.0.0
    * @throw StorageError | TypeError
    */
@@ -159,7 +240,8 @@ export interface SecureStoragePlugin extends WebPlugin {
     key: string,
     data: DataType,
     convertDate?: boolean,
-    sync?: boolean
+    sync?: boolean,
+    access?: KeychainAccess,
   ) => Promise<void>
 
   /**

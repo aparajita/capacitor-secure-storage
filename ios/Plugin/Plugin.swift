@@ -6,6 +6,7 @@ public class SecureStorage: CAPPlugin {
   let kKeyOption = "prefixedKey"
   let kDataOption = "data"
   let kSyncOption = "sync"
+  let kAccessOption = "access"
   let keychain = KeychainSwift()
 
   @objc func setSynchronizeKeychain(_ call: CAPPluginCall) {
@@ -14,13 +15,16 @@ public class SecureStorage: CAPPlugin {
   }
 
   @objc func internalSetItem(_ call: CAPPluginCall) {
+    // The getters will reject the call if the param is missing.
     guard let key = getKeyParam(from: call),
           let data = getDataParam(from: call) else {
       return
     }
 
+    let access = getAccessParam(from: call)
+
     tryKeychainOp(call, getSyncParam(from: call), {
-      try storeData(data, withKey: key)
+      try storeData(data, withKey: key, access: access)
       call.resolve()
     })
   }
@@ -89,6 +93,32 @@ public class SecureStorage: CAPPlugin {
     return keychain.synchronizable
   }
 
+  func getAccessParam(from call: CAPPluginCall) -> KeychainSwiftAccessOptions? {
+    if let value = call.getInt(kAccessOption) {
+      switch value {
+        case 0:
+          return KeychainSwiftAccessOptions.accessibleWhenUnlocked
+
+        case 1:
+          return KeychainSwiftAccessOptions.accessibleWhenUnlockedThisDeviceOnly
+
+        case 2:
+          return KeychainSwiftAccessOptions.accessibleAfterFirstUnlock
+
+        case 3:
+          return KeychainSwiftAccessOptions.accessibleAfterFirstUnlockThisDeviceOnly
+
+        case 4:
+          return KeychainSwiftAccessOptions.accessibleWhenPasscodeSetThisDeviceOnly
+
+        default:
+          return nil
+      }
+    }
+
+    return nil
+  }
+
   func tryKeychainOp(_ call: CAPPluginCall, _ sync: Bool, _ operation: () throws -> Void) {
     var err: KeychainError?
 
@@ -110,8 +140,8 @@ public class SecureStorage: CAPPlugin {
     }
   }
 
-  func storeData(_ data: String, withKey key: String) throws {
-    let success = keychain.set(data, forKey: key)
+  func storeData(_ data: String, withKey key: String, access: KeychainSwiftAccessOptions?) throws {
+    let success = keychain.set(data, forKey: key, withAccess: access)
 
     if !success {
       throw KeychainError(.osError, status: keychain.lastResultCode)

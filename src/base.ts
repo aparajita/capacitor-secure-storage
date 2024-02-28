@@ -1,9 +1,9 @@
 import { Capacitor, CapacitorException, WebPlugin } from '@capacitor/core'
 import type { DataType, SecureStoragePlugin } from './definitions'
-import { StorageError, StorageErrorType } from './definitions'
+import { KeychainAccess, StorageError, StorageErrorType } from './definitions'
 
 function isStorageErrorType(
-  value: string | undefined
+  value: string | undefined,
 ): value is keyof typeof StorageErrorType {
   return value !== undefined && Object.keys(StorageErrorType).includes(value)
 }
@@ -14,6 +14,8 @@ function isStorageErrorType(
 export interface SecureStoragePluginNative {
   setSynchronizeKeychain: (options: { sync: boolean }) => Promise<void>
 
+  setDefaultKeychainAccess: (options: { access: string }) => Promise<void>
+
   internalGetItem: (options: {
     prefixedKey: string
   }) => Promise<{ data: string }>
@@ -21,6 +23,7 @@ export interface SecureStoragePluginNative {
   internalSetItem: (options: {
     prefixedKey: string
     data: string
+    access: KeychainAccess
   }) => Promise<void>
 
   internalRemoveItem: (options: {
@@ -32,13 +35,13 @@ export interface SecureStoragePluginNative {
   getPrefixedKeys: (options: { prefix: string }) => Promise<{ keys: string[] }>
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export abstract class SecureStorageBase
   extends WebPlugin
   implements SecureStoragePlugin
 {
   protected prefix = 'capacitor-storage_'
   protected sync = false
+  protected access = KeychainAccess.whenUnlocked
 
   async setSynchronize(sync: boolean): Promise<void> {
     this.sync = sync
@@ -61,6 +64,11 @@ export abstract class SecureStorageBase
     sync: boolean
   }): Promise<void>
 
+  async setDefaultKeychainAccess(access: KeychainAccess): Promise<void> {
+    this.access = access
+    return Promise.resolve()
+  }
+
   // Native calls which reject will throw a CapacitorException with a code.
   // We want to convert these to StorageErrors.
   protected async tryOperation<T>(operation: () => Promise<T>): Promise<T> {
@@ -68,7 +76,6 @@ export abstract class SecureStorageBase
       return await operation()
     } catch (e) {
       if (e instanceof CapacitorException && isStorageErrorType(e.code)) {
-        console.log('converting CapacitorException to StorageError')
         throw new StorageError(e.message, e.code)
       }
 
@@ -79,14 +86,14 @@ export abstract class SecureStorageBase
   async get(
     key: string,
     convertDate = true,
-    sync?: boolean
+    sync?: boolean,
   ): Promise<DataType | null> {
     if (key) {
       const { data } = await this.tryOperation(async () =>
         this.internalGetItem({
           prefixedKey: this.prefixedKey(key),
           sync: sync ?? this.sync,
-        })
+        }),
       )
 
       if (data === null) {
@@ -102,7 +109,6 @@ export abstract class SecureStorageBase
       }
 
       try {
-        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
         return JSON.parse(data) as DataType
       } catch (e) {
         throw new StorageError('Invalid data', StorageErrorType.invalidData)
@@ -118,7 +124,7 @@ export abstract class SecureStorageBase
         this.internalGetItem({
           prefixedKey: this.prefixedKey(key),
           sync: this.sync,
-        })
+        }),
       )
 
       return data
@@ -137,7 +143,8 @@ export abstract class SecureStorageBase
     key: string,
     data: DataType,
     convertDate = true,
-    sync?: boolean
+    sync?: boolean,
+    access?: KeychainAccess,
   ): Promise<void> {
     if (key) {
       let convertedData = data
@@ -151,7 +158,8 @@ export abstract class SecureStorageBase
           prefixedKey: this.prefixedKey(key),
           data: JSON.stringify(convertedData),
           sync: sync ?? this.sync,
-        })
+          access: access ?? this.access,
+        }),
       )
     }
 
@@ -165,7 +173,8 @@ export abstract class SecureStorageBase
           prefixedKey: this.prefixedKey(key),
           data: value,
           sync: this.sync,
-        })
+          access: this.access,
+        }),
       )
     }
 
@@ -177,6 +186,7 @@ export abstract class SecureStorageBase
     prefixedKey: string
     data: string
     sync: boolean
+    access: KeychainAccess
   }): Promise<void>
 
   async remove(key: string, sync?: boolean): Promise<boolean> {
@@ -185,7 +195,7 @@ export abstract class SecureStorageBase
         this.internalRemoveItem({
           prefixedKey: this.prefixedKey(key),
           sync: sync ?? this.sync,
-        })
+        }),
       )
 
       return success
@@ -200,7 +210,7 @@ export abstract class SecureStorageBase
         this.internalRemoveItem({
           prefixedKey: this.prefixedKey(key),
           sync: this.sync,
-        })
+        }),
       )
 
       return
@@ -228,7 +238,7 @@ export abstract class SecureStorageBase
       this.getPrefixedKeys({
         prefix: this.prefix,
         sync: sync ?? this.sync,
-      })
+      }),
     )
 
     const prefixLength = this.prefix.length
@@ -267,7 +277,6 @@ function parseISODate(isoDate: string): Date | null {
   const match = isoDateRE.exec(isoDate)
 
   if (match) {
-    /* eslint-disable @typescript-eslint/no-magic-numbers */
     const year = parseInt(match[1], 10)
     const month = parseInt(match[2], 10) - 1 // month is zero-based
     const day = parseInt(match[3], 10)
