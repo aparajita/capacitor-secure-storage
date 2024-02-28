@@ -55,7 +55,7 @@ export class SecureStorageWeb extends SecureStorageBase {
   protected async clearItemsWithPrefix(options: {
     prefix: string
   }): Promise<void> {
-    this.unimplemented('clearItemsWithPrefix is native only')
+    console.warn('clearItemsWithPrefix is native only')
   }
 
   // @native
