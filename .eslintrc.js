@@ -9,6 +9,11 @@ module.exports = {
         tsconfigRootDir: './',
         project: ['./tsconfig.json'],
       },
+      rules: {
+        '@typescript-eslint/consistent-type-assertions': 'off',
+        'import/prefer-default-export': 'off',
+        '@typescript-eslint/no-magic-numbers': 'off',
+      },
     },
   ],
 }

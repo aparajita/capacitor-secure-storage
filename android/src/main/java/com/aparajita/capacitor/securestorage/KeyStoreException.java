@@ -50,8 +50,10 @@ public class KeyStoreException extends Throwable {
       switch (kind) {
         case osError, unknownError -> {
           if (osException != null) {
-            this.message =
-              String.format(message, osException.getClass().getSimpleName());
+            this.message = String.format(
+              message,
+              osException.getClass().getSimpleName()
+            );
           }
         }
         default -> this.message = message;

@@ -59,13 +59,10 @@ public class SecureStorage extends Plugin {
       return;
     }
 
-    tryStorageOp(
-      call,
-      () -> {
-        storeDataInKeyStore(key, data);
-        call.resolve();
-      }
-    );
+    tryStorageOp(call, () -> {
+      storeDataInKeyStore(key, data);
+      call.resolve();
+    });
   }
 
   @PluginMethod
@@ -76,15 +73,12 @@ public class SecureStorage extends Plugin {
       return;
     }
 
-    tryStorageOp(
-      call,
-      () -> {
-        String data = getDataFromKeyStore(key);
-        JSObject result = new JSObject();
-        result.put("data", data != null ? data : JSObject.NULL);
-        call.resolve(result);
-      }
-    );
+    tryStorageOp(call, () -> {
+      String data = getDataFromKeyStore(key);
+      JSObject result = new JSObject();
+      result.put("data", data != null ? data : JSObject.NULL);
+      call.resolve(result);
+    });
   }
 
   @PluginMethod
@@ -95,43 +89,34 @@ public class SecureStorage extends Plugin {
       return;
     }
 
-    tryStorageOp(
-      call,
-      () -> {
-        boolean success = removeDataFromKeyStore(key);
-        JSObject result = new JSObject();
-        result.put("success", success);
-        call.resolve(result);
-      }
-    );
+    tryStorageOp(call, () -> {
+      boolean success = removeDataFromKeyStore(key);
+      JSObject result = new JSObject();
+      result.put("success", success);
+      call.resolve(result);
+    });
   }
 
   @PluginMethod
   public void clearItemsWithPrefix(final PluginCall call) {
-    tryStorageOp(
-      call,
-      () -> {
-        String prefix = call.getString("_prefix", "");
-        clearKeyStore(prefix);
-        call.resolve();
-      }
-    );
+    tryStorageOp(call, () -> {
+      String prefix = call.getString("_prefix", "");
+      clearKeyStore(prefix);
+      call.resolve();
+    });
   }
 
   @PluginMethod
   public void getPrefixedKeys(final PluginCall call) {
-    tryStorageOp(
-      call,
-      () -> {
-        String prefix = call.getString("prefix", "");
-        ArrayList<String> keys = getKeysWithPrefix(prefix);
-        JSONArray array = new JSONArray(keys);
+    tryStorageOp(call, () -> {
+      String prefix = call.getString("prefix", "");
+      ArrayList<String> keys = getKeysWithPrefix(prefix);
+      JSONArray array = new JSONArray(keys);
 
-        JSObject result = new JSObject();
-        result.put("keys", array);
-        call.resolve(result);
-      }
-    );
+      JSObject result = new JSObject();
+      result.put("keys", array);
+      call.resolve(result);
+    });
   }
 
   private SharedPreferences getPrefs() {
@@ -223,8 +208,10 @@ public class SecureStorage extends Plugin {
     } catch (GeneralSecurityException | IOException e) {
       exception = new KeyStoreException(KeyStoreException.ErrorKind.osError, e);
     } catch (Exception e) {
-      exception =
-        new KeyStoreException(KeyStoreException.ErrorKind.unknownError, e);
+      exception = new KeyStoreException(
+        KeyStoreException.ErrorKind.unknownError,
+        e
+      );
     }
 
     exception.rejectCall(call);
@@ -330,11 +317,10 @@ public class SecureStorage extends Plugin {
           prefixedKey,
           KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT
         );
-        spec =
-          builder
-            .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-            .build();
+        spec = builder
+          .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+          .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+          .build();
       } else {
         // Let the key pair last for 1 year
         Calendar start = Calendar.getInstance();
@@ -344,14 +330,13 @@ public class SecureStorage extends Plugin {
         KeyPairGeneratorSpec.Builder builder = new KeyPairGeneratorSpec.Builder(
           getContext()
         );
-        spec =
-          builder
-            .setAlias(prefixedKey)
-            .setSubject(new X500Principal("CN=" + prefixedKey))
-            .setSerialNumber(BigInteger.ONE)
-            .setStartDate(start.getTime())
-            .setEndDate(end.getTime())
-            .build();
+        spec = builder
+          .setAlias(prefixedKey)
+          .setSubject(new X500Principal("CN=" + prefixedKey))
+          .setSerialNumber(BigInteger.ONE)
+          .setStartDate(start.getTime())
+          .setEndDate(end.getTime())
+          .build();
       }
 
       keyGenerator.init(spec);
