@@ -1,4 +1,5 @@
 import { Capacitor, CapacitorException, WebPlugin } from '@capacitor/core'
+import { Mutex } from 'async-mutex'
 import type { DataType, SecureStoragePlugin } from './definitions'
 import { KeychainAccess, StorageError, StorageErrorType } from './definitions'
 
@@ -7,6 +8,11 @@ function isStorageErrorType(
 ): value is keyof typeof StorageErrorType {
   return value !== undefined && Object.keys(StorageErrorType).includes(value)
 }
+
+// We use a mutex to ensure that only one get/set operation is in progress
+// at a time, because concurrent awaited calls could result in concurrent
+// native calls.
+const mutex = new Mutex()
 
 // This interface is used internally to model native plugin calls
 // that are not visible to the user.
@@ -44,14 +50,16 @@ export abstract class SecureStorageBase
   protected access = KeychainAccess.whenUnlocked
 
   async setSynchronize(sync: boolean): Promise<void> {
-    this.sync = sync
+    return mutex.runExclusive(async () => {
+      this.sync = sync
 
-    if (Capacitor.getPlatform() === 'ios') {
-      return this.setSynchronizeKeychain({ sync })
-    }
+      if (Capacitor.getPlatform() === 'ios') {
+        return this.setSynchronizeKeychain({ sync })
+      }
 
-    // no-op on other platforms
-    return Promise.resolve()
+      // no-op on other platforms
+      return Promise.resolve()
+    })
   }
 
   async getSynchronize(): Promise<boolean> {
@@ -65,16 +73,18 @@ export abstract class SecureStorageBase
   }): Promise<void>
 
   async setDefaultKeychainAccess(access: KeychainAccess): Promise<void> {
-    this.access = access
-    return Promise.resolve()
+    return mutex.runExclusive(() => {
+      this.access = access
+    })
   }
 
-  // Native calls which reject will throw a CapacitorException with a code.
-  // We want to convert these to StorageErrors.
   protected async tryOperation<T>(operation: () => Promise<T>): Promise<T> {
     try {
-      return await operation()
+      // Ensure that only one operation is in progress at a time.
+      return await mutex.runExclusive(async () => operation())
     } catch (e) {
+      // Native calls which reject will throw a CapacitorException with a code.
+      // We want to convert these to StorageErrors.
       if (e instanceof CapacitorException && isStorageErrorType(e.code)) {
         throw new StorageError(e.message, e.code)
       }
