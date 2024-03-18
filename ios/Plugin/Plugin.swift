@@ -1,5 +1,6 @@
 import Foundation
 import Capacitor
+import KeychainSwift
 
 @objc(SecureStorage)
 public class SecureStorage: CAPPlugin {

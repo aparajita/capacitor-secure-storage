@@ -14,5 +14,6 @@
     s.source_files = 'ios/Plugin/**/*.{swift,h,m,c,cc,mm,cpp}'
     s.ios.deployment_target  = '13.0'
     s.dependency 'Capacitor'
+    s.dependency 'KeychainSwift', '~> 21.0'
     s.swift_version = '5.1'
   end

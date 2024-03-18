@@ -1,8 +1,6 @@
 //
 //  KeychainError.swift
-//  WsCapacitorSecureStorage
-//
-//  Created by Aparajita on 11/5/20.
+//  @aparajita/capacitor-secure-storage
 //
 
 import Capacitor
