@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [5.2.0](https://github.com/aparajita/capacitor-secure-storage/compare/v5.1.0...v5.2.0) (2024-03-18)
+
+
+### Features
+
+* use a mutex to ensure no race conditions ([39bc00d](https://github.com/aparajita/capacitor-secure-storage/commit/39bc00d4450df685e37fc029b93962eea9c03ea8))
+
+
+### Maintenance
+
+* update deps ([c7adaef](https://github.com/aparajita/capacitor-secure-storage/commit/c7adaefcbeaa70d8d8bca9c66c6632f198c8c571))
+* use pod version of KeychainSwift ([8098367](https://github.com/aparajita/capacitor-secure-storage/commit/80983675923f66a29f9026251171a573b0e116c0))
+
 ## [5.1.0](https://github.com/aparajita/capacitor-secure-storage/compare/v5.0.0...v5.1.0) (2024-02-28)
 
 
