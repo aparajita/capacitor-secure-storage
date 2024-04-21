@@ -49,4 +49,5 @@ On Android, data is encrypted using AES in GCM mode with a secret key generated 
 ### Web
 
 On the web, data is stored **unencrypted** in `localStorage`, so that you can see the data you are storing. This is for debugging purposes only; you should not use this plugin on the web in production.
+
 </div>

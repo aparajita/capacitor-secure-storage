@@ -5,15 +5,11 @@ import android.content.SharedPreferences;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
-
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-
-import org.json.JSONArray;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
@@ -22,11 +18,11 @@ import java.security.UnrecoverableKeyException;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.ArrayList;
 import java.util.Enumeration;
-
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
+import org.json.JSONArray;
 
 interface StorageOp {
   void run() throws KeyStoreException, GeneralSecurityException, IOException;
