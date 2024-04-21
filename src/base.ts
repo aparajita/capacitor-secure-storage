@@ -1,5 +1,4 @@
 import { Capacitor, CapacitorException, WebPlugin } from '@capacitor/core'
-import { Mutex } from 'async-mutex'
 import type { DataType, SecureStoragePlugin } from './definitions'
 import { KeychainAccess, StorageError, StorageErrorType } from './definitions'
 
@@ -8,11 +7,6 @@ function isStorageErrorType(
 ): value is keyof typeof StorageErrorType {
   return value !== undefined && Object.keys(StorageErrorType).includes(value)
 }
-
-// We use a mutex to ensure that only one get/set operation is in progress
-// at a time, because concurrent awaited calls could result in concurrent
-// native calls.
-const mutex = new Mutex()
 
 // This interface is used internally to model native plugin calls
 // that are not visible to the user.
@@ -50,16 +44,14 @@ export abstract class SecureStorageBase
   protected access = KeychainAccess.whenUnlocked
 
   async setSynchronize(sync: boolean): Promise<void> {
-    return mutex.runExclusive(async () => {
-      this.sync = sync
+    this.sync = sync
 
-      if (Capacitor.getPlatform() === 'ios') {
-        return this.setSynchronizeKeychain({ sync })
-      }
+    if (Capacitor.getPlatform() === 'ios') {
+      return this.setSynchronizeKeychain({ sync })
+    }
 
-      // no-op on other platforms
-      return Promise.resolve()
-    })
+    // no-op on other platforms
+    return Promise.resolve()
   }
 
   async getSynchronize(): Promise<boolean> {
@@ -73,15 +65,14 @@ export abstract class SecureStorageBase
   }): Promise<void>
 
   async setDefaultKeychainAccess(access: KeychainAccess): Promise<void> {
-    return mutex.runExclusive(() => {
-      this.access = access
-    })
+    this.access = access
+    return Promise.resolve()
   }
 
   protected async tryOperation<T>(operation: () => Promise<T>): Promise<T> {
     try {
       // Ensure that only one operation is in progress at a time.
-      return await mutex.runExclusive(async () => operation())
+      return await operation()
     } catch (e) {
       // Native calls which reject will throw a CapacitorException with a code.
       // We want to convert these to StorageErrors.
