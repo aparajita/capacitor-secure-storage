@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v5.2.0...v6.0.0) (2024-04-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* stop supporting API 22
+* update to Capacitor 6
+
+### Features
+
+* stop supporting API 22 ([86c2989](https://github.com/aparajita/capacitor-secure-storage/commit/86c2989dfc7067fe0059168f4562698aea7318ec))
+* update to Capacitor 6 ([bb6c5a8](https://github.com/aparajita/capacitor-secure-storage/commit/bb6c5a8c15729d925fc1c005d22303906d6b0856))
+
+
+### Maintenance
+
+* prettier ([a28f0f0](https://github.com/aparajita/capacitor-secure-storage/commit/a28f0f05e5984f13cfeff68c6e91a277d6d1560f))
+* remove the mutex, not necessary ([abdb559](https://github.com/aparajita/capacitor-secure-storage/commit/abdb559626bec8093e4c3a1d27727245b421354d))
+
 ## [5.2.0](https://github.com/aparajita/capacitor-secure-storage/compare/v5.1.0...v5.2.0) (2024-03-18)
 
 
