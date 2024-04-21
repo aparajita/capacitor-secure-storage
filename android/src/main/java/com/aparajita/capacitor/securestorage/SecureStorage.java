@@ -2,31 +2,31 @@ package com.aparajita.capacitor.securestorage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.security.KeyPairGeneratorSpec;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
+
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+
+import org.json.JSONArray;
+
 import java.io.IOException;
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.UnrecoverableKeyException;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Enumeration;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
-import javax.security.auth.x500.X500Principal;
-import org.json.JSONArray;
 
 interface StorageOp {
   void run() throws KeyStoreException, GeneralSecurityException, IOException;
@@ -308,37 +308,14 @@ public class SecureStorage extends Plugin {
     SecretKey secretKey;
 
     if (entry == null) {
-      AlgorithmParameterSpec spec;
-
-      if (
-        android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M
-      ) {
-        KeyGenParameterSpec.Builder builder = new KeyGenParameterSpec.Builder(
-          prefixedKey,
-          KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT
-        );
-        spec = builder
-          .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-          .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-          .build();
-      } else {
-        // Let the key pair last for 1 year
-        Calendar start = Calendar.getInstance();
-        Calendar end = Calendar.getInstance();
-        end.add(Calendar.YEAR, 1);
-
-        KeyPairGeneratorSpec.Builder builder = new KeyPairGeneratorSpec.Builder(
-          getContext()
-        );
-        spec = builder
-          .setAlias(prefixedKey)
-          .setSubject(new X500Principal("CN=" + prefixedKey))
-          .setSerialNumber(BigInteger.ONE)
-          .setStartDate(start.getTime())
-          .setEndDate(end.getTime())
-          .build();
-      }
-
+      KeyGenParameterSpec.Builder builder = new KeyGenParameterSpec.Builder(
+        prefixedKey,
+        KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT
+      );
+      AlgorithmParameterSpec spec = builder
+        .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+        .build();
       keyGenerator.init(spec);
       secretKey = keyGenerator.generateKey();
     } else {
