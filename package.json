@@ -72,14 +72,14 @@
     "@aparajita/eslint-config-base": "^1.1.6",
     "@aparajita/prettier-config": "^2.0.0",
     "@aparajita/swiftly": "^1.0.4",
-    "@capacitor/cli": "^5.7.3",
-    "@commitlint/cli": "^19.2.0",
-    "@commitlint/config-conventional": "^19.1.0",
+    "@capacitor/cli": "^6.0.0",
+    "@commitlint/cli": "^19.2.2",
+    "@commitlint/config-conventional": "^19.2.2",
     "@ionic/swiftlint-config": "^1.1.2",
-    "@types/node": "^20.11.28",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
-    "commit-and-tag-version": "^12.2.0",
+    "@types/node": "^20.12.7",
+    "@typescript-eslint/eslint-plugin": "^7.7.0",
+    "@typescript-eslint/parser": "^7.7.0",
+    "commit-and-tag-version": "^12.4.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
@@ -92,17 +92,16 @@
     "prettier": "^3.2.5",
     "prettier-plugin-java": "^2.6.0",
     "rimraf": "^5.0.5",
-    "rollup": "^4.13.0",
-    "simple-git-hooks": "^2.11.0",
+    "rollup": "^4.16.1",
+    "simple-git-hooks": "^2.11.1",
     "swiftlint": "^1.0.2",
-    "typescript": "~5.4.2"
+    "typescript": "~5.4.5"
   },
   "dependencies": {
-    "@capacitor/android": "^5.7.3",
-    "@capacitor/app": "^5.0.7",
-    "@capacitor/core": "^5.7.3",
-    "@capacitor/ios": "^5.7.3",
-    "async-mutex": "^0.5.0"
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/app": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/ios": "^6.0.0"
   },
   "pnpm": {
     "allowDeprecatedVersions": {
