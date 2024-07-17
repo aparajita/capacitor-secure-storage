@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.0.1](https://github.com/aparajita/capacitor-secure-storage/compare/v6.0.0...v6.0.1) (2024-07-17)
+
+
+### Bug Fixes
+
+* work around deprecation warning ([e7cc3ad](https://github.com/aparajita/capacitor-secure-storage/commit/e7cc3adcb16472a4fecddbefb53198087a5fabb2))
+
+
+### Maintenance
+
+* update android deps ([a1a0418](https://github.com/aparajita/capacitor-secure-storage/commit/a1a0418b3ae4dcd4d0f14c5ff53823027c58b27c))
+
 ## [6.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v5.2.0...v6.0.0) (2024-04-21)
 
 
