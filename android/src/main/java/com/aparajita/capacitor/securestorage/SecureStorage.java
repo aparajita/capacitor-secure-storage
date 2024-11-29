@@ -167,8 +167,11 @@ public class SecureStorage extends Plugin {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             Map < String, ? > entries = oldPrefs.getAll();
             for (Map.Entry < String, ? > entry : entries.entrySet()) {
-              if (entry.getValue() instanceof String) {
-                editor.putString(entry.getKey(), (String) entry.getValue());
+              String key = entry.getKey();
+              Object value = entry.getValue();
+              if (value instanceof String) {
+                String decryptedValue = decryptString((String) value, key);
+                editor.putString(key, decryptedValue);
               }
             }
             editor.apply();
