@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
-
-import com.aparajita.capacitor.securestorage.extras.SSSecurityUtils;
+import com.aparajita.capacitor.securestorage.exceptions.KeyStoreException;
+import com.aparajita.capacitor.securestorage.utils.SSSecurityUtils;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;

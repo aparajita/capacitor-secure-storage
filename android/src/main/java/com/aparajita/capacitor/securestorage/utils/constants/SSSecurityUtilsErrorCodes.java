@@ -1,6 +1,7 @@
-package com.aparajita.capacitor.securestorage.extras;
+package com.aparajita.capacitor.securestorage.utils.constants;
 
 public class SSSecurityUtilsErrorCodes {
+
   public static final int ERROR_LOAD_KEY_STORE = 100101;
   public static final int ERROR_KEY_STORE = 100102;
   public static final int ERROR_ENCODING = 100103;
@@ -9,4 +10,6 @@ public class SSSecurityUtilsErrorCodes {
   public static final int ERROR_INIT_DECODE_CIPHER = 100106;
   public static final int ERROR_GET_CIPHER_INSTANCE = 100107;
   public static final int ERROR_DELETE_KEY = 100108;
+
+  public static final int ERROR_VERSION_NOT_SUPPORTED = 100109;
 }
