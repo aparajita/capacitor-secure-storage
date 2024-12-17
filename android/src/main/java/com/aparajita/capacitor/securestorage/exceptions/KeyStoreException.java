@@ -1,4 +1,4 @@
-package com.aparajita.capacitor.securestorage;
+package com.aparajita.capacitor.securestorage.exceptions;
 
 import androidx.annotation.Nullable;
 import com.getcapacitor.PluginCall;
@@ -22,7 +22,7 @@ public class KeyStoreException extends Throwable {
   private String message = "";
   private String code = "";
 
-  KeyStoreException(ErrorKind kind) {
+  public KeyStoreException(ErrorKind kind) {
     init(kind, null);
   }
 

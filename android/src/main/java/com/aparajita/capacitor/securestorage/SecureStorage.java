@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
+import com.aparajita.capacitor.securestorage.exceptions.KeyStoreException;
+import com.aparajita.capacitor.securestorage.utils.SSSecurityUtils;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -167,7 +169,7 @@ public class SecureStorage extends Plugin {
   private ArrayList<String> getKeysWithPrefix(String prefix)
     throws GeneralSecurityException, IOException {
     ArrayList<String> keys = new ArrayList<>();
-    KeyStore keyStore = getKeyStore();
+    KeyStore keyStore = SSSecurityUtils.loadKeyStore();
 
     for (
       Enumeration<String> aliases = keyStore.aliases();
