@@ -77,35 +77,6 @@ public class SSSecurityHelper implements ISSSecurityHelper {
   }
 
   /**
-   * Check if key is exist.
-   *
-   * @param alias   prefix to check.
-   *                =======
-   * @param context any context.
-   * @param prefix  prefix to use.
-   * @param value   to decode.
-   * @return decoded string
-   * @throws SSSecurityException throw exception if something went wrong.
-   */
-  @Override
-  public String decode(Context context, String prefix, String value)
-    throws SSSecurityException {
-    return pfSecurityUtils.decode(prefix, value);
-  }
-
-  /**
-   * Delete prefix encryption key.
-   *
-   * @param prefix prefix to delete.
-   * @throws SSSecurityException throw exception if something went wrong.
-   */
-  @Override
-  public void deletePrefixEncryptionKey(String prefix)
-    throws SSSecurityException {
-    pfSecurityUtils.deleteKey(prefix);
-  }
-
-  /**
    * Check if prefix encryption key is exist.
    *
    * @param prefix prefix to check.
