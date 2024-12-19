@@ -1,4 +1,4 @@
-package com.aparajita.capacitor.securestorage.exceptions;
+package com.darkedges.capacitor.securestorage.exceptions;
 
 import androidx.annotation.Nullable;
 import com.getcapacitor.PluginCall;

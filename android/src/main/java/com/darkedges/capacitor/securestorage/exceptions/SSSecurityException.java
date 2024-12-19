@@ -1,4 +1,4 @@
-package com.aparajita.capacitor.securestorage.exceptions;
+package com.darkedges.capacitor.securestorage.exceptions;
 
 public class SSSecurityException extends Throwable {
 

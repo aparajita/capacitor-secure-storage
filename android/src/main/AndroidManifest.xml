@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <application>
+        <activity
+            android:name="com.darkedges.biometric.AuthActivity"
+            android:label="@string/title_activity_auth_activity"
+            android:theme="@style/AppTheme.Transparent">
+        </activity>
+    </application>
+
 </manifest>

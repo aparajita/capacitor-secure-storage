@@ -1,4 +1,4 @@
-package com.aparajita.capacitor.securestorage.utils;
+package com.darkedges.capacitor.securestorage.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
 import androidx.annotation.NonNull;
-import com.aparajita.capacitor.securestorage.exceptions.SSSecurityException;
-import com.aparajita.capacitor.securestorage.utils.constants.SSSecurityUtilsErrorCodes;
+import com.darkedges.capacitor.securestorage.exceptions.SSSecurityException;
+import com.darkedges.capacitor.securestorage.utils.constants.SSSecurityUtilsErrorCodes;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;

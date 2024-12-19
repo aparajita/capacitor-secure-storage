@@ -1,11 +1,11 @@
-package com.aparajita.capacitor.securestorage;
+package com.darkedges.capacitor;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import com.aparajita.capacitor.securestorage.exceptions.KeyStoreException;
-import com.aparajita.capacitor.securestorage.exceptions.SSSecurityException;
-import com.aparajita.capacitor.securestorage.utils.factory.SSSecurityUtilsFactory;
+import com.darkedges.capacitor.securestorage.exceptions.KeyStoreException;
+import com.darkedges.capacitor.securestorage.exceptions.SSSecurityException;
+import com.darkedges.capacitor.securestorage.utils.factory.SSSecurityUtilsFactory;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;

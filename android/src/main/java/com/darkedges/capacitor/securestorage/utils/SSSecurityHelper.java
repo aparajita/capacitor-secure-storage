@@ -1,9 +1,9 @@
-package com.aparajita.capacitor.securestorage.utils;
+package com.darkedges.capacitor.securestorage.utils;
 
 import android.content.Context;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
-import com.aparajita.capacitor.securestorage.exceptions.SSSecurityException;
-import com.aparajita.capacitor.securestorage.utils.factory.SSSecurityUtilsFactory;
+import com.darkedges.capacitor.securestorage.exceptions.SSSecurityException;
+import com.darkedges.capacitor.securestorage.utils.factory.SSSecurityUtilsFactory;
 import java.util.ArrayList;
 
 public class SSSecurityHelper implements ISSSecurityHelper {

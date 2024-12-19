@@ -1,9 +1,9 @@
-package com.aparajita.capacitor.securestorage.utils.factory;
+package com.darkedges.capacitor.securestorage.utils.factory;
 
-import com.aparajita.capacitor.securestorage.exceptions.SSSecurityException;
-import com.aparajita.capacitor.securestorage.utils.ISSSecurityUtils;
-import com.aparajita.capacitor.securestorage.utils.SSSecurityUtils;
-import com.aparajita.capacitor.securestorage.utils.constants.SSSecurityUtilsErrorCodes;
+import com.darkedges.capacitor.securestorage.exceptions.SSSecurityException;
+import com.darkedges.capacitor.securestorage.utils.ISSSecurityUtils;
+import com.darkedges.capacitor.securestorage.utils.SSSecurityUtils;
+import com.darkedges.capacitor.securestorage.utils.constants.SSSecurityUtilsErrorCodes;
 
 public class SSSecurityUtilsFactory {
 

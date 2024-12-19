@@ -1,4 +1,4 @@
-package com.aparajita.capacitor.securestorage.utils.constants;
+package com.darkedges.capacitor.securestorage.utils.constants;
 
 public class SSSecurityUtilsErrorCodes {
 

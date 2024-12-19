@@ -1,6 +1,6 @@
-package com.aparajita.capacitor.securestorage.utils;
+package com.darkedges.capacitor.securestorage.utils;
 
-import com.aparajita.capacitor.securestorage.exceptions.SSSecurityError;
+import com.darkedges.capacitor.securestorage.exceptions.SSSecurityError;
 
 public class SSResult<T> {
 
