@@ -1,5 +1,7 @@
 import { SecureStorageBase } from './base'
 
+export { NativeBiometricWeb } from './base'
+
 // eslint-disable-next-line import/prefer-default-export
 export class SecureStorageWeb extends SecureStorageBase {
   // @native

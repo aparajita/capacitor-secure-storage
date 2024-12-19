@@ -1,5 +1,15 @@
 import { Capacitor, CapacitorException, WebPlugin } from '@capacitor/core'
-import type { DataType, SecureStoragePlugin } from './definitions'
+import type {
+  DataType,
+  SecureStoragePlugin,
+  NativeBiometricPlugin,
+  AvailableResult,
+  BiometricOptions,
+  GetCredentialOptions,
+  SetCredentialOptions,
+  DeleteCredentialOptions,
+  Credentials,
+} from './definitions'
 import { KeychainAccess, StorageError, StorageErrorType } from './definitions'
 
 function isStorageErrorType(
@@ -292,3 +302,30 @@ function parseISODate(isoDate: string): Date | null {
 
   return null
 }
+
+/* eslint-disable */
+export class NativeBiometricWeb
+  extends WebPlugin
+  implements NativeBiometricPlugin
+{
+  async isAvailable(): Promise<AvailableResult> {
+    throw new Error('Method not implemented.')
+  }
+
+  async verifyIdentity(_options?: BiometricOptions): Promise<void> {
+    throw new Error('Method not implemented.')
+  }
+
+  async getCredentials(_options: GetCredentialOptions): Promise<Credentials> {
+    throw new Error('Method not implemented.')
+  }
+
+  async setCredentials(_options: SetCredentialOptions): Promise<void> {
+    throw new Error('Method not implemented.')
+  }
+
+  async deleteCredentials(_options: DeleteCredentialOptions): Promise<void> {
+    throw new Error('Method not implemented.')
+  }
+}
+/* eslint-enable */

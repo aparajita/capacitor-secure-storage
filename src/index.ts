@@ -1,5 +1,5 @@
 import { registerPlugin } from '@capacitor/core'
-import type { SecureStoragePlugin } from './definitions'
+import type { SecureStoragePlugin, NativeBiometricPlugin } from './definitions'
 
 const proxy = registerPlugin<SecureStoragePlugin>('SecureStorage', {
   web: async () =>
@@ -10,5 +10,12 @@ const proxy = registerPlugin<SecureStoragePlugin>('SecureStorage', {
     import('./native').then((module) => new module.SecureStorageNative(proxy)),
 })
 
+const nativeBiometric = registerPlugin<NativeBiometricPlugin>(
+  'NativeBiometric',
+  {
+    web: async () => import('./web').then((m) => new m.NativeBiometricWeb()),
+  },
+)
+
 export * from './definitions'
-export { proxy as SecureStorage }
+export { proxy as SecureStorage, nativeBiometric as NativeBiometric }

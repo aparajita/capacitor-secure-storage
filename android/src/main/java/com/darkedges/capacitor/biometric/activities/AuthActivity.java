@@ -1,4 +1,4 @@
-package com.darkedges.capacitor.biometric;
+package com.darkedges.capacitor.biometric.activities;
 
 import android.content.Intent;
 import android.os.Build;
@@ -7,7 +7,7 @@ import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
-import com.aparajita.capacitor.R;
+import com.darkedges.capacitor.R;
 import java.util.concurrent.Executor;
 
 public class AuthActivity extends AppCompatActivity {
