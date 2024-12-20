@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name="com.darkedges.biometric.AuthActivity"
+            android:name="com.darkedges.capacitor.biometric.activities.AuthActivity"
             android:label="@string/title_activity_auth_activity"
             android:theme="@style/AppTheme.Transparent">
         </activity>
