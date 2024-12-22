@@ -1,7 +1,9 @@
 package com.darkedges.capacitor.securestorage.exceptions;
 
 import androidx.annotation.Nullable;
+
 import com.getcapacitor.PluginCall;
+
 import java.util.HashMap;
 
 public class KeyStoreException extends Throwable {

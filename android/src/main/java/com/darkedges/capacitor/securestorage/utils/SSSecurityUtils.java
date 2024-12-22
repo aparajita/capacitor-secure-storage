@@ -6,9 +6,12 @@ import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
+
 import androidx.annotation.NonNull;
+
 import com.darkedges.capacitor.securestorage.exceptions.SSSecurityException;
 import com.darkedges.capacitor.securestorage.utils.constants.SSSecurityUtilsErrorCodes;
+
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -27,6 +30,7 @@ import java.security.spec.MGF1ParameterSpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Enumeration;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -38,11 +42,12 @@ public class SSSecurityUtils implements ISSSecurityUtils {
 
   private static final SSSecurityUtils ourInstance = new SSSecurityUtils();
 
+  private SSSecurityUtils() {
+  }
+
   public static SSSecurityUtils getInstance() {
     return ourInstance;
   }
-
-  private SSSecurityUtils() {}
 
   /**
    * Load AndroidKeyStore.
@@ -135,7 +140,7 @@ public class SSSecurityUtils implements ISSSecurityUtils {
     try {
       return (
         keyStore.containsAlias(alias) ||
-        generateKey(context, alias, isAuthenticationRequired)
+          generateKey(context, alias, isAuthenticationRequired)
       );
     } catch (KeyStoreException e) {
       e.printStackTrace();

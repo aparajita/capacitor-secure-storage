@@ -4,25 +4,62 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
+
 import com.darkedges.capacitor.R;
+
 import java.util.concurrent.Executor;
 
 public class AuthActivity extends AppCompatActivity {
 
-  private Executor executor;
   private int maxAttempts;
   private int counter = 0;
+
+  /**
+   * Convert Auth Error Codes to plugin expected Biometric Auth Errors (in README.md)
+   * This way both iOS and Android return the same error codes for the same authentication failure reasons.
+   * !!IMPORTANT!!: Whenever this is modified, check if similar function in iOS Plugin.swift needs to be modified as well
+   *
+   * @return BiometricAuthError
+   * @see https://developer.android.com/reference/androidx/biometric/BiometricPrompt#constants
+   */
+  public static int convertToPluginErrorCode(int errorCode) {
+    switch (errorCode) {
+      case BiometricPrompt.ERROR_HW_UNAVAILABLE:
+      case BiometricPrompt.ERROR_HW_NOT_PRESENT:
+        return 1;
+      case BiometricPrompt.ERROR_LOCKOUT_PERMANENT:
+        return 2;
+      case BiometricPrompt.ERROR_NO_BIOMETRICS:
+        return 3;
+      case BiometricPrompt.ERROR_LOCKOUT:
+        return 4;
+      // Authentication Failure (10) Handled by `onAuthenticationFailed`.
+      // App Cancel (11), Invalid Context (12), and Not Interactive (13) are not valid error codes for Android.
+      case BiometricPrompt.ERROR_NO_DEVICE_CREDENTIAL:
+        return 14;
+      case BiometricPrompt.ERROR_TIMEOUT:
+      case BiometricPrompt.ERROR_CANCELED:
+        return 15;
+      case BiometricPrompt.ERROR_USER_CANCELED:
+      case BiometricPrompt.ERROR_NEGATIVE_BUTTON:
+        return 16;
+      default:
+        return 0;
+    }
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_auth_acitivy);
+    setContentView(R.layout.activity_auth_activity);
 
     maxAttempts = getIntent().getIntExtra("maxAttempts", 1);
 
+    Executor executor;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
       executor = this.getMainExecutor();
     } else {
@@ -124,38 +161,5 @@ public class AuthActivity extends AppCompatActivity {
     }
     setResult(RESULT_OK, intent);
     finish();
-  }
-
-  /**
-   * Convert Auth Error Codes to plugin expected Biometric Auth Errors (in README.md)
-   * This way both iOS and Android return the same error codes for the same authentication failure reasons.
-   * !!IMPORTANT!!: Whenever this is modified, check if similar function in iOS Plugin.swift needs to be modified as well
-   * @see https://developer.android.com/reference/androidx/biometric/BiometricPrompt#constants
-   * @return BiometricAuthError
-   */
-  public static int convertToPluginErrorCode(int errorCode) {
-    switch (errorCode) {
-      case BiometricPrompt.ERROR_HW_UNAVAILABLE:
-      case BiometricPrompt.ERROR_HW_NOT_PRESENT:
-        return 1;
-      case BiometricPrompt.ERROR_LOCKOUT_PERMANENT:
-        return 2;
-      case BiometricPrompt.ERROR_NO_BIOMETRICS:
-        return 3;
-      case BiometricPrompt.ERROR_LOCKOUT:
-        return 4;
-      // Authentication Failure (10) Handled by `onAuthenticationFailed`.
-      // App Cancel (11), Invalid Context (12), and Not Interactive (13) are not valid error codes for Android.
-      case BiometricPrompt.ERROR_NO_DEVICE_CREDENTIAL:
-        return 14;
-      case BiometricPrompt.ERROR_TIMEOUT:
-      case BiometricPrompt.ERROR_CANCELED:
-        return 15;
-      case BiometricPrompt.ERROR_USER_CANCELED:
-      case BiometricPrompt.ERROR_NEGATIVE_BUTTON:
-        return 16;
-      default:
-        return 0;
-    }
   }
 }

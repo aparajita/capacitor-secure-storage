@@ -13,9 +13,11 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.security.keystore.StrongBoxUnavailableException;
 import android.util.Base64;
+
 import androidx.activity.result.ActivityResult;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
+
 import com.darkedges.capacitor.biometric.activities.AuthActivity;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -23,9 +25,11 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.ActivityCallback;
 import com.getcapacitor.annotation.CapacitorPlugin;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -39,6 +43,7 @@ import java.security.SecureRandom;
 import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
+
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
@@ -57,8 +62,6 @@ public class NativeBiometric extends Plugin {
   private static final int FACE_AUTHENTICATION = 4;
   private static final int IRIS_AUTHENTICATION = 5;
   private static final int MULTIPLE = 6;
-
-  private KeyStore keyStore;
   private static final String ANDROID_KEY_STORE = "AndroidKeyStore";
   private static final String TRANSFORMATION = "AES/GCM/NoPadding";
   private static final String RSA_MODE = "RSA/ECB/PKCS1Padding";
@@ -67,7 +70,7 @@ public class NativeBiometric extends Plugin {
   private static final String ENCRYPTED_KEY = "NativeBiometricKey";
   private static final String NATIVE_BIOMETRIC_SHARED_PREFERENCES =
     "NativeBiometricSharedPreferences";
-
+  private KeyStore keyStore;
   private SharedPreferences encryptedSharedPreferences;
 
   private int getAvailableFeature() {
@@ -322,7 +325,7 @@ public class NativeBiometric extends Plugin {
       cipher = Cipher.getInstance(AES_MODE, "BC");
       cipher.init(Cipher.ENCRYPT_MODE, getKey(KEY_ALIAS));
     }
-    byte[] encodedBytes = cipher.doFinal(stringToEncrypt.getBytes("UTF-8"));
+    byte[] encodedBytes = cipher.doFinal(stringToEncrypt.getBytes(StandardCharsets.UTF_8));
     return Base64.encodeToString(encodedBytes, Base64.DEFAULT);
   }
 
@@ -343,7 +346,7 @@ public class NativeBiometric extends Plugin {
       cipher.init(Cipher.DECRYPT_MODE, getKey(KEY_ALIAS));
     }
     byte[] decryptedData = cipher.doFinal(encryptedData);
-    return new String(decryptedData, "UTF-8");
+    return new String(decryptedData, StandardCharsets.UTF_8);
   }
 
   @SuppressLint("NewAPI") // API level is already checked
