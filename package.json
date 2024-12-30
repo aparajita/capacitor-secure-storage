@@ -1,6 +1,6 @@
 {
   "name": "@darkedges/capacitor-secure-storage",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Capacitor 6+ plugin that provides secure storage for the iOS and Android",
   "author": "Nicholas Irving",
   "license": "MIT",
