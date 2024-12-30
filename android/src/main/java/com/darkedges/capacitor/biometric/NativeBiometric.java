@@ -13,11 +13,9 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.security.keystore.StrongBoxUnavailableException;
 import android.util.Base64;
-
 import androidx.activity.result.ActivityResult;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
-
 import com.darkedges.capacitor.biometric.activities.AuthActivity;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -25,7 +23,6 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.ActivityCallback;
 import com.getcapacitor.annotation.CapacitorPlugin;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -43,7 +40,6 @@ import java.security.SecureRandom;
 import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
-
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
@@ -325,7 +321,9 @@ public class NativeBiometric extends Plugin {
       cipher = Cipher.getInstance(AES_MODE, "BC");
       cipher.init(Cipher.ENCRYPT_MODE, getKey(KEY_ALIAS));
     }
-    byte[] encodedBytes = cipher.doFinal(stringToEncrypt.getBytes(StandardCharsets.UTF_8));
+    byte[] encodedBytes = cipher.doFinal(
+      stringToEncrypt.getBytes(StandardCharsets.UTF_8)
+    );
     return Base64.encodeToString(encodedBytes, Base64.DEFAULT);
   }
 

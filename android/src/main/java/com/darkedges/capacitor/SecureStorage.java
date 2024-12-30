@@ -3,7 +3,6 @@ package com.darkedges.capacitor;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-
 import com.darkedges.capacitor.securestorage.exceptions.KeyStoreException;
 import com.darkedges.capacitor.securestorage.exceptions.SSSecurityException;
 import com.darkedges.capacitor.securestorage.utils.factory.SSSecurityUtilsFactory;
@@ -12,12 +11,10 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-
-import org.json.JSONArray;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import org.json.JSONArray;
 
 interface StorageOp {
   void run() throws KeyStoreException, GeneralSecurityException, IOException;

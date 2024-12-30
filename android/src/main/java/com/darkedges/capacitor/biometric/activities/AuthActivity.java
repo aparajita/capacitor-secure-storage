@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
-
 import com.darkedges.capacitor.R;
-
 import java.util.concurrent.Executor;
 
 public class AuthActivity extends AppCompatActivity {

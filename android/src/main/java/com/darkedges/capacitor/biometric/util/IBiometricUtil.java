@@ -1,4 +1,3 @@
 package com.darkedges.capacitor.biometric.util;
 
-public interface IBiometricUtil {
-}
+public interface IBiometricUtil {}
