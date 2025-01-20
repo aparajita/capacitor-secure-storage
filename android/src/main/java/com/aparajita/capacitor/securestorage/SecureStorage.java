@@ -241,7 +241,7 @@ public class SecureStorage extends Plugin {
     Cipher cipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
     cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(prefixedKey));
 
-    byte[] iv = cipher.getIV();
+    byte[] iv = cipher.getIV(); // TO REVIEW: If not set before, is set to null!!
     byte[] plaintext = str.getBytes(StandardCharsets.UTF_8);
 
     byte[] encryptedBytes = cipher.doFinal(plaintext);
@@ -301,21 +301,37 @@ public class SecureStorage extends Plugin {
       // We haven't yet generated a secret key for prefixedKey, generate one
     }
 
-    SecretKey secretKey;
+    SecretKey secretKey = null;
 
     if (entry == null) {
-      KeyGenParameterSpec.Builder builder = new KeyGenParameterSpec.Builder(
-        prefixedKey,
-        KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT
-      );
-      AlgorithmParameterSpec spec = builder
-        .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-        .build();
-      keyGenerator.init(spec);
-      secretKey = keyGenerator.generateKey();
+      try {
+        KeyGenParameterSpec.Builder builder = new KeyGenParameterSpec.Builder(
+          prefixedKey,
+          KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT
+        );
+        AlgorithmParameterSpec spec = builder
+          .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+          .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+          .setIsStrongBoxBacked(true)
+          .setRandomizedEncryptionRequired(true)
+          .setUserAuthenticationRequired(true)
+          .setUserAuthenticationValidWhileOnBody(true)
+          .build(); // https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder
+        keyGenerator.init(spec);
+        secretKey = keyGenerator.generateKey();
+      } catch (Exception e) {
+        throw new GeneralSecurityException("Failed to generate secret key", e);
+      }
     } else {
-      secretKey = entry.getSecretKey();
+      try {
+        secretKey = entry.getSecretKey();
+      } catch (Exception e) {
+        throw new GeneralSecurityException("Failed to retrieve secret key", e);
+      }
+    }
+
+    if (secretKey == null) {
+      throw new GeneralSecurityException("Secret key could not be initialized");
     }
 
     return secretKey;
