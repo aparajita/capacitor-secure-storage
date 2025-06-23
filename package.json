@@ -72,6 +72,10 @@
     "@aparajita/eslint-config-base": "^1.1.6",
     "@aparajita/prettier-config": "^2.0.0",
     "@aparajita/swiftly": "^1.0.4",
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/app": "^6.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/ios": "^7.0.0",
     "@capacitor/cli": "^7.0.0",
     "@commitlint/cli": "^19.2.2",
     "@commitlint/config-conventional": "^19.2.2",
@@ -97,15 +101,13 @@
     "swiftlint": "^2.0.0",
     "typescript": "~5.4.5"
   },
-  "dependencies": {
-    "@capacitor/android": "^7.0.0",
-    "@capacitor/app": "^6.0.0",
-    "@capacitor/core": "^7.0.0",
-    "@capacitor/ios": "^7.0.0"
-  },
+  "dependencies": {},
   "pnpm": {
     "allowDeprecatedVersions": {
       "stringify-package": "1.0.1"
     }
+  },
+  "peerDependencies": {
+    "@capacitor/core": ">=6.1.0"
   }
 }

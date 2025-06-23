@@ -9,19 +9,6 @@ pnpmfileChecksum: sha256-CO9yVOt7nlfD9A9+nr4mczQtFZ7YPRHCkeg7QsXXQIs=
 importers:
 
   .:
-    dependencies:
-      '@capacitor/android':
-        specifier: ^7.0.0
-        version: 7.2.0(@capacitor/core@7.2.0)
-      '@capacitor/app':
-        specifier: ^6.0.0
-        version: 6.0.0(@capacitor/core@7.2.0)
-      '@capacitor/core':
-        specifier: ^7.0.0
-        version: 7.2.0
-      '@capacitor/ios':
-        specifier: ^7.0.0
-        version: 7.2.0(@capacitor/core@7.2.0)
     devDependencies:
       '@aparajita/eslint-config-base':
         specifier: ^1.1.6
@@ -32,9 +19,21 @@ importers:
       '@aparajita/swiftly':
         specifier: ^1.0.4
         version: 1.0.4(swiftlint@2.0.0(typescript@5.4.5))
+      '@capacitor/android':
+        specifier: ^7.0.0
+        version: 7.2.0(@capacitor/core@7.2.0)
+      '@capacitor/app':
+        specifier: ^6.0.0
+        version: 6.0.0(@capacitor/core@7.2.0)
       '@capacitor/cli':
         specifier: ^7.0.0
         version: 7.2.0
+      '@capacitor/core':
+        specifier: ^7.0.0
+        version: 7.2.0
+      '@capacitor/ios':
+        specifier: ^7.0.0
+        version: 7.2.0(@capacitor/core@7.2.0)
       '@commitlint/cli':
         specifier: ^19.2.2
         version: 19.2.2(@types/node@20.12.7)(typescript@5.4.5)
