@@ -1,17 +1,18 @@
 import { SecureStorageBase } from './base'
 
-// eslint-disable-next-line import/prefer-default-export
 export class SecureStorageWeb extends SecureStorageBase {
+  /* eslint-disable @typescript-eslint/class-methods-use-this */
+
   // @native
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected async setSynchronizeKeychain(options: {
+
+  protected async setSynchronizeKeychain(_options: {
     sync: boolean
   }): Promise<void> {
-    return Promise.resolve()
+    // Web implementation - no-op
   }
 
   // @native
-  // eslint-disable-next-line @typescript-eslint/require-await
+
   protected async internalGetItem(options: {
     prefixedKey: string
   }): Promise<{ data: string | null }> {
@@ -24,7 +25,6 @@ export class SecureStorageWeb extends SecureStorageBase {
     data: string
   }): Promise<void> {
     localStorage.setItem(options.prefixedKey, options.data)
-    return Promise.resolve()
   }
 
   // @native
@@ -35,24 +35,23 @@ export class SecureStorageWeb extends SecureStorageBase {
 
     if (item !== null) {
       localStorage.removeItem(options.prefixedKey)
-      return Promise.resolve({ success: true })
+      return { success: true }
     }
 
-    return Promise.resolve({ success: false })
+    return { success: false }
   }
 
   async clear(): Promise<void> {
     const { keys } = await this.getPrefixedKeys({ prefix: this.prefix })
-    keys.forEach((key) => {
-      localStorage.removeItem(key)
-    })
 
-    return Promise.resolve()
+    for (const key of keys) {
+      localStorage.removeItem(key)
+    }
   }
 
   // @native
-  // eslint-disable-next-line @typescript-eslint/require-await,@typescript-eslint/no-unused-vars
-  protected async clearItemsWithPrefix(options: {
+
+  protected async clearItemsWithPrefix(_options: {
     prefix: string
   }): Promise<void> {
     console.warn('clearItemsWithPrefix is native only')
@@ -72,6 +71,8 @@ export class SecureStorageWeb extends SecureStorageBase {
       }
     }
 
-    return Promise.resolve({ keys })
+    return { keys }
   }
+
+  /* eslint-enable @typescript-eslint/class-methods-use-this */
 }

@@ -1,4 +1,5 @@
 import { Capacitor, CapacitorException, WebPlugin } from '@capacitor/core'
+
 import type { DataType, SecureStoragePlugin } from './definitions'
 import { KeychainAccess, StorageError, StorageErrorType } from './definitions'
 
@@ -51,36 +52,37 @@ export abstract class SecureStorageBase
     }
 
     // no-op on other platforms
-    return Promise.resolve()
   }
 
   async getSynchronize(): Promise<boolean> {
-    return Promise.resolve(this.sync)
+    return this.sync
   }
 
   // @native
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   protected abstract setSynchronizeKeychain(options: {
     sync: boolean
   }): Promise<void>
 
   async setDefaultKeychainAccess(access: KeychainAccess): Promise<void> {
     this.access = access
-    return Promise.resolve()
   }
 
   protected async tryOperation<T>(operation: () => Promise<T>): Promise<T> {
     try {
       // Ensure that only one operation is in progress at a time.
       return await operation()
-    } catch (e) {
+    } catch (error) {
       // Native calls which reject will throw a CapacitorException with a code.
       // We want to convert these to StorageErrors.
-      if (e instanceof CapacitorException && isStorageErrorType(e.code)) {
-        throw new StorageError(e.message, e.code)
+      if (
+        error instanceof CapacitorException &&
+        isStorageErrorType(error.code)
+      ) {
+        throw new StorageError(error.message, error.code)
       }
 
-      throw e
+      throw error
     }
   }
 
@@ -110,8 +112,9 @@ export abstract class SecureStorageBase
       }
 
       try {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
         return JSON.parse(data) as DataType
-      } catch (e) {
+      } catch {
         throw new StorageError('Invalid data', StorageErrorType.invalidData)
       }
     }
@@ -253,12 +256,11 @@ export abstract class SecureStorageBase
   }): Promise<{ keys: string[] }>
 
   async getKeyPrefix(): Promise<string> {
-    return Promise.resolve(this.prefix)
+    return this.prefix
   }
 
   async setKeyPrefix(prefix: string): Promise<void> {
     this.prefix = prefix
-    return Promise.resolve()
   }
 
   protected prefixedKey(key: string): string {
@@ -278,16 +280,15 @@ function parseISODate(isoDate: string): Date | null {
   const match = isoDateRE.exec(isoDate)
 
   if (match) {
-    const year = parseInt(match[1], 10)
-    const month = parseInt(match[2], 10) - 1 // month is zero-based
-    const day = parseInt(match[3], 10)
-    const hour = parseInt(match[4], 10)
-    const minute = parseInt(match[5], 10)
-    const second = parseInt(match[6], 10)
-    const millis = parseInt(match[7], 10)
+    const year = Number.parseInt(match[1], 10)
+    const month = Number.parseInt(match[2], 10) - 1 // month is zero-based
+    const day = Number.parseInt(match[3], 10)
+    const hour = Number.parseInt(match[4], 10)
+    const minute = Number.parseInt(match[5], 10)
+    const second = Number.parseInt(match[6], 10)
+    const millis = Number.parseInt(match[7], 10)
     const epochTime = Date.UTC(year, month, day, hour, minute, second, millis)
     return new Date(epochTime)
-    /* eslint-enable */
   }
 
   return null

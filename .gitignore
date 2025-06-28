@@ -64,4 +64,5 @@ captures/
 .externalNativeBuild
 *.xcworkspace
 
+# Dev environment files
 .eslintcache

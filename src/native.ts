@@ -1,13 +1,12 @@
 import { SecureStorageBase } from './base'
 import type { KeychainAccess, SecureStoragePlugin } from './definitions'
 
-// eslint-disable-next-line import/prefer-default-export
 export class SecureStorageNative extends SecureStorageBase {
   constructor(capProxy: SecureStoragePlugin) {
     super()
     // capProxy is a proxy of an instance of this class, so it is safe
     // to cast it to this class.
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
     const proxy = capProxy as SecureStorageNative
 
     /* eslint-disable @typescript-eslint/unbound-method */
@@ -20,41 +19,39 @@ export class SecureStorageNative extends SecureStorageBase {
     /* eslint-enable */
   }
 
+  /* eslint-disable @typescript-eslint/class-methods-use-this */
+
   // @native
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected async setSynchronizeKeychain(options: {
+  protected async setSynchronizeKeychain(_options: {
     sync: boolean
   }): Promise<void> {
-    return Promise.resolve()
+    // Native implementation
   }
 
   // @native
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected async internalGetItem(options: {
+  protected async internalGetItem(_options: {
     prefixedKey: string
     sync: boolean
   }): Promise<{ data: string }> {
-    return Promise.resolve({ data: '' })
+    return { data: '' }
   }
 
   // @native
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected async internalSetItem(options: {
+  protected async internalSetItem(_options: {
     prefixedKey: string
     data: string
     sync: boolean
     access: KeychainAccess
   }): Promise<void> {
-    return Promise.resolve()
+    // Native implementation
   }
 
   // @native
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected async internalRemoveItem(options: {
+  protected async internalRemoveItem(_options: {
     prefixedKey: string
     sync: boolean
   }): Promise<{ success: boolean }> {
-    return Promise.resolve({ success: true })
+    return { success: true }
   }
 
   async clear(sync?: boolean): Promise<void> {
@@ -67,20 +64,20 @@ export class SecureStorageNative extends SecureStorageBase {
   }
 
   // @native
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected async clearItemsWithPrefix(options: {
+  protected async clearItemsWithPrefix(_options: {
     prefix: string
     sync: boolean
   }): Promise<void> {
-    return Promise.resolve()
+    // Native implementation
   }
 
   // @native
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected async getPrefixedKeys(options: {
+  protected async getPrefixedKeys(_options: {
     prefix: string
     sync: boolean
   }): Promise<{ keys: string[] }> {
-    return Promise.resolve({ keys: [] })
+    return { keys: [] }
   }
+
+  /* eslint-enable @typescript-eslint/class-methods-use-this */
 }

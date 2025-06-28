@@ -110,7 +110,7 @@ export class StorageError extends Error {
 
   constructor(message: string, code: StorageErrorType) {
     super(message)
-    this.name = this.constructor.name
+    this.name = 'StorageError'
     this.code = code
   }
 }

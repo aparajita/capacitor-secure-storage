@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   printWidth: 80,
   tabWidth: 2,
   useTabs: false,
@@ -11,7 +11,7 @@ module.exports = {
   bracketSameLine: false,
   arrowParens: 'always',
   rangeStart: 0,
-  rangeEnd: Infinity,
+  rangeEnd: Number.POSITIVE_INFINITY,
   requirePragma: false,
   insertPragma: false,
   proseWrap: 'preserve',
@@ -20,5 +20,6 @@ module.exports = {
   endOfLine: 'lf',
   embeddedLanguageFormatting: 'auto',
   singleAttributePerLine: true,
-  plugins: ['prettier-plugin-java'],
 }
+
+export default config

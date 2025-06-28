@@ -1,13 +1,20 @@
 import { registerPlugin } from '@capacitor/core'
+
 import type { SecureStoragePlugin } from './definitions'
 
 const proxy = registerPlugin<SecureStoragePlugin>('SecureStorage', {
-  web: async () =>
-    import('./web').then((module) => new module.SecureStorageWeb()),
-  ios: async () =>
-    import('./native').then((module) => new module.SecureStorageNative(proxy)),
-  android: async () =>
-    import('./native').then((module) => new module.SecureStorageNative(proxy)),
+  web: async () => {
+    const module = await import('./web')
+    return new module.SecureStorageWeb()
+  },
+  ios: async () => {
+    const module = await import('./native')
+    return new module.SecureStorageNative(proxy)
+  },
+  android: async () => {
+    const module = await import('./native')
+    return new module.SecureStorageNative(proxy)
+  },
 })
 
 export * from './definitions'

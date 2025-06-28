@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git reset:*)",
+      "Bash(git checkout:*)",
+      "Bash(rm:*)",
+      "Bash(node:*)",
+      "Bash(pnpm list:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(pnpm format:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}
