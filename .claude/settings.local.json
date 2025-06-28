@@ -1,6 +1,15 @@
 {
   "permissions": {
     "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm lint.eslint:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(mv:*)",
+      "Bash(pnpm build:*)",
       "Bash(git reset:*)",
       "Bash(git checkout:*)",
       "Bash(rm:*)",
