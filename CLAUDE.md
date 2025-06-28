@@ -73,8 +73,38 @@ Uses Capacitor's plugin registration system with platform-specific implementatio
 - **Source maps**: Available in development builds via `SOURCE_MAP` env var
 - **Linting**: ESLint with TypeScript, Prettier formatting, and strict TypeScript compilation
 
+## Git Workflow
+
+This project uses **Git Flow** branching strategy:
+
+### Branch Structure
+- **`main`**: Production-ready releases only. Always stable and deployable.
+- **`develop`**: Primary development branch. All feature development happens here.
+- **Feature branches**: Branch from `develop`, merge back to `develop` when complete.
+
+### Development Workflow
+1. **Feature development**: Create feature branches from `develop`
+   ```bash
+   git checkout develop
+   git checkout -b feature/your-feature-name
+   ```
+2. **Complete features**: Merge back to `develop`
+   ```bash
+   git checkout develop
+   git merge feature/your-feature-name
+   git branch -d feature/your-feature-name
+   ```
+3. **Release preparation**: When ready for release, merge `develop` → `main`
+
+### Branch Guidelines
+- **Never commit directly to `main`** - it's release-only
+- **All development happens on `develop`** or feature branches
+- **Feature branches should be short-lived** and focused on single features
+- **Clean up merged branches** to keep repository tidy
+
 ## Release Process
 
 - **Version bumping**: Uses `commit-and-tag-version` package
 - **Pre-release checks**: Ensures clean working directory and successful build
 - **Automated release**: `pnpm release` handles versioning, tagging, and publishing
+- **Release from `main`**: Only release from the `main` branch after merging from `develop`
