@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-CO9yVOt7nlfD9A9+nr4mczQtFZ7YPRHCkeg7QsXXQIs=
-
 importers:
 
   .:
@@ -70,7 +68,7 @@ importers:
         version: 59.0.1(eslint@9.30.0(jiti@1.21.7))
       neostandard:
         specifier: ^0.12.0
-        version: 0.12.1(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(eslint@9.30.0(jiti@1.21.7)))(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3)
+        version: 0.12.1(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint@9.30.0(jiti@1.21.7)))(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3)
       nodemon:
         specifier: ^3.1.0
         version: 3.1.0
@@ -90,8 +88,8 @@ importers:
         specifier: ^4.30.1
         version: 4.44.1
       simple-git-hooks:
-        specifier: ^2.11.1
-        version: 2.11.1
+        specifier: ^2.13.0
+        version: 2.13.0
       swiftlint:
         specifier: ^2.0.0
         version: 2.0.0(typescript@5.7.3)
@@ -194,7 +192,7 @@ importers:
         version: 9.33.0(eslint@9.30.0(jiti@1.21.7))
       neostandard:
         specifier: ^0.12.0
-        version: 0.12.1(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(eslint@9.30.0(jiti@1.21.7)))(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3)
+        version: 0.12.1(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint@9.30.0(jiti@1.21.7)))(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3)
       postcss:
         specifier: ^8.4.38
         version: 8.5.6
@@ -3452,6 +3450,9 @@ packages:
   proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
 
+  psl@1.15.0:
+    resolution: {integrity: sha512-JZd3gMVBAVQkSs6HdNZo9Sdo0LNcQeMNP3CozBJb3JYC/QUYZTnKxP+f8oWRX4rHP5EurWxqAHTSwUCjlNKa1w==}
+
   pstree.remy@1.1.8:
     resolution: {integrity: sha512-77DZwxQmxKnu3aR542U+X8FypNzbfJ+C5XQDk3uWjWxn6151aIMGthWYRXTqT1E5oJvg+ljaa2OJi+VfvCOQ8w==}
 
@@ -3465,6 +3466,10 @@ packages:
   q@1.5.1:
     resolution: {integrity: sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==}
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
+    deprecated: |-
+      You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+
+      (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   qs@6.14.0:
     resolution: {integrity: sha512-YWWTjgABSKcvs/nWBi9PycY/JiPJqOD4JA6o9Sej2AtvSGarXxKC3OQSk4pAarbdQlKAh5D4FCQkJNkW+GAn3w==}
@@ -3696,8 +3701,8 @@ packages:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
 
-  simple-git-hooks@2.11.1:
-    resolution: {integrity: sha512-tgqwPUMDcNDhuf1Xf6KTUsyeqGdgKMhzaH4PAZZuzguOgTl5uuyeYe/8mWgAr6IBxB5V06uqEf6Dy37gIWDtDg==}
+  simple-git-hooks@2.13.0:
+    resolution: {integrity: sha512-N+goiLxlkHJlyaYEglFypzVNMaNplPAk5syu0+OPp/Bk6dwVoXF6FfOw2vO0Dp+JHsBaI+w6cm8TnFl2Hw6tDA==}
     hasBin: true
 
   simple-update-notifier@2.0.0:
@@ -3922,13 +3927,6 @@ packages:
     resolution: {integrity: sha512-tX5e7OM1HnYr2+a2C/4V0htOcSQcoSTH9KgJnVvNm5zm/cyEWKJ7j7YutsH9CxMdtOkkLFy2AHrMci9IM8IPZQ==}
     engines: {node: '>=12.0.0'}
 
-  tldts-core@6.1.32:
-    resolution: {integrity: sha512-XfnnY74YWMBfE6BNpi33GCpjzw0lJUUmUW+bKukARTD4IChV9plBnu4wRvl/rN8mnoXA+xAEpVN8XfmtKvQWlA==}
-
-  tldts@6.1.32:
-    resolution: {integrity: sha512-M5zZuEGvVz6YAwt3w93zhtBXbW0K4KF4ejzuBULyVp40u/FTQVpLj01zwYTlUkgYqYprTqxCfQFfZSWgz5fJnw==}
-    hasBin: true
-
   tmp@0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}
     engines: {node: '>=0.6.0'}
@@ -3941,9 +3939,9 @@ packages:
     resolution: {integrity: sha512-WBx8Uy5TLtOSRtIq+M03/sKDrXCLHxwDcquSP2c43Le03/9serjQBIztjRz6FkJez9D/hleyAXTBGLwwZUw9lA==}
     hasBin: true
 
-  tough-cookie@5.0.0-rc.3:
-    resolution: {integrity: sha512-vPx5Wz/Vz4NwE0uFUgwZfZfmn3RVXSnofUAmFPQNMuA2cNxFcPyX6f2d3GgpQWyGswzzZeZSv3G64DaRkjmQdA==}
-    engines: {node: '>=16'}
+  tough-cookie@4.1.4:
+    resolution: {integrity: sha512-Loo5UUvLD9ScZ6jh8beX1T6sO1w2/MpCRpEP7V280GKMVUQ0Jzar2U3UJPsrdbziLEMMhu3Ujnq//rhiFuIeag==}
+    engines: {node: '>=6'}
 
   tr46@5.0.0:
     resolution: {integrity: sha512-tk2G5R2KRwBd+ZN0zaEXpmzdKyOYksXwywulIX95MBODjSzMIuQnQ3m8JxgbhnL1LeVo7lqQKsYa1O3Htl7K5g==}
@@ -4059,6 +4057,10 @@ packages:
   unicorn-magic@0.1.0:
     resolution: {integrity: sha512-lRfVq8fE8gz6QMBuDM6a+LO3IAzTi05H6gCVaUpir2E1Rwpo4ZUog45KpNXKC/Mn3Yb9UDuHumeFTo9iV/D9FQ==}
     engines: {node: '>=18'}
+
+  universalify@0.2.0:
+    resolution: {integrity: sha512-CJ1QgKmNg3CwvAv/kOFmtnEN05f0D/cn9QntgNOQlQF9dgvVTHj3t+8JPdjqawCHk7V/KA+fbUqzZ9XWhcqPUg==}
+    engines: {node: '>= 4.0.0'}
 
   universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
@@ -6258,7 +6260,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.30.0(jiti@1.21.7)))(eslint-plugin-import@2.32.0(eslint@9.30.0(jiti@1.21.7)))(eslint@9.30.0(jiti@1.21.7)):
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.30.0(jiti@1.21.7)))(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint@9.30.0(jiti@1.21.7)))(eslint@9.30.0(jiti@1.21.7)):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.1
@@ -7178,7 +7180,7 @@ snapshots:
       rrweb-cssom: 0.6.0
       saxes: 6.0.0
       symbol-tree: 3.2.4
-      tough-cookie: 5.0.0-rc.3
+      tough-cookie: 4.1.4
       w3c-xmlserializer: 5.0.0
       webidl-conversions: 7.0.0
       whatwg-encoding: 3.1.1
@@ -7498,12 +7500,12 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  neostandard@0.12.1(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(eslint@9.30.0(jiti@1.21.7)))(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3):
+  neostandard@0.12.1(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint@9.30.0(jiti@1.21.7)))(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3):
     dependencies:
       '@humanwhocodes/gitignore-to-minimatch': 1.0.2
       '@stylistic/eslint-plugin': 2.11.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3)
       eslint: 9.30.0(jiti@1.21.7)
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.30.0(jiti@1.21.7)))(eslint-plugin-import@2.32.0(eslint@9.30.0(jiti@1.21.7)))(eslint@9.30.0(jiti@1.21.7))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.30.0(jiti@1.21.7)))(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint@9.30.0(jiti@1.21.7)))(eslint@9.30.0(jiti@1.21.7))
       eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.30.0(jiti@1.21.7))
       eslint-plugin-n: 17.20.0(eslint@9.30.0(jiti@1.21.7))(typescript@5.7.3)
       eslint-plugin-promise: 7.2.1(eslint@9.30.0(jiti@1.21.7))
@@ -7883,6 +7885,10 @@ snapshots:
 
   proxy-from-env@1.1.0: {}
 
+  psl@1.15.0:
+    dependencies:
+      punycode: 2.3.1
+
   pstree.remy@1.1.8: {}
 
   pump@3.0.3:
@@ -8168,7 +8174,7 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
-  simple-git-hooks@2.11.1: {}
+  simple-git-hooks@2.13.0: {}
 
   simple-update-notifier@2.0.0:
     dependencies:
@@ -8458,12 +8464,6 @@ snapshots:
       fdir: 6.4.6(picomatch@4.0.2)
       picomatch: 4.0.2
 
-  tldts-core@6.1.32: {}
-
-  tldts@6.1.32:
-    dependencies:
-      tldts-core: 6.1.32
-
   tmp@0.0.33:
     dependencies:
       os-tmpdir: 1.0.2
@@ -8476,10 +8476,11 @@ snapshots:
     dependencies:
       nopt: 1.0.10
 
-  tough-cookie@5.0.0-rc.3:
+  tough-cookie@4.1.4:
     dependencies:
+      psl: 1.15.0
       punycode: 2.3.1
-      tldts: 6.1.32
+      universalify: 0.2.0
       url-parse: 1.5.10
 
   tr46@5.0.0:
@@ -8594,6 +8595,8 @@ snapshots:
   undici-types@6.21.0: {}
 
   unicorn-magic@0.1.0: {}
+
+  universalify@0.2.0: {}
 
   universalify@2.0.1: {}
 
