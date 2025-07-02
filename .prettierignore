@@ -2,6 +2,7 @@ dist
 ios
 android/*
 !android/src
+demo
 CHANGELOG.md
 pnpm-lock.yaml
 .claude/**
