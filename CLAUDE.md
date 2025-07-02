@@ -49,7 +49,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Architecture
 
-This is a Capacitor 6+ plugin that provides secure storage across iOS, Android, and web platforms:
+This is a Capacitor 7+ plugin that provides secure storage across iOS, Android, and web platforms:
 
 ### Core Structure
 

@@ -3,7 +3,18 @@ import Capacitor
 import KeychainSwift
 
 @objc(SecureStorage)
-public class SecureStorage: CAPPlugin {
+public class SecureStorage: CAPPlugin, CAPBridgedPlugin {
+  public let identifier = "SecureStorage"
+  public let jsName = "SecureStorage"
+  public let pluginMethods: [CAPPluginMethod] = [
+    .init(#selector(setSynchronizeKeychain)),
+    .init(#selector(internalSetItem)),
+    .init(#selector(internalGetItem)),
+    .init(#selector(internalRemoveItem)),
+    .init(#selector(clearItemsWithPrefix)),
+    .init(#selector(getPrefixedKeys))
+  ]
+
   let kKeyOption = "prefixedKey"
   let kDataOption = "data"
   let kSyncOption = "sync"
