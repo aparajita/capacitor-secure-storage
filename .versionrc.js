@@ -1,5 +1,8 @@
-module.exports = {
-  bumpFiles: [{ filename: 'package.json', type: 'json' }],
+const config = {
+  bumpFiles: [
+    { filename: 'package.json', type: 'json' },
+    { filename: 'demo/package.json', type: 'json' },
+  ],
   types: [
     { type: 'feat', section: 'Features' },
     { type: 'fix', section: 'Bug Fixes' },
@@ -11,3 +14,5 @@ module.exports = {
     { type: 'test', hidden: true },
   ],
 }
+
+export default config
