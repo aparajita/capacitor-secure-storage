@@ -1,31 +1,31 @@
 PODS:
-  - AparajitaCapacitorSecureStorage (6.0.1):
+  - AparajitaCapacitorSecureStorage (7.0.0):
     - Capacitor
     - KeychainSwift (~> 21.0)
-  - Capacitor (6.0.0):
+  - Capacitor (7.4.0):
     - CapacitorCordova
-  - CapacitorApp (6.0.0):
+  - CapacitorApp (7.0.1):
     - Capacitor
-  - CapacitorCordova (6.0.0)
-  - CapacitorHaptics (6.0.2):
+  - CapacitorCordova (7.4.0)
+  - CapacitorHaptics (7.0.1):
     - Capacitor
-  - CapacitorKeyboard (6.0.3):
+  - CapacitorKeyboard (7.0.1):
     - Capacitor
-  - CapacitorSplashScreen (6.0.0):
+  - CapacitorSplashScreen (7.0.1):
     - Capacitor
-  - CapacitorStatusBar (6.0.2):
+  - CapacitorStatusBar (7.0.1):
     - Capacitor
   - KeychainSwift (21.0.0)
 
 DEPENDENCIES:
   - AparajitaCapacitorSecureStorage (from `../../..`)
-  - "Capacitor (from `../../../node_modules/.pnpm/@capacitor+ios@6.0.0_@capacitor+core@6.0.0/node_modules/@capacitor/ios`)"
-  - "CapacitorApp (from `../../../node_modules/.pnpm/@capacitor+app@6.0.0_@capacitor+core@6.0.0/node_modules/@capacitor/app`)"
-  - "CapacitorCordova (from `../../../node_modules/.pnpm/@capacitor+ios@6.0.0_@capacitor+core@6.0.0/node_modules/@capacitor/ios`)"
-  - "CapacitorHaptics (from `../../../node_modules/.pnpm/@capacitor+haptics@6.0.2_@capacitor+core@6.0.0/node_modules/@capacitor/haptics`)"
-  - "CapacitorKeyboard (from `../../../node_modules/.pnpm/@capacitor+keyboard@6.0.3_@capacitor+core@6.0.0/node_modules/@capacitor/keyboard`)"
-  - "CapacitorSplashScreen (from `../../../node_modules/.pnpm/@capacitor+splash-screen@6.0.0_@capacitor+core@6.0.0/node_modules/@capacitor/splash-screen`)"
-  - "CapacitorStatusBar (from `../../../node_modules/.pnpm/@capacitor+status-bar@6.0.2_@capacitor+core@6.0.0/node_modules/@capacitor/status-bar`)"
+  - "Capacitor (from `../../../node_modules/.pnpm/@capacitor+ios@7.4.0_@capacitor+core@7.4.0/node_modules/@capacitor/ios`)"
+  - "CapacitorApp (from `../../../node_modules/.pnpm/@capacitor+app@7.0.1_@capacitor+core@7.4.0/node_modules/@capacitor/app`)"
+  - "CapacitorCordova (from `../../../node_modules/.pnpm/@capacitor+ios@7.4.0_@capacitor+core@7.4.0/node_modules/@capacitor/ios`)"
+  - "CapacitorHaptics (from `../../../node_modules/.pnpm/@capacitor+haptics@7.0.1_@capacitor+core@7.4.0/node_modules/@capacitor/haptics`)"
+  - "CapacitorKeyboard (from `../../../node_modules/.pnpm/@capacitor+keyboard@7.0.1_@capacitor+core@7.4.0/node_modules/@capacitor/keyboard`)"
+  - "CapacitorSplashScreen (from `../../../node_modules/.pnpm/@capacitor+splash-screen@7.0.1_@capacitor+core@7.4.0/node_modules/@capacitor/splash-screen`)"
+  - "CapacitorStatusBar (from `../../../node_modules/.pnpm/@capacitor+status-bar@7.0.1_@capacitor+core@7.4.0/node_modules/@capacitor/status-bar`)"
 
 SPEC REPOS:
   trunk:
@@ -35,31 +35,31 @@ EXTERNAL SOURCES:
   AparajitaCapacitorSecureStorage:
     :path: "../../.."
   Capacitor:
-    :path: "../../../node_modules/.pnpm/@capacitor+ios@6.0.0_@capacitor+core@6.0.0/node_modules/@capacitor/ios"
+    :path: "../../../node_modules/.pnpm/@capacitor+ios@7.4.0_@capacitor+core@7.4.0/node_modules/@capacitor/ios"
   CapacitorApp:
-    :path: "../../../node_modules/.pnpm/@capacitor+app@6.0.0_@capacitor+core@6.0.0/node_modules/@capacitor/app"
+    :path: "../../../node_modules/.pnpm/@capacitor+app@7.0.1_@capacitor+core@7.4.0/node_modules/@capacitor/app"
   CapacitorCordova:
-    :path: "../../../node_modules/.pnpm/@capacitor+ios@6.0.0_@capacitor+core@6.0.0/node_modules/@capacitor/ios"
+    :path: "../../../node_modules/.pnpm/@capacitor+ios@7.4.0_@capacitor+core@7.4.0/node_modules/@capacitor/ios"
   CapacitorHaptics:
-    :path: "../../../node_modules/.pnpm/@capacitor+haptics@6.0.2_@capacitor+core@6.0.0/node_modules/@capacitor/haptics"
+    :path: "../../../node_modules/.pnpm/@capacitor+haptics@7.0.1_@capacitor+core@7.4.0/node_modules/@capacitor/haptics"
   CapacitorKeyboard:
-    :path: "../../../node_modules/.pnpm/@capacitor+keyboard@6.0.3_@capacitor+core@6.0.0/node_modules/@capacitor/keyboard"
+    :path: "../../../node_modules/.pnpm/@capacitor+keyboard@7.0.1_@capacitor+core@7.4.0/node_modules/@capacitor/keyboard"
   CapacitorSplashScreen:
-    :path: "../../../node_modules/.pnpm/@capacitor+splash-screen@6.0.0_@capacitor+core@6.0.0/node_modules/@capacitor/splash-screen"
+    :path: "../../../node_modules/.pnpm/@capacitor+splash-screen@7.0.1_@capacitor+core@7.4.0/node_modules/@capacitor/splash-screen"
   CapacitorStatusBar:
-    :path: "../../../node_modules/.pnpm/@capacitor+status-bar@6.0.2_@capacitor+core@6.0.0/node_modules/@capacitor/status-bar"
+    :path: "../../../node_modules/.pnpm/@capacitor+status-bar@7.0.1_@capacitor+core@7.4.0/node_modules/@capacitor/status-bar"
 
 SPEC CHECKSUMS:
-  AparajitaCapacitorSecureStorage: 18190f233b0531422af8c1caa51804686d940ee0
-  Capacitor: c527d208447590a004f0a4a2c42a5f361848fa8a
-  CapacitorApp: 30145f2ea2311e4f3744472119ec87d2ddf4c0a7
-  CapacitorCordova: 8c4bfdf69368512e85b1d8b724dd7546abeb30af
-  CapacitorHaptics: 4fc15afe22b123d093e6ace24d95e8e3b1f261b9
-  CapacitorKeyboard: e89189ad398b815b6ff7e52271f0fb4f911a0a0a
-  CapacitorSplashScreen: 5a016b2f50a3b7aa15e12946c720017e46882d5f
-  CapacitorStatusBar: b16799a26320ffa52f6c8b01737d5a95bbb8f3eb
+  AparajitaCapacitorSecureStorage: e76a49b9823075c79a9458a75b9e262d13478f8a
+  Capacitor: 10feab36396883c55373328124a677f118cd4b5f
+  CapacitorApp: febecbb9582cb353aed037e18ec765141f880fe9
+  CapacitorCordova: 723e017d8a80ab2ede9959fbe37556c35ac860d5
+  CapacitorHaptics: 1f1e17041f435d8ead9ff2a34edd592c6aa6a8d6
+  CapacitorKeyboard: 09fd91dcde4f8a37313e7f11bde553ad1ed52036
+  CapacitorSplashScreen: 1d67815a422a9b61539c94f283c08ed56667c0fc
+  CapacitorStatusBar: 6e7af040d8fc4dd655999819625cae9c2d74c36f
   KeychainSwift: 4a71a45c802fd9e73906457c2dcbdbdc06c9419d
 
-PODFILE CHECKSUM: e185bbf2167baa8e543a091cfdecf3e1c8b796dc
+PODFILE CHECKSUM: 02a8e5d5d3e566756c13f364b405fd86d516d99b
 
 COCOAPODS: 1.16.2

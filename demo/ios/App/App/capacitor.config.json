@@ -13,7 +13,6 @@
 	},
 	"packageClassList": [
 		"SecureStorage",
-		"SecureStorage",
 		"AppPlugin",
 		"HapticsPlugin",
 		"KeyboardPlugin",
