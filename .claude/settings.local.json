@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(git merge:*)",
-      "Bash(git push:*)"
-    ],
-    "deny": []
-  }
-}

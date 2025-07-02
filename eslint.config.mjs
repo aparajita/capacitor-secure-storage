@@ -16,7 +16,7 @@ import unicornConfig from './eslint/eslint-unicorn-config.mjs'
 const config = [
   // Global ignores
   {
-    ignores: ['.claude/**', 'dist/**', 'ios/**', 'android/**'],
+    ignores: ['.claude/**', 'dist/**', 'ios/**', 'android/**', 'demo/**'],
   },
 
   js.configs.recommended,

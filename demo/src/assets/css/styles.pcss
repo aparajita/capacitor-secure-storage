@@ -1,0 +1,39 @@
+/* tailwind base conflicts with Ionic styles */
+@tailwind components;
+@tailwind utilities;
+
+html {
+  /*
+    Make sure we set the rem value to the base size,
+    since Tailwind units are rem-based.
+   */
+  font-size: 17px;
+}
+
+#app {
+  @apply w-full h-full;
+}
+
+@layer components {
+  ion-button {
+    /* Standard Ionic letter spacing on buttons is too tight for my taste */
+    @apply tracking-wide;
+  }
+
+  /* Don't highlight items */
+  ion-item {
+    --background-activated-opacity: 0;
+    --background-focused-opacity: 0;
+  }
+
+  /* On Android, there is no gap between a checkbox and the label. Fix that. */
+  ion-checkbox.md + ion-label {
+    @apply ml-2;
+  }
+}
+
+ion-alert.single-select-alert {
+  --width: 100% !important;
+  --min-width: 100% !important;
+  --max-width: 100% !important;
+}

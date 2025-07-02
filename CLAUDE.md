@@ -10,6 +10,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Lint**: `pnpm lint` - Run ESLint, Prettier, and TypeScript compiler checks
 - **Clean**: `pnpm clean` - Remove dist directory
 
+## Demo Commands
+
+- **Demo development**: `pnpm demo.dev` - Start demo in development mode
+- **Demo build**: `pnpm demo.build` - Build demo for production
+- **Demo lint**: `pnpm demo.lint` - Lint demo code
+- **Demo iOS**: `pnpm demo.ios` - Run demo on iOS
+- **Demo iOS dev**: `pnpm demo.ios.dev` - Run demo on iOS with live reload
+- **Demo Android**: `pnpm demo.android` - Run demo on Android
+- **Demo Android dev**: `pnpm demo.android.dev` - Run demo on Android with live reload
+
 ## Linting and Code Quality
 
 - Dual linting setup with oxlint (fast) and eslint (comprehensive)
@@ -78,11 +88,13 @@ Uses Capacitor's plugin registration system with platform-specific implementatio
 This project uses **Git Flow** branching strategy:
 
 ### Branch Structure
+
 - **`main`**: Production-ready releases only. Always stable and deployable.
 - **`develop`**: Primary development branch. All feature development happens here.
 - **Feature branches**: Branch from `develop`, merge back to `develop` when complete.
 
 ### Development Workflow
+
 1. **Feature development**: Create feature branches from `develop`
    ```bash
    git checkout develop
@@ -97,6 +109,7 @@ This project uses **Git Flow** branching strategy:
 3. **Release preparation**: When ready for release, merge `develop` → `main`
 
 ### Branch Guidelines
+
 - **Never commit directly to `main`** - it's release-only
 - **All development happens on `develop`** or feature branches
 - **Feature branches should be short-lived** and focused on single features

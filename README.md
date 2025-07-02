@@ -24,7 +24,7 @@ Not using [pnpm](https://pnpm.js.org/)? You owe it to yourself to give it a try.
 
 ## Usage
 
-The API is thoroughly documented [here](src/definitions.ts). For a complete example of how to use this plugin in practice, see the [demo app](https://github.com/aparajita/capacitor-secure-storage-demo).
+The API is thoroughly documented [here](src/definitions.ts). For a complete example of how to use this plugin in practice, see the [demo app](./demo/).
 
 ### iOS
 
