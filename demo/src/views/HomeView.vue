@@ -260,7 +260,6 @@ function onDataChanged(
   event: IonInputCustomEvent<InputChangeEventDetail>
 ): void {
   try {
-    // eslint-disable-next-line
     const [_, type] = parseValue(event.detail.value || '')
     dataType.value = type
   } catch {
@@ -276,7 +275,9 @@ async function onSet(): Promise<void> {
   try {
     const [value, type] = parseValue(data.value)
 
-    if (value !== null) {
+    if (value === null) {
+      await showAlert('null is not a valid DataType.')
+    } else {
       await SecureStorage.set(
         key.value,
         value,
@@ -285,14 +286,12 @@ async function onSet(): Promise<void> {
         access.value
       )
       await showAlert(`Item (${type}) stored successfully.`)
-    } else {
-      await showAlert('null is not a valid DataType.')
     }
 
     data.value = ''
     dataType.value = ''
-  } catch (e) {
-    await showErrorAlert(e)
+  } catch (error) {
+    await showErrorAlert(error)
   }
 }
 
@@ -352,16 +351,13 @@ async function onGet(): Promise<void> {
       return
     }
 
-    if (value instanceof Date) {
-      data.value = value.toISOString()
-    } else {
-      data.value = JSON.stringify(value)
-    }
+    data.value =
+      value instanceof Date ? value.toISOString() : JSON.stringify(value)
 
     dataType.value = getDataType(value)
-  } catch (e) {
+  } catch (error) {
     data.value = ''
-    await showErrorAlert(e)
+    await showErrorAlert(error)
   }
 }
 
@@ -369,13 +365,11 @@ async function onRemove(): Promise<void> {
   try {
     const success = await SecureStorage.remove(key.value, synchronize())
 
-    if (success) {
-      await showAlert(`Item for key "${key.value}" removed successfully.`)
-    } else {
-      await showAlert(`There is no item with the key "${key.value}".`)
-    }
-  } catch (e) {
-    await showErrorAlert(e)
+    await (success
+      ? showAlert(`Item for key "${key.value}" removed successfully.`)
+      : showAlert(`There is no item with the key "${key.value}".`))
+  } catch (error) {
+    await showErrorAlert(error)
   } finally {
     data.value = ''
   }
@@ -388,8 +382,8 @@ async function onClear(): Promise<void> {
     await showAlert(
       `All items with prefix '${await SecureStorage.getKeyPrefix()}' removed.`
     )
-  } catch (e) {
-    await showErrorAlert(e)
+  } catch (error) {
+    await showErrorAlert(error)
   } finally {
     data.value = ''
   }
@@ -407,27 +401,30 @@ async function onShowKeys(): Promise<void> {
   let qty: string
 
   switch (keys.length) {
-    case 0:
+    case 0: {
       qty = 'are no'
       break
+    }
 
-    case 1:
+    case 1: {
       qty = 'is 1'
       break
+    }
 
-    default:
+    default: {
       qty = `are ${keys.length}`
+    }
   }
 
-  let msg = `There ${qty} key${keys.length === 1 ? '' : 's'} with the prefix '${
+  let message = `There ${qty} key${keys.length === 1 ? '' : 's'} with the prefix '${
     prefix.value
   }'.`
 
   if (keys.length > 0) {
-    msg += `<br><br>${keys.join('<br>')}`
+    message += `<br><br>${keys.join('<br>')}`
   }
 
-  await showAlert(msg)
+  await showAlert(message)
 }
 
 async function showErrorAlert(error: unknown): Promise<void> {

@@ -1,14 +1,14 @@
-function readPackage(pkg, context) {
-  if (pkg.name === 'jsdom' && pkg.version.startsWith('23.2')) {
+function readPackage(package_, context) {
+  if (package_.name === 'jsdom' && package_.version.startsWith('23.2')) {
     // Replace tough-cookie v4 with v5
-    pkg.dependencies = {
-      ...pkg.dependencies,
+    package_.dependencies = {
+      ...package_.dependencies,
       'tough-cookie': '^5.0.0-rc.3',
     }
     context.log('tough-cookie@4 => tough-cookie@5 in dependencies of jsdom')
   }
 
-  return pkg
+  return package_
 }
 
 module.exports = {
