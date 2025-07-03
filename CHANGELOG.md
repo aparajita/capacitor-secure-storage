@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v6.0.1...v7.0.0) (2025-07-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* This plugin now requires Capacitor 7+. Update your Capacitor dependencies to ^7.0.0 and follow the Capacitor 7 migration guide.
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+
+### Features
+
+* build plugin before running non-dev demo ([4266186](https://github.com/aparajita/capacitor-secure-storage/commit/4266186066df5fa4a03d27a0cf6c4b806681ecf0))
+* integrate demo into workspace and exclude from main linting ([a3a966f](https://github.com/aparajita/capacitor-secure-storage/commit/a3a966fe2da06394eaeec140a5abc1bfc24b4bf0))
+* ran simple-git-ignore, it creates this ([eff7423](https://github.com/aparajita/capacitor-secure-storage/commit/eff74238439c40f51c5e16a4e9a6d2035094b6ab))
+* sync demo version with plugin ([61a667b](https://github.com/aparajita/capacitor-secure-storage/commit/61a667b0547eb37bc0432f56bec8409d8c9389f1))
+* update claude permission ([dd62b42](https://github.com/aparajita/capacitor-secure-storage/commit/dd62b42646552cd42994c76f38b87c33f117fccb))
+* update config files to ESM ([8fd80fe](https://github.com/aparajita/capacitor-secure-storage/commit/8fd80fecc50ef065273a069dd3c6f0c3bfb3cd6f))
+* upgrade demo to ESLint 9 flat config with ES modules ([657a500](https://github.com/aparajita/capacitor-secure-storage/commit/657a500ea72561b6a9c0bd579218eee8999d1556))
+* upgrade ESLint to v9 with flat config ([09ebb68](https://github.com/aparajita/capacitor-secure-storage/commit/09ebb688523aab18e97dca216bee6b65a5bb08ab))
+* upgrade to Capacitor 7 ([f658787](https://github.com/aparajita/capacitor-secure-storage/commit/f658787a63591083bde2d016e23ab9f0e62474dc))
+* upgrade to Capacitor 7 ([f7c50c9](https://github.com/aparajita/capacitor-secure-storage/commit/f7c50c93cc1792d2efd31b74b6ff6c0a4cc85036))
+* use ESM ([322a6c5](https://github.com/aparajita/capacitor-secure-storage/commit/322a6c598bcab796ac9f5e48c81f4d74a56db4d4))
+
+
+### Bug Fixes
+
+* keep demo version in sync with plugin version ([30b4a66](https://github.com/aparajita/capacitor-secure-storage/commit/30b4a66b470bf407a3e9f6009406ac5d0b834b3a))
+* linting from main directory should ignore demo ([8d49373](https://github.com/aparajita/capacitor-secure-storage/commit/8d49373baeaa0fb564d7ee4749efbc4e86b0e321))
+* revert to v6 for plugin and demo ([36635ee](https://github.com/aparajita/capacitor-secure-storage/commit/36635eee70556dd6a2053b48ea7934f6742a40ea))
+
 ## [6.0.1](https://github.com/aparajita/capacitor-secure-storage/compare/v6.0.0...v6.0.1) (2024-07-17)
 
 
