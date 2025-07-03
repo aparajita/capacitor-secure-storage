@@ -67,9 +67,6 @@ git push origin develop
 git branch -d release/next
 git push origin --delete release/next
 
-# Publish the plugin and demo app
-pnpm publish
-
 # Return to the original branch
 git checkout "$ORIGINAL_BRANCH"
 
