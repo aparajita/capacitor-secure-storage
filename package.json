@@ -43,8 +43,9 @@
     "demo.android": "pnpm --filter @aparajita/capacitor-secure-storage-demo android",
     "demo.android.dev": "pnpm --filter @aparajita/capacitor-secure-storage-demo android.dev",
     "prerelease": "scripts/ensure-clean.sh && pnpm build",
-    "release.preview": "commit-and-tag-version --dry-run",
-    "release": "commit-and-tag-version --commit-all && git push --follow-tags && pnpm publish"
+    "tag": "commit-and-tag-version --bumpFiles package.json --bumpFiles demo/package.json",
+    "release.preview": "pnpm tag --dry-run",
+    "release": "pnpm tag --commit-all && git push --follow-tags && pnpm publish"
   },
   "commit-and-tag-version": {
     "scripts": {
