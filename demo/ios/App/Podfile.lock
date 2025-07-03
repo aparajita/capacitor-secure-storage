@@ -1,5 +1,5 @@
 PODS:
-  - AparajitaCapacitorSecureStorage (7.0.0):
+  - AparajitaCapacitorSecureStorage (6.0.1):
     - Capacitor
     - KeychainSwift (~> 21.0)
   - Capacitor (7.4.0):
@@ -50,7 +50,7 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/.pnpm/@capacitor+status-bar@7.0.1_@capacitor+core@7.4.0/node_modules/@capacitor/status-bar"
 
 SPEC CHECKSUMS:
-  AparajitaCapacitorSecureStorage: e76a49b9823075c79a9458a75b9e262d13478f8a
+  AparajitaCapacitorSecureStorage: e2aa35bb4e080b51faa9d7fe8391435795163781
   Capacitor: 10feab36396883c55373328124a677f118cd4b5f
   CapacitorApp: febecbb9582cb353aed037e18ec765141f880fe9
   CapacitorCordova: 723e017d8a80ab2ede9959fbe37556c35ac860d5
