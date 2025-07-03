@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.1.0](https://github.com/aparajita/capacitor-secure-storage/compare/v7.0.0...v7.1.0) (2025-07-03)
+
+
+### Features
+
+* fix Capacitor version, add demo run info ([7e7e0ca](https://github.com/aparajita/capacitor-secure-storage/commit/7e7e0ca866e56e3f5e9915841d662c8f339bb0ae))
+
+
+### Bug Fixes
+
+* don’t prompt for merge message ([d85cf02](https://github.com/aparajita/capacitor-secure-storage/commit/d85cf02490fdc8d8010d04f2a7573690d50fe789))
+
 ## [7.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v6.0.1...v7.0.0) (2025-07-03)
 
 

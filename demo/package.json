@@ -1,6 +1,6 @@
 {
   "name": "@aparajita/capacitor-secure-storage-demo",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "description": "An Ionic/Capacitor project that demos the features of the @aparajita/capacitor-secure-storage Capacitor plugin",
   "type": "module",
   "private": true,
