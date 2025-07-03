@@ -42,10 +42,10 @@
     "demo.ios.dev": "pnpm --filter @aparajita/capacitor-secure-storage-demo ios.dev",
     "demo.android": "pnpm build && pnpm --filter @aparajita/capacitor-secure-storage-demo android",
     "demo.android.dev": "pnpm --filter @aparajita/capacitor-secure-storage-demo android.dev",
-    "prerelease": "scripts/ensure-clean.sh && pnpm build",
+    "prerelease": "pnpm build",
     "tag": "commit-and-tag-version --bumpFiles package.json --bumpFiles demo/package.json",
-    "release.preview": "pnpm tag --dry-run",
-    "release": "pnpm tag --commit-all && git push --follow-tags && pnpm publish"
+    "tag.preview": "pnpm tag --dry-run",
+    "release": "./scripts/release.sh"
   },
   "commit-and-tag-version": {
     "scripts": {
@@ -114,6 +114,7 @@
       "stringify-package": "1.0.1"
     },
     "onlyBuiltDependencies": [
+      "simple-git-hooks",
       "swiftlint"
     ]
   }
