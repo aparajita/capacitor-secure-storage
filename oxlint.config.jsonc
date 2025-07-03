@@ -2,7 +2,7 @@
 // Only non-default rules are configured here.
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "ignorePatterns": ["**/*.d.ts", ".claude/**", "demo/**"],
+  "ignorePatterns": ["**/*.d.ts", ".claude/**"],
   "plugins": [
     "eslint",
     "import",
@@ -296,7 +296,7 @@
     "unicorn/require-array-join-separator": "error",
 
     // Does not support "avoid" option currently
-    "unicorn/switch-case-braces": ["error", "avoid"],
+    "unicorn/switch-case-braces": "off",
     "unicorn/text-encoding-identifier-case": "error",
     "unicorn/throw-new-error": "error",
 

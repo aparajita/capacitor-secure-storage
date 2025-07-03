@@ -1,9 +1,11 @@
 import js from '@eslint/js'
 import eslintConfigPrettier from 'eslint-config-prettier'
+import pluginOxlint from 'eslint-plugin-oxlint'
 import pluginUnicorn from 'eslint-plugin-unicorn'
 import pluginVue from 'eslint-plugin-vue'
 import neostandard from 'neostandard'
 import tseslint from 'typescript-eslint'
+import path from 'node:path'
 
 export default [
   // Global ignores
@@ -33,6 +35,11 @@ export default [
 
   // Unicorn config
   pluginUnicorn.configs['flat/recommended'],
+
+  // Oxlint plugin to disable duplicate rules
+  ...pluginOxlint.buildFromOxlintConfigFile(
+    path.resolve(import.meta.dirname, '../oxlint.config.jsonc'),
+  ),
 
   // TypeScript-specific config
   {

@@ -2,9 +2,10 @@ import { Capacitor } from '@capacitor/core'
 import { IonicVue } from '@ionic/vue'
 import { createApp } from 'vue'
 
-import App from './App.vue'
+import App from './app.vue'
 
 // Core CSS required for Ionic components to work properly
+// oxlint-disable no-unassigned-import
 import '@ionic/vue/css/core.css'
 
 // Basic CSS for apps built with Ionic
@@ -17,6 +18,8 @@ import '@ionic/vue/css/palettes/dark.system.css'
 
 /* Custom CSS */
 import './assets/css/styles.pcss'
+// oxlint-enable no-unassigned-import
+
 import router from './router'
 
 const config: Record<string, unknown> = {
@@ -29,11 +32,11 @@ if (Capacitor.getPlatform() === 'web') {
 
 const app = createApp(App).use(IonicVue, config).use(router)
 
-router
-  .isReady()
-  .then(() => {
+;(async (): Promise<void> => {
+  try {
+    await router.isReady()
     app.mount('#app')
-  })
-  .catch((error) => {
-    console.error((error as Error).message)
-  })
+  } catch (error) {
+    console.error(error)
+  }
+})()
