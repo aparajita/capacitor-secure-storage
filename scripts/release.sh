@@ -58,8 +58,9 @@ git push origin main
 
 # Merge the release branch back into 'develop'. We use --no-ff
 # to ensure a merge commit is created, which helps in tracking the release.
+# We use --no-edit to avoid prompting for a merge commit message.
 git checkout develop
-git merge --no-ff release/next
+git merge --no-ff --no-edit release/next
 git push origin develop
 
 # Delete the release branch locally and remotely
