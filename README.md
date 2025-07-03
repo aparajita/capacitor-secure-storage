@@ -2,7 +2,11 @@
 
 # capacitor-secure-storage
 
-This plugin for [Capacitor 6+](https://capacitorjs.com) provides secure key/value storage on iOS and Android. It was originally designed to be a companion to [@aparajita/capacitor-biometric-auth](https://github.com/aparajita/capacitor-biometric-auth/#readme) in order to securely store login credentials, but can be used to store any JSON data types.
+This plugin for [Capacitor 7+](https://capacitorjs.com) provides secure key/value storage on iOS and Android. It was originally designed to be a companion to [@aparajita/capacitor-biometric-auth](https://github.com/aparajita/capacitor-biometric-auth/#readme) in order to securely store login credentials, but can be used to store any JSON data types.
+
+## BREAKING CHANGES: Upgrading from 6.x
+
+The minimum iOS version is now 14.0.
 
 ## BREAKING CHANGES: Upgrading from 5.x
 
@@ -24,7 +28,13 @@ Not using [pnpm](https://pnpm.js.org/)? You owe it to yourself to give it a try.
 
 ## Usage
 
-The API is thoroughly documented [here](src/definitions.ts). For a complete example of how to use this plugin in practice, see the [demo app](./demo/).
+The API is thoroughly documented [here](src/definitions.ts). For a complete example of how to use this plugin in practice, see the [demo app](./demo/). To run the demo app:
+
+```sh
+pnpm demo.ios
+# or
+pnpm demo.android
+```
 
 ### iOS
 
