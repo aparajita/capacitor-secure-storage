@@ -27,6 +27,7 @@
     "lint.eslint": "eslint . --ext .js,.mjs,.ts --cache --fix",
     "lint.tsc": "tsc --noEmit --skipLibCheck",
     "lint": "pnpm format && pnpm lint.oxlint && pnpm lint.eslint && pnpm lint.tsc",
+    "lint.all": "pnpm lint && pnpm demo.lint",
     "prebuilder": "pnpm clean",
     "builder": "tsc ${SOURCE_MAP:-} && rollup -c rollup.config.mjs",
     "prebuild": "pnpm lint",
