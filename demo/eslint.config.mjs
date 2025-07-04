@@ -23,9 +23,7 @@ export default [
   js.configs.recommended,
 
   // Neostandard config (StandardJS style)
-  ...neostandard({
-    ts: true,
-  }),
+  ...neostandard(),
 
   // TypeScript config
   ...tseslint.configs.recommended,
