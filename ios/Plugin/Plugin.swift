@@ -1,5 +1,5 @@
-import Foundation
 import Capacitor
+import Foundation
 import KeychainSwift
 
 @objc(SecureStorage)
@@ -35,10 +35,10 @@ public class SecureStorage: CAPPlugin, CAPBridgedPlugin {
 
     let access = getAccessParam(from: call)
 
-    tryKeychainOp(call, getSyncParam(from: call), {
+    tryKeychainOp(call, getSyncParam(from: call)) {
       try storeData(data, withKey: key, access: access)
       call.resolve()
-    })
+    }
   }
 
   @objc func internalGetItem(_ call: CAPPluginCall) {
@@ -46,10 +46,10 @@ public class SecureStorage: CAPPlugin, CAPBridgedPlugin {
       return
     }
 
-    tryKeychainOp(call, getSyncParam(from: call), {
+    tryKeychainOp(call, getSyncParam(from: call)) {
       let data = getData(withKey: key)
       call.resolve(["data": data])
-    })
+    }
   }
 
   @objc func internalRemoveItem(_ call: CAPPluginCall) {
@@ -57,25 +57,25 @@ public class SecureStorage: CAPPlugin, CAPBridgedPlugin {
       return
     }
 
-    tryKeychainOp(call, getSyncParam(from: call), {
+    tryKeychainOp(call, getSyncParam(from: call)) {
       let success = try deleteData(withKey: key)
       call.resolve(["success": success])
-    })
+    }
   }
 
   @objc func clearItemsWithPrefix(_ call: CAPPluginCall) {
-    tryKeychainOp(call, getSyncParam(from: call), {
+    tryKeychainOp(call, getSyncParam(from: call)) {
       let prefix = call.getString("prefix") ?? ""
       try clearData(withPrefix: prefix)
       call.resolve()
-    })
+    }
   }
 
   @objc func getPrefixedKeys(_ call: CAPPluginCall) {
-    tryKeychainOp(call, getSyncParam(from: call), {
+    tryKeychainOp(call, getSyncParam(from: call)) {
       let prefix = call.getString("prefix") ?? ""
       call.resolve(["keys": keychain.allKeys.filter { $0.starts(with: prefix) }])
-    })
+    }
   }
 
   func getKeyParam(from call: CAPPluginCall) -> String? {
@@ -108,23 +108,23 @@ public class SecureStorage: CAPPlugin, CAPBridgedPlugin {
   func getAccessParam(from call: CAPPluginCall) -> KeychainSwiftAccessOptions? {
     if let value = call.getInt(kAccessOption) {
       switch value {
-        case 0:
-          return KeychainSwiftAccessOptions.accessibleWhenUnlocked
+      case 0:
+        return KeychainSwiftAccessOptions.accessibleWhenUnlocked
 
-        case 1:
-          return KeychainSwiftAccessOptions.accessibleWhenUnlockedThisDeviceOnly
+      case 1:
+        return KeychainSwiftAccessOptions.accessibleWhenUnlockedThisDeviceOnly
 
-        case 2:
-          return KeychainSwiftAccessOptions.accessibleAfterFirstUnlock
+      case 2:
+        return KeychainSwiftAccessOptions.accessibleAfterFirstUnlock
 
-        case 3:
-          return KeychainSwiftAccessOptions.accessibleAfterFirstUnlockThisDeviceOnly
+      case 3:
+        return KeychainSwiftAccessOptions.accessibleAfterFirstUnlockThisDeviceOnly
 
-        case 4:
-          return KeychainSwiftAccessOptions.accessibleWhenPasscodeSetThisDeviceOnly
+      case 4:
+        return KeychainSwiftAccessOptions.accessibleWhenPasscodeSetThisDeviceOnly
 
-        default:
-          return nil
+      default:
+        return nil
       }
     }
 
@@ -161,7 +161,7 @@ public class SecureStorage: CAPPlugin, CAPBridgedPlugin {
   }
 
   func getData(withKey key: String) -> Any {
-    return keychain.get(key) as Any
+    keychain.get(key) as Any
   }
 
   func deleteData(withKey key: String) throws -> Bool {
@@ -175,13 +175,11 @@ public class SecureStorage: CAPPlugin, CAPBridgedPlugin {
   }
 
   func clearData(withPrefix prefix: String) throws {
-    for key in keychain.allKeys {
-      if key.starts(with: prefix) {
-        // delete() adds the prefix, but keychain.keyPrefix is empty,
-        // so we don't need to remove the prefix.
-        if !keychain.delete(key) {
-          throw KeychainError(.osError, status: keychain.lastResultCode)
-        }
+    for key in keychain.allKeys where key.starts(with: prefix) {
+      // delete() adds the prefix, but keychain.keyPrefix is empty,
+      // so we don't need to remove the prefix.
+      if !keychain.delete(key) {
+        throw KeychainError(.osError, status: keychain.lastResultCode)
       }
     }
   }

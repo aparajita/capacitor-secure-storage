@@ -41,7 +41,7 @@ public class KeychainError: Error {
         self.message = message
       }
 
-      self.code = kind.rawValue
+      code = kind.rawValue
     }
   }
 
