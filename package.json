@@ -68,6 +68,7 @@
     }
   },
   "swiftlint": "@ionic/swiftlint-config",
+  "prettier": "@aparajita/prettier-config",
   "repository": {
     "type": "git",
     "url": "https://github.com/aparajita/capacitor-secure-storage.git"
