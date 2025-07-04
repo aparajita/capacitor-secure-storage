@@ -80,45 +80,47 @@
   },
   "devDependencies": {
     "@aparajita/prettier-config": "^2.0.0",
-    "@aparajita/swiftly": "^1.0.4",
-    "@capacitor/cli": "^7.0.0",
-    "@commitlint/cli": "^19.2.2",
-    "@commitlint/config-conventional": "^19.2.2",
+    "@aparajita/swiftly": "^2.0.0",
+    "@capacitor/cli": "^7.4.1",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@eslint-community/eslint-plugin-eslint-comments": "^4.5.0",
-    "@eslint/js": "^9.30.0",
+    "@eslint/js": "^9.30.1",
     "@ionic/swiftlint-config": "^2.0.0",
-    "@types/node": "^22.10.0",
-    "commit-and-tag-version": "^12.4.0",
-    "eslint": "^9.30.0",
-    "eslint-config-prettier": "^10.1.0",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-oxlint": "^1.3.0",
-    "eslint-plugin-unicorn": "^59.0.0",
-    "neostandard": "^0.12.0",
-    "nodemon": "^3.1.0",
-    "oxlint": "^1.3.0",
-    "prettier": "^3.4.0",
-    "prettier-plugin-java": "^2.6.0",
+    "@types/node": "^24.0.10",
+    "commit-and-tag-version": "^12.5.1",
+    "eslint": "^9.30.1",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-oxlint": "^1.5.0",
+    "eslint-plugin-unicorn": "^59.0.1",
+    "neostandard": "^0.12.2",
+    "nodemon": "^3.1.10",
+    "oxlint": "^1.5.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-java": "^2.7.1",
     "rimraf": "^6.0.1",
-    "rollup": "^4.30.1",
+    "rollup": "^4.44.2",
     "simple-git-hooks": "^2.13.0",
     "swiftlint": "^2.0.0",
-    "typescript": "~5.7.0",
-    "typescript-eslint": "^8.18.0"
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.35.1"
   },
   "dependencies": {
-    "@capacitor/android": "^7.0.0",
-    "@capacitor/app": "^7.0.0",
-    "@capacitor/core": "^7.0.0",
-    "@capacitor/ios": "^7.0.0"
+    "@capacitor/android": "^7.4.1",
+    "@capacitor/app": "^7.0.1",
+    "@capacitor/core": "^7.4.1",
+    "@capacitor/ios": "^7.4.1"
   },
   "pnpm": {
     "allowDeprecatedVersions": {
       "stringify-package": "1.0.1"
     },
     "onlyBuiltDependencies": [
+      "esbuild",
       "simple-git-hooks",
-      "swiftlint"
+      "swiftlint",
+      "unrs-resolver"
     ]
   }
 }
