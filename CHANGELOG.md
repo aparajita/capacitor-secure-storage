@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.1.1](https://github.com/aparajita/capacitor-secure-storage/compare/v7.1.0...v7.1.1) (2025-07-04)
+
+
+### Bug Fixes
+
+* neostandard with ts conflics with typescript-eslint ([14c59f1](https://github.com/aparajita/capacitor-secure-storage/commit/14c59f15da9c8bdcd3f93179f216fdd7574592e3))
+* reference didn’t change with file rename ([a9a7265](https://github.com/aparajita/capacitor-secure-storage/commit/a9a72652f3d627b2e6edea793a305fd162b32b58))
+
 ## [7.1.0](https://github.com/aparajita/capacitor-secure-storage/compare/v7.0.0...v7.1.0) (2025-07-03)
 
 
