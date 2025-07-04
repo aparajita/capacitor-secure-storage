@@ -5,7 +5,7 @@
 */
 const exports = {
   'commit-msg': 'cat "$@" | "$PWD"/node_modules/.bin/commitlint',
-  'pre-commit': 'pnpm lint',
+  'pre-commit': 'pnpm lint.all',
 }
 
 export default exports
