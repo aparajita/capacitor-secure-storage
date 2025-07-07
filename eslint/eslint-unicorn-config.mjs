@@ -1,5 +1,5 @@
 const config = {
-  name: 'override/unicorn',
+  name: 'unicorn/override',
   rules: {
     'unicorn/better-regex': 'error',
     'unicorn/custom-error-definition': 'error',

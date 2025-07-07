@@ -7,7 +7,18 @@
 
 const configs = [
   {
-    name: 'override/base',
+    name: 'eslint/extra/ignores',
+    ignores: [
+      '.claude/**',
+      '**/dist/**',
+      '**/ios/**',
+      '**/android/**',
+      '**/**.d.ts',
+      '.idea/**',
+    ],
+  },
+  {
+    name: 'eslint/override',
     rules: {
       'arrow-body-style': ['error', 'as-needed'],
       'block-scoped-var': 'error',

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 import { SecureStorageBase } from './base'
 import type { KeychainAccess, SecureStoragePlugin } from './definitions'
 
@@ -6,6 +7,7 @@ export class SecureStorageNative extends SecureStorageBase {
     super()
     // capProxy is a proxy of an instance of this class, so it is safe
     // to cast it to this class.
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
     const proxy = capProxy as SecureStorageNative
 
@@ -16,12 +18,11 @@ export class SecureStorageNative extends SecureStorageBase {
     this.internalRemoveItem = proxy.internalRemoveItem
     this.clearItemsWithPrefix = proxy.clearItemsWithPrefix
     this.getPrefixedKeys = proxy.getPrefixedKeys
-    /* eslint-enable */
+    /* eslint-enable @typescript-eslint/unbound-method */
   }
 
-  /* eslint-disable @typescript-eslint/class-methods-use-this */
-
   // @native
+  /* eslint-disable @typescript-eslint/class-methods-use-this */
   protected async setSynchronizeKeychain(_options: {
     sync: boolean
   }): Promise<void> {
@@ -78,6 +79,6 @@ export class SecureStorageNative extends SecureStorageBase {
   }): Promise<{ keys: string[] }> {
     return { keys: [] }
   }
-
   /* eslint-enable @typescript-eslint/class-methods-use-this */
 }
+/* eslint-enable @typescript-eslint/require-await */

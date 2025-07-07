@@ -1,3 +1,4 @@
+/* eslint-disable import-x/order */
 import { Capacitor } from '@capacitor/core'
 import { IonicVue } from '@ionic/vue'
 import { createApp } from 'vue'
@@ -18,7 +19,9 @@ import '@ionic/vue/css/palettes/dark.system.css'
 
 /* Custom CSS */
 import './assets/css/styles.pcss'
+
 // oxlint-enable no-unassigned-import
+/* eslint-enable import-x/order */
 
 import router from './router'
 

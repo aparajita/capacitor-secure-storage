@@ -2,9 +2,9 @@
 import type { DataType } from '@aparajita/capacitor-secure-storage'
 import {
   KeychainAccess,
-  StorageErrorType,
   SecureStorage,
   StorageError,
+  StorageErrorType,
 } from '@aparajita/capacitor-secure-storage'
 import { Capacitor } from '@capacitor/core'
 import { SplashScreen } from '@capacitor/splash-screen'
@@ -80,7 +80,7 @@ function onDataChanged(
   event: IonInputCustomEvent<InputChangeEventDetail>,
 ): void {
   try {
-    const [_, type] = parseValue(event.detail.value || '')
+    const [, type] = parseValue(event.detail.value ?? '')
     dataType.value = type
   } catch {
     dataType.value = ''
@@ -222,19 +222,16 @@ async function onShowKeys(): Promise<void> {
   let qty: string
 
   switch (keys.length) {
-    case 0: {
+    case 0:
       qty = 'are no'
       break
-    }
 
-    case 1: {
+    case 1:
       qty = 'is 1'
       break
-    }
 
-    default: {
+    default:
       qty = `are ${keys.length}`
-    }
   }
 
   let message = `There ${qty} key${keys.length === 1 ? '' : 's'} with the prefix '${
@@ -295,7 +292,7 @@ async function showAlert(message: string): Promise<void> {
           lines="inset"
           class="w-full"
         >
-          <ion-label position="stacked">Access</ion-label>
+          <ion-label position="stacked"> Access </ion-label>
           <ion-select
             v-model="access"
             aria-label="Access"

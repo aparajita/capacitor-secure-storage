@@ -19,7 +19,9 @@
   },
   "rules": {
     // Correctness
+    "eslint/no-constant-binary-expression": "error",
     "eslint/no-eval": "error",
+    "eslint/no-unused-vars": "error",
 
     "import/default": "error",
     "import/namespace": "error",

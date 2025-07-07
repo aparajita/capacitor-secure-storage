@@ -1,9 +1,9 @@
 import { SecureStorageBase } from './base'
 
 export class SecureStorageWeb extends SecureStorageBase {
-  /* eslint-disable @typescript-eslint/class-methods-use-this */
-
   // @native
+
+  /* eslint-disable @typescript-eslint/class-methods-use-this */
 
   protected async setSynchronizeKeychain(_options: {
     sync: boolean
@@ -12,7 +12,7 @@ export class SecureStorageWeb extends SecureStorageBase {
   }
 
   // @native
-
+  // eslint-disable-next-line @typescript-eslint/require-await
   protected async internalGetItem(options: {
     prefixedKey: string
   }): Promise<{ data: string | null }> {
@@ -20,6 +20,7 @@ export class SecureStorageWeb extends SecureStorageBase {
   }
 
   // @native
+  // eslint-disable-next-line @typescript-eslint/require-await
   protected async internalSetItem(options: {
     prefixedKey: string
     data: string
@@ -28,6 +29,7 @@ export class SecureStorageWeb extends SecureStorageBase {
   }
 
   // @native
+  // eslint-disable-next-line @typescript-eslint/require-await
   protected async internalRemoveItem(options: {
     prefixedKey: string
   }): Promise<{ success: boolean }> {
@@ -50,7 +52,7 @@ export class SecureStorageWeb extends SecureStorageBase {
   }
 
   // @native
-
+  // eslint-disable-next-line @typescript-eslint/require-await
   protected async clearItemsWithPrefix(_options: {
     prefix: string
   }): Promise<void> {
@@ -58,6 +60,7 @@ export class SecureStorageWeb extends SecureStorageBase {
   }
 
   // @native
+  // eslint-disable-next-line @typescript-eslint/require-await
   protected async getPrefixedKeys(options: {
     prefix: string
   }): Promise<{ keys: string[] }> {
@@ -73,6 +76,5 @@ export class SecureStorageWeb extends SecureStorageBase {
 
     return { keys }
   }
-
   /* eslint-enable @typescript-eslint/class-methods-use-this */
 }

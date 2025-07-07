@@ -1,6 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.json",
-  "include": ["vite.config.*"],
+  "include": ["*.mjs", "*.ts"],
   "compilerOptions": {
     "composite": true,
     "moduleResolution": "node",

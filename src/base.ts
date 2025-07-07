@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 import { Capacitor, CapacitorException, WebPlugin } from '@capacitor/core'
 
 import type { DataType, SecureStoragePlugin } from './definitions'
@@ -293,3 +294,4 @@ function parseISODate(isoDate: string): Date | null {
 
   return null
 }
+/* eslint-enable @typescript-eslint/require-await */

@@ -1,4 +1,4 @@
-export default {
+const config = {
   content: ['./src/**/*.{html,vue,ts}'],
   theme: {
     extend: {},
@@ -8,3 +8,5 @@ export default {
   },
   plugins: [],
 }
+
+export default config
