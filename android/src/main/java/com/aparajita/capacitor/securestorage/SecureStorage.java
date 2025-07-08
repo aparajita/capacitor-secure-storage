@@ -2,75 +2,84 @@ package com.aparajita.capacitor.securestorage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.security.keystore.KeyGenParameterSpec;
-import android.security.keystore.KeyProperties;
-import android.util.Base64;
+import android.os.Build;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
+
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
-import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.UnrecoverableKeyException;
-import java.security.spec.AlgorithmParameterSpec;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Map;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
-import org.json.JSONArray;
 
-interface StorageOp {
-  void run() throws KeyStoreException, GeneralSecurityException, IOException;
-}
+import org.json.JSONArray;
 
 @CapacitorPlugin(name = "SecureStorage")
 public class SecureStorage extends Plugin {
 
-  // KeyStore-related stuff
+  private static final String SHARED_PREFERENCES = "WSSecureStorageSharedPreferences";
   private static final String ANDROID_KEY_STORE = "AndroidKeyStore";
   private static final String CIPHER_TRANSFORMATION = "AES/GCM/NoPadding";
-  private static final String SHARED_PREFERENCES =
-    "WSSecureStorageSharedPreferences";
   private static final Character DATA_IV_SEPARATOR = '\u0010';
   private static final int BASE64_FLAGS = Base64.NO_PADDING + Base64.NO_WRAP;
 
+  private SharedPreferences sharedPreferences = null;
   private KeyStore keyStore;
+  private boolean migrationDone = false;
 
   @PluginMethod
   public void internalSetItem(final PluginCall call) {
-    String key = getKeyParam(call);
-
+    String key = call.getString("key");
     if (key == null) {
+      call.reject("Key parameter is missing");
       return;
     }
-
-    String data = getDataParam(call);
-
+    String data = call.getString("data");
     if (data == null) {
+      call.reject("Data parameter is missing");
       return;
     }
 
     tryStorageOp(call, () -> {
-      storeDataInKeyStore(key, data);
+      if (isAndroidMOrHigher()) {
+        SharedPreferences.Editor editor = getPrefs().edit();
+        editor.putString(key, data);
+        editor.apply();
+      } else {
+        storeDataInKeyStore(key, data);
+      }
       call.resolve();
     });
   }
 
   @PluginMethod
   public void internalGetItem(final PluginCall call) {
-    String key = getKeyParam(call);
-
+    String key = call.getString("key");
     if (key == null) {
+      call.reject("Key parameter is missing");
       return;
     }
 
     tryStorageOp(call, () -> {
-      String data = getDataFromKeyStore(key);
+      String data;
+      if (isAndroidMOrHigher()) {
+        data = getPrefs().getString(key, null);
+      } else {
+        data = getDataFromKeyStore(key);
+      }
       JSObject result = new JSObject();
       result.put("data", data != null ? data : JSObject.NULL);
       call.resolve(result);
@@ -79,49 +88,119 @@ public class SecureStorage extends Plugin {
 
   @PluginMethod
   public void internalRemoveItem(final PluginCall call) {
-    String key = getKeyParam(call);
-
+    String key = call.getString("key");
     if (key == null) {
+      call.reject("Key parameter is missing");
       return;
     }
 
     tryStorageOp(call, () -> {
-      boolean success = removeDataFromKeyStore(key);
-      JSObject result = new JSObject();
-      result.put("success", success);
-      call.resolve(result);
+      if (isAndroidMOrHigher()) {
+        SharedPreferences.Editor editor = getPrefs().edit();
+        editor.remove(key);
+        editor.apply();
+      } else {
+        removeDataFromKeyStore(key);
+      }
+      call.resolve();
     });
   }
 
   @PluginMethod
   public void clearItemsWithPrefix(final PluginCall call) {
+    String prefix = call.getString("_prefix", "");
     tryStorageOp(call, () -> {
-      String prefix = call.getString("_prefix", "");
-      clearKeyStore(prefix);
+      if (isAndroidMOrHigher()) {
+        Map < String, ? > allEntries = getPrefs().getAll();
+        SharedPreferences.Editor editor = getPrefs().edit();
+        for (Map.Entry < String, ? > entry : allEntries.entrySet()) {
+          if (entry.getKey().startsWith(prefix)) {
+            editor.remove(entry.getKey());
+          }
+        }
+        editor.apply();
+      } else {
+        clearKeyStore(prefix);
+      }
       call.resolve();
     });
   }
 
   @PluginMethod
   public void getPrefixedKeys(final PluginCall call) {
+    String prefix = call.getString("prefix", "");
     tryStorageOp(call, () -> {
-      String prefix = call.getString("prefix", "");
-      ArrayList<String> keys = getKeysWithPrefix(prefix);
-      JSONArray array = new JSONArray(keys);
+      ArrayList < String > filteredKeys = new ArrayList < > ();
+      if (isAndroidMOrHigher()) {
+        Map < String, ? > allEntries = getPrefs().getAll();
+        for (Map.Entry < String, ? > entry : allEntries.entrySet()) {
+          if (entry.getKey().startsWith(prefix)) {
+            filteredKeys.add(entry.getKey());
+          }
+        }
+      } else {
+        filteredKeys = getKeysWithPrefix(prefix);
+      }
 
+      JSONArray resultArray = new JSONArray(filteredKeys);
       JSObject result = new JSObject();
-      result.put("keys", array);
+      result.put("keys", resultArray);
       call.resolve(result);
     });
   }
 
   private SharedPreferences getPrefs() {
-    return getContext()
-      .getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+    if (sharedPreferences == null) {
+      SharedPreferences oldPrefs = getContext().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+      if (isAndroidMOrHigher && !migrationDone) {
+        try {
+          String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+          sharedPreferences = EncryptedSharedPreferences.create(
+            SHARED_PREFERENCES,
+            masterKeyAlias,
+            getContext(),
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
+
+          // Migrate data if needed
+          if (needsMigration(oldPrefs)) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            Map < String, ? > entries = oldPrefs.getAll();
+            for (Map.Entry < String, ? > entry : entries.entrySet()) {
+              String key = entry.getKey();
+              Object value = entry.getValue();
+              if (value instanceof String) {
+                String decryptedValue = decryptString((String) value, key);
+                editor.putString(key, decryptedValue);
+              }
+            }
+            editor.apply();
+            oldPrefs.edit().clear().apply();
+          }
+          migrationDone = true;
+        } catch (GeneralSecurityException | IOException e) {
+          e.printStackTrace();
+        }
+      } else {
+        sharedPreferences = oldPrefs;
+      }
+    }
+    return sharedPreferences;
   }
 
-  private void storeDataInKeyStore(String prefixedKey, String data)
-    throws GeneralSecurityException, IOException {
+  private boolean needsMigration(SharedPreferences prefs) {
+    return prefs.getAll().size() > 0;
+  }
+
+  private KeyStore getKeyStore() throws GeneralSecurityException, IOException {
+    if (keyStore == null) {
+      keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
+      keyStore.load(null);
+    }
+    return keyStore;
+  }
+
+  private void storeDataInKeyStore(String prefixedKey, String data) throws GeneralSecurityException, IOException {
     // When we get here, we know that the values are not null
     getPrefs()
       .edit()
@@ -129,8 +208,7 @@ public class SecureStorage extends Plugin {
       .apply();
   }
 
-  private String getDataFromKeyStore(String prefixedKey)
-    throws KeyStoreException, GeneralSecurityException, IOException {
+  private String getDataFromKeyStore(String prefixedKey) throws KeyStoreException, GeneralSecurityException, IOException {
     SharedPreferences sharedPreferences = getPrefs();
     String data;
 
@@ -147,31 +225,26 @@ public class SecureStorage extends Plugin {
     }
   }
 
-  private boolean removeDataFromKeyStore(String prefixedKey)
-    throws GeneralSecurityException, IOException {
+  private void removeDataFromKeyStore(String prefixedKey) throws GeneralSecurityException, IOException {
     KeyStore keyStore = getKeyStore();
     return removeAlias(keyStore, prefixedKey);
   }
 
-  private boolean removeAlias(KeyStore keyStore, String alias)
-    throws java.security.KeyStoreException {
-    if (keyStore.containsAlias(alias)) {
-      keyStore.deleteEntry(alias);
-      getPrefs().edit().remove(alias).apply();
-      return true;
-    }
+  private void clearKeyStore(String prefix) throws GeneralSecurityException, IOException {
+    ArrayList < String > keys = getKeysWithPrefix(prefix);
+    KeyStore keyStore = getKeyStore();
 
-    return false;
+    for (String key: keys) {
+      removeAlias(keyStore, key);
+    }
   }
 
-  private ArrayList<String> getKeysWithPrefix(String prefix)
-    throws GeneralSecurityException, IOException {
-    ArrayList<String> keys = new ArrayList<>();
+  private ArrayList < String > getKeysWithPrefix(String prefix) throws GeneralSecurityException, IOException {
+    ArrayList < String > keys = new ArrayList < > ();
     KeyStore keyStore = getKeyStore();
 
     for (
-      Enumeration<String> aliases = keyStore.aliases();
-      aliases.hasMoreElements();
+      Enumeration < String > aliases = keyStore.aliases(); aliases.hasMoreElements();
     ) {
       String alias = aliases.nextElement();
 
@@ -183,56 +256,15 @@ public class SecureStorage extends Plugin {
     return keys;
   }
 
-  private void clearKeyStore(String prefix)
-    throws GeneralSecurityException, IOException {
-    ArrayList<String> keys = getKeysWithPrefix(prefix);
-    KeyStore keyStore = getKeyStore();
-
-    for (String key : keys) {
-      removeAlias(keyStore, key);
-    }
-  }
-
-  private void tryStorageOp(PluginCall call, StorageOp op) {
-    KeyStoreException exception;
-
-    try {
-      op.run();
-      return;
-    } catch (KeyStoreException e) {
-      exception = e;
-    } catch (GeneralSecurityException | IOException e) {
-      exception = new KeyStoreException(KeyStoreException.ErrorKind.osError, e);
-    } catch (Exception e) {
-      exception = new KeyStoreException(
-        KeyStoreException.ErrorKind.unknownError,
-        e
-      );
+  private boolean removeAlias(KeyStore keyStore, String alias)
+    throws java.security.KeyStoreException {
+    if (keyStore.containsAlias(alias)) {
+      keyStore.deleteEntry(alias);
+      getPrefs().edit().remove(alias).apply();
+      return true;
     }
 
-    exception.rejectCall(call);
-  }
-
-  private String getKeyParam(PluginCall call) {
-    String key = call.getString("prefixedKey");
-
-    if (key != null && !key.isEmpty()) {
-      return key;
-    }
-
-    KeyStoreException.reject(call, KeyStoreException.ErrorKind.missingKey);
-    return null;
-  }
-
-  private String getDataParam(PluginCall call) {
-    String value = call.getString("data");
-
-    if (value != null) {
-      return value;
-    }
-
-    KeyStoreException.reject(call, KeyStoreException.ErrorKind.invalidData);
-    return null;
+    return false;
   }
 
   private String encryptString(String str, String prefixedKey)
@@ -286,47 +318,27 @@ public class SecureStorage extends Plugin {
     return new String(decryptedData, StandardCharsets.UTF_8);
   }
 
-  private SecretKey getSecretKey(String prefixedKey)
-    throws GeneralSecurityException, IOException {
-    KeyGenerator keyGenerator = KeyGenerator.getInstance(
-      "AES",
-      ANDROID_KEY_STORE
-    );
-    KeyStore keyStore = getKeyStore();
-    KeyStore.SecretKeyEntry entry = null;
+  private void tryStorageOp(PluginCall call, StorageOp op) {
+    KeyStoreException exception;
 
     try {
-      entry = (KeyStore.SecretKeyEntry) keyStore.getEntry(prefixedKey, null);
-    } catch (UnrecoverableKeyException e) {
-      // We haven't yet generated a secret key for prefixedKey, generate one
-    }
-
-    SecretKey secretKey;
-
-    if (entry == null) {
-      KeyGenParameterSpec.Builder builder = new KeyGenParameterSpec.Builder(
-        prefixedKey,
-        KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT
+      op.run();
+      return;
+    } catch (KeyStoreException e) {
+      exception = e;
+    } catch (GeneralSecurityException | IOException e) {
+      exception = new KeyStoreException(KeyStoreException.ErrorKind.osError, e);
+    } catch (Exception e) {
+      exception = new KeyStoreException(
+        KeyStoreException.ErrorKind.unknownError,
+        e
       );
-      AlgorithmParameterSpec spec = builder
-        .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-        .build();
-      keyGenerator.init(spec);
-      secretKey = keyGenerator.generateKey();
-    } else {
-      secretKey = entry.getSecretKey();
     }
-
-    return secretKey;
+    exception.rejectCall(call);
   }
 
-  private KeyStore getKeyStore() throws GeneralSecurityException, IOException {
-    if (keyStore == null) {
-      keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
-      keyStore.load(null);
-    }
-
-    return keyStore;
+  // EncryptedSharedPreferences >= Android 6.0 Marshmallow
+  private boolean isAndroidMOrHigher() {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
   }
 }
