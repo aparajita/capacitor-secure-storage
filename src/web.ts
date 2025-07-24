@@ -1,4 +1,4 @@
-import { SecureStorageBase } from './base'
+import { SecureStorageBase } from './base.js'
 
 export class SecureStorageWeb extends SecureStorageBase {
   // @native

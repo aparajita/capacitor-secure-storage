@@ -5,9 +5,16 @@
   "author": "Aparajita Fishman",
   "license": "MIT",
   "type": "module",
-  "main": "dist/plugin.cjs.js",
+  "main": "dist/plugin.cjs",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/plugin.cjs",
+      "types": "./dist/esm/index.d.ts"
+    }
+  },
   "unpkg": "dist/plugin.js",
   "engines": {
     "node": ">=16.15.1"

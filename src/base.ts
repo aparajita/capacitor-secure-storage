@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/require-await */
 import { Capacitor, CapacitorException, WebPlugin } from '@capacitor/core'
 
-import type { DataType, SecureStoragePlugin } from './definitions'
-import { KeychainAccess, StorageError, StorageErrorType } from './definitions'
+import type { DataType, SecureStoragePlugin } from './definitions.js'
+import {
+  KeychainAccess,
+  StorageError,
+  StorageErrorType,
+} from './definitions.js'
 
 function isStorageErrorType(
   value: string | undefined,

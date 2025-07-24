@@ -16,7 +16,7 @@ export default defineConfig({
       inlineDynamicImports: true,
     },
     {
-      file: 'dist/plugin.cjs.js',
+      file: 'dist/plugin.cjs',
       format: 'cjs',
       sourcemap: Boolean(process.env.SOURCE_MAP),
       inlineDynamicImports: true,

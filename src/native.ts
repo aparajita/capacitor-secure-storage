@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/require-await */
-import { SecureStorageBase } from './base'
-import type { KeychainAccess, SecureStoragePlugin } from './definitions'
+import { SecureStorageBase } from './base.js'
+import type { KeychainAccess, SecureStoragePlugin } from './definitions.js'
 
 export class SecureStorageNative extends SecureStorageBase {
   constructor(capProxy: SecureStoragePlugin) {
