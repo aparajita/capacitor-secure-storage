@@ -52,14 +52,22 @@
     "demo.android": "pnpm build && pnpm --filter @aparajita/capacitor-secure-storage-demo android",
     "demo.android.dev": "pnpm --filter @aparajita/capacitor-secure-storage-demo android.dev",
     "prerelease": "pnpm build",
-    "tag": "commit-and-tag-version --bumpFiles package.json --bumpFiles demo/package.json",
+    "tag": "commit-and-tag-version",
     "tag.preview": "pnpm tag --dry-run",
     "release": "./scripts/release.sh"
   },
   "commit-and-tag-version": {
     "scripts": {
       "postbump": "pnpm builder"
-    }
+    },
+    "bumpFiles": [
+      "package.json",
+      "demo/package.json",
+      {
+        "filename": "android/build.gradle",
+        "updater": "scripts/gradle-updater.mjs"
+      }
+    ]
   },
   "keywords": [
     "capacitor",
