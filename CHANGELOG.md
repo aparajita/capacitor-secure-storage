@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.1.4](https://github.com/aparajita/capacitor-secure-storage/compare/v7.1.3...v7.1.4) (2025-10-22)
+
+
+### Bug Fixes
+
+* exports was missing some entries ([959879b](https://github.com/aparajita/capacitor-secure-storage/commit/959879b5893a7b873363ecf23f2b2426aad85e34))
+
 ## [7.1.3](https://github.com/aparajita/capacitor-secure-storage/compare/v7.1.2...v7.1.3) (2025-07-26)
 
 
