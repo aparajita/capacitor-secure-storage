@@ -18,7 +18,6 @@
     "./package.json": "./package.json",
     "./dist/*": "./dist/*"
   },
-  "unpkg": "dist/plugin.js",
   "engines": {
     "node": ">=16.15.1"
   },
