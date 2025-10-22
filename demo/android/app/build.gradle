@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     namespace "com.aparajita.capacitor.securestoragedemo"
-    compileSdk rootProject.ext.compileSdkVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.aparajita.capacitor.securestoragedemo"
         minSdkVersion rootProject.ext.minSdkVersion
