@@ -12,8 +12,11 @@
     ".": {
       "types": "./dist/esm/index.d.ts",
       "import": "./dist/esm/index.js",
-      "require": "./dist/plugin.cjs"
-    }
+      "require": "./dist/plugin.cjs",
+      "default": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json",
+    "./dist/*": "./dist/*"
   },
   "unpkg": "dist/plugin.js",
   "engines": {
