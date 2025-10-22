@@ -88,7 +88,7 @@
   "devDependencies": {
     "@aparajita/prettier-config": "^2.0.0",
     "@aparajita/swiftly": "^2.0.0",
-    "@capacitor/cli": "^7.4.3",
+    "@capacitor/cli": "^7.4.4",
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@eslint-community/eslint-plugin-eslint-comments": "^4.5.0",
@@ -99,13 +99,13 @@
     "commit-and-tag-version": "^12.6.0",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-oxlint": "^1.23.0",
+    "eslint-plugin-oxlint": "^1.24.0",
     "eslint-plugin-unicorn": "^61.0.2",
     "eslint-plugin-vue": "^10.5.1",
     "globals": "^16.4.0",
     "neostandard": "^0.12.2",
     "nodemon": "^3.1.10",
-    "oxlint": "^1.23.0",
+    "oxlint": "^1.24.0",
     "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
     "rollup": "^4.52.5",
@@ -115,10 +115,10 @@
     "vue-tsc": "~3.1.1"
   },
   "dependencies": {
-    "@capacitor/android": "^7.4.3",
+    "@capacitor/android": "^7.4.4",
     "@capacitor/app": "^7.1.0",
-    "@capacitor/core": "^7.4.3",
-    "@capacitor/ios": "^7.4.3"
+    "@capacitor/core": "^7.4.4",
+    "@capacitor/ios": "^7.4.4"
   },
   "pnpm": {
     "allowDeprecatedVersions": {
