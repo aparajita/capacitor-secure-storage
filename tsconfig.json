@@ -4,7 +4,6 @@
     "allowUnreachableCode": false,
     "declaration": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true,
     "importHelpers": true,
     "lib": ["dom", "es2017"],
     "module": "esnext",
