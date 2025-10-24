@@ -1,6 +1,7 @@
 // / <reference types="@capacitor/splash-screen" />
 
 import type { CapacitorConfig } from '@capacitor/cli'
+import { KeyboardResize } from '@capacitor/keyboard'
 
 const config: CapacitorConfig = {
   appId: 'com.aparajita.capacitor.securestoragedemo',
@@ -11,6 +12,9 @@ const config: CapacitorConfig = {
   },
   webDir: 'dist',
   plugins: {
+    Keyboard: {
+      resize: KeyboardResize.None,
+    },
     SplashScreen: {
       launchAutoHide: false,
     },

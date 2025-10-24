@@ -7,6 +7,9 @@
 	},
 	"webDir": "dist",
 	"plugins": {
+		"Keyboard": {
+			"resize": "none"
+		},
 		"SplashScreen": {
 			"launchAutoHide": false
 		}
