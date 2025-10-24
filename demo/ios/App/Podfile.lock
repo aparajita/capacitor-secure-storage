@@ -1,5 +1,5 @@
 PODS:
-  - AparajitaCapacitorSecureStorage (7.1.5):
+  - AparajitaCapacitorSecureStorage (7.1.6):
     - Capacitor
     - KeychainSwift (~> 21.0)
   - Capacitor (7.4.3):
@@ -45,7 +45,7 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/.pnpm/@capacitor+splash-screen@7.0.3_@capacitor+core@7.4.3/node_modules/@capacitor/splash-screen"
 
 SPEC CHECKSUMS:
-  AparajitaCapacitorSecureStorage: 8bd9a512bbd2846ab0bd2185dc9765155187283a
+  AparajitaCapacitorSecureStorage: 502bff73187cf9d0164459458ccf47ec65d5895a
   Capacitor: 28d6c01026a9a3f7156529498ec1f389a2a28dbc
   CapacitorApp: 26587c2ce485d88ddb39adb21cac64f8e481afe3
   CapacitorCordova: 435121e81a2df4d0034f0fb11fcefab5104cfdb5
