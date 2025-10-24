@@ -1,5 +1,5 @@
 PODS:
-  - AparajitaCapacitorSecureStorage (7.1.3):
+  - AparajitaCapacitorSecureStorage (7.1.5):
     - Capacitor
     - KeychainSwift (~> 21.0)
   - Capacitor (7.4.3):
@@ -13,8 +13,6 @@ PODS:
     - Capacitor
   - CapacitorSplashScreen (7.0.3):
     - Capacitor
-  - CapacitorStatusBar (7.0.3):
-    - Capacitor
   - KeychainSwift (21.0.0)
 
 DEPENDENCIES:
@@ -25,7 +23,6 @@ DEPENDENCIES:
   - "CapacitorHaptics (from `../../../node_modules/.pnpm/@capacitor+haptics@7.0.2_@capacitor+core@7.4.3/node_modules/@capacitor/haptics`)"
   - "CapacitorKeyboard (from `../../../node_modules/.pnpm/@capacitor+keyboard@7.0.3_@capacitor+core@7.4.3/node_modules/@capacitor/keyboard`)"
   - "CapacitorSplashScreen (from `../../../node_modules/.pnpm/@capacitor+splash-screen@7.0.3_@capacitor+core@7.4.3/node_modules/@capacitor/splash-screen`)"
-  - "CapacitorStatusBar (from `../../../node_modules/.pnpm/@capacitor+status-bar@7.0.3_@capacitor+core@7.4.3/node_modules/@capacitor/status-bar`)"
 
 SPEC REPOS:
   trunk:
@@ -46,20 +43,17 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/.pnpm/@capacitor+keyboard@7.0.3_@capacitor+core@7.4.3/node_modules/@capacitor/keyboard"
   CapacitorSplashScreen:
     :path: "../../../node_modules/.pnpm/@capacitor+splash-screen@7.0.3_@capacitor+core@7.4.3/node_modules/@capacitor/splash-screen"
-  CapacitorStatusBar:
-    :path: "../../../node_modules/.pnpm/@capacitor+status-bar@7.0.3_@capacitor+core@7.4.3/node_modules/@capacitor/status-bar"
 
 SPEC CHECKSUMS:
-  AparajitaCapacitorSecureStorage: 0ee936f927c536e48dada7452c6223fd569f7414
+  AparajitaCapacitorSecureStorage: 8bd9a512bbd2846ab0bd2185dc9765155187283a
   Capacitor: 28d6c01026a9a3f7156529498ec1f389a2a28dbc
   CapacitorApp: 26587c2ce485d88ddb39adb21cac64f8e481afe3
   CapacitorCordova: 435121e81a2df4d0034f0fb11fcefab5104cfdb5
   CapacitorHaptics: b3fb2869e72c4466e18ce9ccbeb60a3d8723b3d4
   CapacitorKeyboard: 62f36104f26d53d8b3a2a43f2a69fe714f1777d5
   CapacitorSplashScreen: e388b8e0ed0e982a9d3a40417f478e7a018a8763
-  CapacitorStatusBar: 0659ddc7b1713764a05831463d215b177a15d054
   KeychainSwift: 4a71a45c802fd9e73906457c2dcbdbdc06c9419d
 
-PODFILE CHECKSUM: 5d670d8b845fc840cce534cf75c06af80ad9de84
+PODFILE CHECKSUM: ba806c73b53be213b161b5328af250c6fa78ca3b
 
 COCOAPODS: 1.16.2
