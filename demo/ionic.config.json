@@ -1,5 +1,5 @@
 {
-  "name": "capacitor-biometric-auth-demo",
+  "name": "capacitor-secure-storage-demo",
   "integrations": {
     "capacitor": {}
   },
