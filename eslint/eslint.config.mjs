@@ -19,6 +19,7 @@ import importConfig from './eslint-import-config.mjs'
 import stylisticConfig from './eslint-stylistic-config.mjs'
 import typescriptConfig from './eslint-typescript-config.mjs'
 import unicornConfig from './eslint-unicorn-config.mjs'
+import vueConfig from './eslint-vue-config.mjs'
 
 const defaultExport = defineConfigWithVueTs(
   {
@@ -63,6 +64,9 @@ const defaultExport = defineConfigWithVueTs(
   stylisticConfig,
   typescriptConfig,
   unicornConfig,
+
+  // Vue-specific configuration, must come last before Prettier
+  vueConfig,
 
   // Prettier must be last
   prettier,
