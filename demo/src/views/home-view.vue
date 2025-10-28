@@ -47,8 +47,10 @@ onBeforeMount(async () => {
   prefix.value = await SecureStorage.getKeyPrefix()
 })
 
-onMounted(async () => {
-  await SplashScreen.hide()
+onMounted(() => {
+  window.setTimeout(() => {
+    void SplashScreen.hide()
+  }, 400)
 })
 
 /*
