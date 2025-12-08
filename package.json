@@ -25,6 +25,7 @@
     "android/src/main/",
     "android/build.gradle",
     "dist/",
+    "Package.swift",
     "ios/Plugin/",
     "*.podspec",
     "LICENSE"
