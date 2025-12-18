@@ -1,3 +1,2 @@
-Plugin.xcodeproj
-Plugin.xcworkspace
-Pods
+.build
+.swiftpm

@@ -43,7 +43,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Testing & Verification
 
-- **iOS verification**: `pnpm verify.ios` - Install pods and build iOS plugin
+- **iOS verification**: `pnpm verify.ios` - Build iOS plugin using Swift Package Manager
 - **Android verification**: `pnpm verify.android` - Clean build and test Android plugin
 - **Full verification**: `pnpm verify` - Run both iOS and Android verification
 
@@ -61,8 +61,18 @@ This is a Capacitor 7+ plugin that provides secure storage across iOS, Android, 
 
 ### Platform-Specific Code
 
-- **iOS**: Swift implementation in `ios/Plugin/Plugin.swift` with keychain integration
+- **iOS**: Swift implementation in `ios/Sources/SecureStoragePlugin/Plugin.swift` with keychain integration
 - **Android**: Java implementation in `android/src/main/java/com/aparajita/capacitor/securestorage/SecureStorage.java` using Android KeyStore and SharedPreferences
+
+### iOS Structure
+
+- **`Package.swift`**: SPM manifest at plugin root
+- **`ios/Sources/SecureStoragePlugin/`**: Swift source files
+- **`AparajitaCapacitorSecureStorage.podspec`**: CocoaPods spec
+
+**Plugin dependencies** are managed via SPM in `Package.swift`.
+
+**Plugin installation** by consumers: SPM (recommended) or CocoaPods (legacy).
 
 ### Key Features
 
