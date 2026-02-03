@@ -252,10 +252,7 @@
     "eslint/sort-keys": "off", // Sometimes we want to group keys
     "eslint/yoda": "error",
 
-    "import/consistent-type-specifier-style": [
-      "error",
-      { "prefer-top-level": true },
-    ],
+    "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
     "import/first": "error",
     "import/no-mutable-exports": "error",
 

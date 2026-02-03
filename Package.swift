@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
   name: "AparajitaCapacitorSecureStorage",
-  platforms: [.iOS(.v14)],
+  platforms: [.iOS(.v15)],
   products: [
     .library(
       name: "AparajitaCapacitorSecureStorage",
