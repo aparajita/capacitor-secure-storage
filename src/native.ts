@@ -2,6 +2,7 @@
 import { SecureStorageBase } from './base.js'
 import type { KeychainAccess, SecureStoragePlugin } from './definitions.js'
 
+// oxlint-disable eslint/class-methods-use-this -- Protected methods don't use `this` but need to be overridden
 export class SecureStorageNative extends SecureStorageBase {
   constructor(capProxy: SecureStoragePlugin) {
     super()
@@ -22,7 +23,7 @@ export class SecureStorageNative extends SecureStorageBase {
   }
 
   // @native
-  /* eslint-disable @typescript-eslint/class-methods-use-this */
+
   protected async setSynchronizeKeychain(_options: {
     sync: boolean
   }): Promise<void> {
@@ -79,6 +80,5 @@ export class SecureStorageNative extends SecureStorageBase {
   }): Promise<{ keys: string[] }> {
     return { keys: [] }
   }
-  /* eslint-enable @typescript-eslint/class-methods-use-this */
 }
 /* eslint-enable @typescript-eslint/require-await */

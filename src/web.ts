@@ -1,9 +1,8 @@
 import { SecureStorageBase } from './base.js'
 
+// oxlint-disable eslint/class-methods-use-this -- Protected methods don't use `this` but need to be overridden
 export class SecureStorageWeb extends SecureStorageBase {
   // @native
-
-  /* eslint-disable @typescript-eslint/class-methods-use-this */
 
   protected async setSynchronizeKeychain(_options: {
     sync: boolean
@@ -76,5 +75,4 @@ export class SecureStorageWeb extends SecureStorageBase {
 
     return { keys }
   }
-  /* eslint-enable @typescript-eslint/class-methods-use-this */
 }

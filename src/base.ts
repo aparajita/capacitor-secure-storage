@@ -41,6 +41,7 @@ export interface SecureStoragePluginNative {
   getPrefixedKeys: (options: { prefix: string }) => Promise<{ keys: string[] }>
 }
 
+// oxlint-disable eslint/class-methods-use-this -- Protected methods don't use `this` but need to be overridden
 export abstract class SecureStorageBase
   extends WebPlugin
   implements SecureStoragePlugin
