@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [8.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v7.1.6...v8.0.0) (2026-02-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* complete Capacitor 8 upgrade configuration
+
+### Features
+
+* complete Capacitor 8 upgrade configuration ([c9131e1](https://github.com/aparajita/capacitor-secure-storage/commit/c9131e1b99e94f4dba63a4c9dffcf6fe557568cc))
+* **demo:** migrate iOS to Swift Package Manager ([f6bd936](https://github.com/aparajita/capacitor-secure-storage/commit/f6bd936825647f43f80bd078425b9950aa3eae0a))
+* **ios:** migrate to Swift Package Manager ([8801801](https://github.com/aparajita/capacitor-secure-storage/commit/88018011824625a9d31ef78bd134ed7604c4ca7c))
+
+
+### Bug Fixes
+
+* don’t lint before building demo ([83de475](https://github.com/aparajita/capacitor-secure-storage/commit/83de475f226f994dc36c9a14984f2c0f3f555ba3))
+
 ## [7.1.6](https://github.com/aparajita/capacitor-secure-storage/compare/v7.1.5...v7.1.6) (2025-10-24)
 
 
