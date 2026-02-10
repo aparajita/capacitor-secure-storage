@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [8.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v7.1.6...v8.0.0) (2026-02-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* complete Capacitor 8 upgrade configuration
+
+### Features
+
+* add CocoaPods support and complete demo restructure ([4b4b143](https://github.com/aparajita/capacitor-secure-storage/commit/4b4b1433ab4f83d46907bdea94aaa099a955ab81))
+* complete Capacitor 8 upgrade configuration ([c9131e1](https://github.com/aparajita/capacitor-secure-storage/commit/c9131e1b99e94f4dba63a4c9dffcf6fe557568cc))
+* **demo:** migrate iOS to Swift Package Manager ([f6bd936](https://github.com/aparajita/capacitor-secure-storage/commit/f6bd936825647f43f80bd078425b9950aa3eae0a))
+* **ios:** migrate to Swift Package Manager ([8801801](https://github.com/aparajita/capacitor-secure-storage/commit/88018011824625a9d31ef78bd134ed7604c4ca7c))
+* restructure demo into shared source with CocoaPods and SPM variants ([50e4e35](https://github.com/aparajita/capacitor-secure-storage/commit/50e4e35b67e2630ce3232ad58b5c6ddfe626de2c))
+
+
+### Bug Fixes
+
+* don’t lint before building demo ([83de475](https://github.com/aparajita/capacitor-secure-storage/commit/83de475f226f994dc36c9a14984f2c0f3f555ba3))
+
 ## [8.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v7.1.6...v8.0.0) (2026-02-04)
 
 
