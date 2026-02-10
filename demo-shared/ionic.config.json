@@ -1,0 +1,8 @@
+{
+  "name": "capacitor-secure-storage-demo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom",
+  "npmClient": "pnpm"
+}

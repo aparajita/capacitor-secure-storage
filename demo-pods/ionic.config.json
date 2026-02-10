@@ -1,7 +1,1 @@
-{
-  "name": "capacitor-secure-storage-demo",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "custom"
-}
+../demo-shared/ionic.config.json
