@@ -12,13 +12,33 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Demo Commands
 
-- **Demo development**: `pnpm demo.dev` - Start demo in development mode
-- **Demo build**: `pnpm demo.build` - Build demo for production
-- **Demo lint**: `pnpm demo.lint` - Lint demo code
-- **Demo iOS**: `pnpm demo.ios` - Run demo on iOS
-- **Demo iOS dev**: `pnpm demo.ios.dev` - Run demo on iOS with live reload
-- **Demo Android**: `pnpm demo.android` - Run demo on Android
-- **Demo Android dev**: `pnpm demo.android.dev` - Run demo on Android with live reload
+The demo app is structured with shared web source (`demo-shared`) and two platform variants: `demo-pods` (CocoaPods) and `demo-spm` (Swift Package Manager).
+
+### CocoaPods Demo (demo-pods)
+
+- **Browser dev**: `pnpm demo.pods.browser` - Start demo in browser
+- **Build**: `pnpm demo.pods.build` - Build demo for production
+- **iOS**: `pnpm demo.pods.ios` - Run demo on iOS
+- **iOS dev**: `pnpm demo.pods.ios.dev` - Run demo on iOS with live reload
+- **Open iOS**: `pnpm demo.pods.open.ios` - Open iOS project in Xcode
+- **Android**: `pnpm demo.pods.android` - Run demo on Android
+- **Android dev**: `pnpm demo.pods.android.dev` - Run demo on Android with live reload
+- **Open Android**: `pnpm demo.pods.open.android` - Open Android project in Android Studio
+
+### SPM Demo (demo-spm)
+
+- **Browser dev**: `pnpm demo.spm.browser` - Start demo in browser
+- **Build**: `pnpm demo.spm.build` - Build demo for production
+- **iOS**: `pnpm demo.spm.ios` - Run demo on iOS
+- **iOS dev**: `pnpm demo.spm.ios.dev` - Run demo on iOS with live reload
+- **Open iOS**: `pnpm demo.spm.open.ios` - Open iOS project in Xcode
+- **Android**: `pnpm demo.spm.android` - Run demo on Android
+- **Android dev**: `pnpm demo.spm.android.dev` - Run demo on Android with live reload
+- **Open Android**: `pnpm demo.spm.open.android` - Open Android project in Android Studio
+
+### Shared Commands
+
+- **Sync demos**: `pnpm sync-demos` - Sync native files between demo variants
 
 ## Linting and Code Quality
 
@@ -43,9 +63,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Testing & Verification
 
-- **iOS verification**: `pnpm verify.ios` - Build iOS plugin using Swift Package Manager
+- **iOS CocoaPods verification**: `pnpm verify.pods.ios` - Build iOS plugin using CocoaPods
+- **iOS SPM verification**: `pnpm verify.spm.ios` - Build iOS plugin using Swift Package Manager
+- **iOS verification**: `pnpm verify.ios` - Run both CocoaPods and SPM verification
 - **Android verification**: `pnpm verify.android` - Clean build and test Android plugin
-- **Full verification**: `pnpm verify` - Run both iOS and Android verification
+- **Full verification**: `pnpm verify` - Run all verification tests
 
 ## Project Architecture
 
@@ -85,6 +107,26 @@ This is a Capacitor 7+ plugin that provides secure storage across iOS, Android, 
 ### Plugin Architecture
 
 Uses Capacitor's plugin registration system with platform-specific implementations loaded dynamically. The plugin proxy handles routing calls to the appropriate platform implementation.
+
+### Demo Structure
+
+The demo app uses a shared web source pattern to support both CocoaPods and SPM installation methods:
+
+- **`demo-shared/`**: Web application source (Vue, Ionic, Vite config)
+  - Contains all web source code, assets, and base configuration
+  - Shared by both demo variants via symlinks
+
+- **`demo-pods/`**: CocoaPods variant
+  - `ios/App/Podfile`: Declares plugin dependency via CocoaPods
+  - Symlinks to `demo-shared/` for web source
+  - Re-exports shared configs (vite, tailwind, postcss, tsconfig)
+
+- **`demo-spm/`**: Swift Package Manager variant
+  - `ios/App/CapApp-SPM/Package.swift`: Declares plugin dependency via SPM
+  - Symlinks to `demo-shared/` for web source
+  - Re-exports shared configs (vite, tailwind, postcss, tsconfig)
+
+This structure allows testing both installation methods with a single web codebase. Use `pnpm sync-demos` to sync native platform files between variants.
 
 ## Build System
 

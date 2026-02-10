@@ -1,0 +1,34 @@
+{
+  "name": "demo-shared",
+  "version": "8.0.0",
+  "description": "Shared web app for the secure storage demo apps",
+  "private": true,
+  "dependencies": {
+    "@aparajita/capacitor-secure-storage": "workspace:*",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/core": "^8.0.2",
+    "@capacitor/haptics": "^8.0.0",
+    "@capacitor/keyboard": "^8.0.0",
+    "@capacitor/splash-screen": "^8.0.0",
+    "@ionic/core": "^8.7.17",
+    "@ionic/vue": "^8.7.17",
+    "@ionic/vue-router": "^8.7.17",
+    "ionicons": "^8.0.13",
+    "vue": "^3.5.27",
+    "vue-router": "^5.0.2"
+  },
+  "devDependencies": {
+    "@aparajita/tailwind-ionic": "^2.3.0",
+    "@capacitor/cli": "^8.0.2",
+    "@types/node": "^25.2.0",
+    "@vitejs/plugin-vue": "^6.0.4",
+    "@vue/compiler-sfc": "^3.5.27",
+    "@vue/tsconfig": "^0.8.1",
+    "autoprefixer": "^10.4.24",
+    "postcss": "^8.5.6",
+    "tailwindcss": "<4.0.0",
+    "terser": "^5.46.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.1"
+  }
+}

@@ -74,8 +74,6 @@ captures/
 .claude/settings.local.json
 
 # Demo build artifacts
-demo/dist/
-demo/node_modules/
-demo/android/build/
-demo/ios/App/Pods/
-demo/.eslintcache
+demo*/dist/
+demo*/node_modules/
+demo*/.eslintcache

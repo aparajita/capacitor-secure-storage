@@ -1,0 +1,36 @@
+{
+  "name": "demo-pods",
+  "version": "8.0.0",
+  "description": "An Ionic/Vue demo of the @aparajita/capacitor-secure-storage plugin (CocoaPods variant)",
+  "private": true,
+  "author": "Aparajita Fishman",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 1327",
+    "ios.dev": "ionic cap run ios --open --livereload --external",
+    "ios": "ionic cap run ios --open",
+    "open.ios": "ionic cap open ios",
+    "android.dev": "ionic cap run android --open --livereload --external",
+    "android": "ionic cap run android --open",
+    "open.android": "ionic cap open android",
+    "ionic:build": "pnpm build",
+    "ionic:serve": "vite"
+  },
+  "dependencies": {
+    "@aparajita/capacitor-secure-storage": "workspace:*",
+    "@capacitor/android": "^8.0.2",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/core": "^8.0.2",
+    "@capacitor/haptics": "^8.0.0",
+    "@capacitor/ios": "^8.0.2",
+    "@capacitor/keyboard": "^8.0.0",
+    "@capacitor/splash-screen": "^8.0.0",
+    "demo-shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.0.2",
+    "@ionic/cli": "^7.2.1",
+    "vite": "^7.3.1"
+  }
+}
