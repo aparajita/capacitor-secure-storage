@@ -1,26 +1,10 @@
-<div class="markdown-body">
-
-# capacitor-secure-storage
+# capacitor-secure-storage&nbsp;&nbsp;[![npm version](https://badge.fury.io/js/@aparajita%2Fcapacitor-secure-storage.svg)](https://badge.fury.io/js/@aparajita%2Fcapacitor-secure-storage)
 
 This plugin for [Capacitor 8](https://capacitorjs.com) provides secure key/value storage on iOS and Android. It was originally designed to be a companion to [@aparajita/capacitor-biometric-auth](https://github.com/aparajita/capacitor-biometric-auth/#readme) in order to securely store login credentials, but can be used to store any JSON data types.
 
-## BREAKING CHANGES: Upgrading from 7.x
+🛑 **BREAKING CHANGES:**
 
 See [the Capacitor 8 support page](https://capacitorjs.com/docs/main/reference/support-policy) for information on changes to the minimum supported development tools and platforms.
-
-## BREAKING CHANGES: Upgrading from 6.x
-
-The minimum iOS version is now 14.0.
-
-## BREAKING CHANGES: Upgrading from 5.x
-
-The minimum Android API level was increased from 22 to 23 (Android 6).
-
-## BREAKING CHANGES: Upgrading from 2.x
-
-To be consistent with JavaScript’s `Storage` and `@capacitor/preferences`, the plugin now returns `null` instead of throwing an exception when getting a non-existent item.
-
-Also, the plugin no longer encrypts data on the web, since this plugin is designed for native storage, and including blowfish was unnecessary bloat.
 
 ## Installation
 
@@ -28,17 +12,11 @@ Also, the plugin no longer encrypts data on the web, since this plugin is design
 pnpm add @aparajita/capacitor-secure-storage # npm install, yarn add
 ```
 
-Not using [pnpm](https://pnpm.js.org/)? You owe it to yourself to give it a try. It’s faster, better with monorepos, and uses _way, way_ less disk space than the alternatives.
+Not using [pnpm](https://pnpm.io)? You owe it to yourself to give it a try. It’s faster, better with monorepos, and uses _way, way_ less disk space than the alternatives.
 
 ## Usage
 
-The API is thoroughly documented [here](src/definitions.ts). For a complete example of how to use this plugin in practice, see the [demo app](./demo/). To run the demo app:
-
-```sh
-pnpm demo.ios
-# or
-pnpm demo.android
-```
+The API is thoroughly documented [here](src/definitions.ts). For a complete example of how to use this plugin in practice, see the [demo section](#demo).
 
 ### iOS
 
@@ -64,4 +42,99 @@ On Android, data is encrypted using AES in GCM mode with a secret key generated 
 
 On the web, data is stored **unencrypted** in `localStorage`, so that you can see the data you are storing. This is for debugging purposes only; you should not use this plugin on the web in production.
 
-</div>
+## Demo
+
+The Ionic/Vue demo app demonstrates all of the features of this plugin. There are two variants of the demo, one which uses CocoaPods (demo-pods) and one which uses Swift Package Manager (demo-spm). Of course, CocoaPods and Swift Package Manager only apply to iOS. In both demos, the Android version is identical.
+
+### Installation
+
+[pnpm](https://pnpm.io) is required to run the demo.
+
+```shell
+# Clone the github repo and install dependencies
+git clone https://github.com/aparajita/capacitor-secure-storage.git
+cd capacitor-secure-storage
+pnpm install -r
+```
+
+### Running
+
+Before running either of the demos, you must build the plugin first, as the demos reference a local build of the plugin.
+
+```shell
+pnpm build
+```
+
+From the root directory, you can run the demos using:
+
+iOS:
+
+```shell
+pnpm demo.pods.ios
+pnpm demo.spm.ios
+```
+
+Android:
+
+```shell
+pnpm demo.pods.android
+pnpm demo.spm.android
+```
+
+Web:
+
+```shell
+pnpm demo.pods.browser
+pnpm demo.spm.browser
+```
+
+You can also run commands from within the demo directory:
+
+```shell
+cd demo-pods # or cd demo-spm
+pnpm ios
+pnpm android
+pnpm dev
+```
+
+### Usage
+
+#### Sync to iCloud Keychain (iOS only)
+
+On iOS, an “iCloud sync” checkbox appears. Checking/unchecking this turns on/off iCloud sync globally.
+
+In addition, a “Sync” checkbox appears to the right of the “Key” field which controls iCloud sync. By default, it is in an indeterminate state, which means the global sync setting is used. Tapping the “Sync” checkbox cycles between indeterminate => checked => unchecked. If the “Sync” checkbox is checked or unchecked, that overrides the global sync checkbox.
+
+When the resolved sync setting is on, any operations (other than setting the prefix) affect the iCloud keychain instead of the local keychain.
+
+#### Set the prefix
+
+To change the key prefix, edit the "Prefix" field and press "Set".
+
+#### Save a value
+
+To save a key/value item to storage, enter the key in the "Key" field and a JSON-parseable value in the "Data" field. As you type in the "Data" field, if it is a valid value, the data type is displayed below the field.
+
+You may store any valid JSON value: string, number, boolean, array, object, or null. In addition, if the "Data" field looks like an ISO 8601 datetime (begins with YYYY-MM-DD), it is parsed as such, and if successfully parsed the type will be shown as "date". Note that the time and milliseconds are optional. So, for example, these are all parsed as a valid date:
+
+```
+2020-08-27
+2020-08-27T13:27:07
+2020-08-27T13:27:07.413Z
+```
+
+#### Get a value
+
+To get a value from storage, enter the key and press "Get".
+
+#### Remove an item
+
+To remove an item from storage, enter the key and press "Remove".
+
+#### Clear all items
+
+To remove all items with the current prefix from storage, press "Clear".
+
+#### View all keys
+
+To view all of the keys with the current prefix in storage, press "Keys". Note that if the resolved sync setting is true on iOS, keys from **both** the iCloud keychain and the local keychain will be displayed.
