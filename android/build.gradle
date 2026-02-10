@@ -9,6 +9,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        //noinspection AndroidGradlePluginVersion
         classpath 'com.android.tools.build:gradle:8.13.2'
     }
 }

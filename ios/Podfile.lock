@@ -1,0 +1,29 @@
+PODS:
+  - Capacitor (8.0.2):
+    - CapacitorCordova
+  - CapacitorCordova (8.0.2)
+  - KeychainSwift (21.0.0)
+
+DEPENDENCIES:
+  - "Capacitor (from `../node_modules/@capacitor/ios`)"
+  - "CapacitorCordova (from `../node_modules/@capacitor/ios`)"
+  - KeychainSwift (~> 21.0)
+
+SPEC REPOS:
+  trunk:
+    - KeychainSwift
+
+EXTERNAL SOURCES:
+  Capacitor:
+    :path: "../node_modules/@capacitor/ios"
+  CapacitorCordova:
+    :path: "../node_modules/@capacitor/ios"
+
+SPEC CHECKSUMS:
+  Capacitor: 2b79172ad27f3be2d103cce88b8eb9803fdcc744
+  CapacitorCordova: 921bdb690ebe82421b24fce45552fd3dea2ae43a
+  KeychainSwift: 4a71a45c802fd9e73906457c2dcbdbdc06c9419d
+
+PODFILE CHECKSUM: df20179e4f97062d08c396aa7806a8c3dc9a2472
+
+COCOAPODS: 1.16.2

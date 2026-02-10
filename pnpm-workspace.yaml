@@ -1,2 +1,4 @@
 packages:
-  - demo
+  - demo-shared
+  - demo-spm
+  - demo-pods
