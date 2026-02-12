@@ -45,7 +45,7 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/.pnpm/@capacitor+splash-screen@8.0.0_@capacitor+core@8.0.2/node_modules/@capacitor/splash-screen"
 
 SPEC CHECKSUMS:
-  AparajitaCapacitorSecureStorage: 33f5838c0fa63aad246e1a12d65d603623940471
+  AparajitaCapacitorSecureStorage: 8128d05cafcb13b00448e20fb388a0edccd44b12
   Capacitor: 2b79172ad27f3be2d103cce88b8eb9803fdcc744
   CapacitorApp: 3963a84197280757b84f126afd1520a85ae3b092
   CapacitorCordova: 921bdb690ebe82421b24fce45552fd3dea2ae43a

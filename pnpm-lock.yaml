@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@ionic/cli@7.2.1':
+    hash: 68ad987b9ab1dc503e8bdb5cbd12929ca5d5cae537e7e866c5d97b923c8b00bd
+    path: patches/@ionic__cli@7.2.1.patch
+
 importers:
 
   .:
@@ -48,6 +53,9 @@ importers:
       '@eslint/js':
         specifier: ^9.39.2
         version: 9.39.2
+      '@ionic/cli':
+        specifier: ^7.2.1
+        version: 7.2.1(patch_hash=68ad987b9ab1dc503e8bdb5cbd12929ca5d5cae537e7e866c5d97b923c8b00bd)
       '@ionic/swiftlint-config':
         specifier: ^2.0.0
         version: 2.0.0
@@ -144,7 +152,7 @@ importers:
         version: 8.0.2
       '@ionic/cli':
         specifier: ^7.2.1
-        version: 7.2.1
+        version: 7.2.1(patch_hash=68ad987b9ab1dc503e8bdb5cbd12929ca5d5cae537e7e866c5d97b923c8b00bd)
       vite:
         specifier: ^7.3.1
         version: 7.3.1(@types/node@25.2.3)(jiti@2.6.1)(terser@5.46.0)(yaml@2.8.2)
@@ -257,7 +265,7 @@ importers:
         version: 8.0.2
       '@ionic/cli':
         specifier: ^7.2.1
-        version: 7.2.1
+        version: 7.2.1(patch_hash=68ad987b9ab1dc503e8bdb5cbd12929ca5d5cae537e7e866c5d97b923c8b00bd)
       vite:
         specifier: ^7.3.1
         version: 7.3.1(@types/node@25.2.3)(jiti@2.6.1)(terser@5.46.0)(yaml@2.8.2)
@@ -4600,7 +4608,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@ionic/cli@7.2.1':
+  '@ionic/cli@7.2.1(patch_hash=68ad987b9ab1dc503e8bdb5cbd12929ca5d5cae537e7e866c5d97b923c8b00bd)':
     dependencies:
       '@ionic/cli-framework': 6.0.1
       '@ionic/cli-framework-output': 2.2.8
