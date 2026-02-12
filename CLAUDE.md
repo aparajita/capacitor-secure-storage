@@ -8,6 +8,14 @@
 - `pnpm lint` - Run ESLint, Prettier, and TypeScript compiler checks
 - `pnpm clean` - Remove dist directory
 
+## Tooling Preferences
+
+- Use Serena's semantic tools for code exploration and symbol lookups:
+    - `jet_brains_find_symbol` - Find symbol definitions
+    - `jet_brains_find_referencing_symbols` - Find references
+    - `jet_brains_get_symbols_overview` - Get symbol overviews
+- Do not use TypeScript LSP for symbol lookups
+
 ## Demo Commands
 
 Two demo variants share web source from `demo-shared/` via symlinks: `demo-pods` (CocoaPods) and `demo-spm` (SPM). Commands follow the pattern `pnpm demo.{pods|spm}.{browser|build|ios|ios.dev|android|android.dev|open.ios|open.android}`.
