@@ -96,7 +96,7 @@ public class SecureStorage extends Plugin {
   @PluginMethod
   public void clearItemsWithPrefix(final PluginCall call) {
     tryStorageOp(call, () -> {
-      String prefix = call.getString("_prefix", "");
+      String prefix = call.getString("prefix", "");
       clearKeyStore(prefix);
       call.resolve();
     });
