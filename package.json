@@ -150,19 +150,5 @@
     "@capacitor/core": "^8.0.2",
     "@capacitor/ios": "^8.0.2",
     "@capacitor/keyboard": "^8.0.0"
-  },
-  "pnpm": {
-    "allowDeprecatedVersions": {
-      "stringify-package": "1.0.1"
-    },
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "simple-git-hooks",
-      "swiftlint",
-      "unrs-resolver"
-    ],
-    "patchedDependencies": {
-      "@ionic/cli@7.2.1": "patches/@ionic__cli@7.2.1.patch"
-    }
   }
 }

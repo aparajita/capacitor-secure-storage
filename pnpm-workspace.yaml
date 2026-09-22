@@ -2,3 +2,12 @@ packages:
   - demo-shared
   - demo-spm
   - demo-pods
+allowBuilds:
+  esbuild: true
+  simple-git-hooks: true
+  swiftlint: true
+  unrs-resolver: true
+allowedDeprecatedVersions:
+  stringify-package: 1.0.1
+patchedDependencies:
+  "@ionic/cli@7.2.1": patches/@ionic__cli@7.2.1.patch
