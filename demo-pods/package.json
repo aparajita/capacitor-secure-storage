@@ -1,6 +1,6 @@
 {
   "name": "demo-pods",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "An Ionic/Vue demo of the @aparajita/capacitor-secure-storage plugin (CocoaPods variant)",
   "private": true,
   "author": "Aparajita Fishman",

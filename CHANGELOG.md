@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [8.0.1](https://github.com/aparajita/capacitor-secure-storage/compare/v8.0.0...v8.0.1) (2026-09-23)
+
+
+### Bug Fixes
+
+* **android:** read the clear prefix option under the name the JS layer sends ([8adef50](https://github.com/aparajita/capacitor-secure-storage/commit/8adef50e02e5c065af246acf7b3f4f3e2b07fcef)), closes [#27](https://github.com/aparajita/capacitor-secure-storage/issues/27)
+* ensure the prefix is never blank ([b122b2d](https://github.com/aparajita/capacitor-secure-storage/commit/b122b2d66b91603795415bf9eec0c124472e8a3d)), closes [#27](https://github.com/aparajita/capacitor-secure-storage/issues/27)
+* point at unversioned symlink ([9af9d1e](https://github.com/aparajita/capacitor-secure-storage/commit/9af9d1e43f1002e979d261b64ce5ae848cc69c03))
+
 ## [8.0.0](https://github.com/aparajita/capacitor-secure-storage/compare/v7.1.6...v8.0.0) (2026-02-10)
 
 
