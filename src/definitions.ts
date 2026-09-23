@@ -26,6 +26,11 @@ export enum StorageErrorType {
    * An unclassified system-level error occurred.
    */
   unknownError = 'unknownError',
+
+  /**
+   * No prefix was passed where one is required.
+   */
+  missingPrefix = 'missingPrefix',
 }
 
 /**
@@ -159,10 +164,16 @@ export interface SecureStoragePlugin extends WebPlugin {
   /**
    * To prevent possible name clashes, a prefix is added to the key
    * under which items are stored. You may change the prefix by calling
-   * this method (an empty prefix is valid). Usually you will always
-   * set the prefix before calling any methods that modify the store.
+   * this method. Usually you will always set the prefix before calling
+   * any methods that modify the store.
+   *
+   * If the trimmed prefix is blank, a StorageError of type
+   * StorageErrorType.missingPrefix is thrown. This is a change since
+   * v8.0.1, since a blank prefix can remove all secure storage items
+   * for the app, including from other plugins.
    *
    * @since 2.0.0
+   * @throw StorageError
    */
   setKeyPrefix: (prefix: string) => Promise<void>
 

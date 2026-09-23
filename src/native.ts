@@ -17,8 +17,8 @@ export class SecureStorageNative extends SecureStorageBase {
     this.internalGetItem = proxy.internalGetItem
     this.internalSetItem = proxy.internalSetItem
     this.internalRemoveItem = proxy.internalRemoveItem
-    this.clearItemsWithPrefix = proxy.clearItemsWithPrefix
-    this.getPrefixedKeys = proxy.getPrefixedKeys
+    this.internalClearItemsWithPrefix = proxy.internalClearItemsWithPrefix
+    this.internalGetPrefixedKeys = proxy.internalGetPrefixedKeys
     /* eslint-enable @typescript-eslint/unbound-method */
   }
 
@@ -66,7 +66,7 @@ export class SecureStorageNative extends SecureStorageBase {
   }
 
   // @native
-  protected async clearItemsWithPrefix(_options: {
+  protected async internalClearItemsWithPrefix(_options: {
     prefix: string
     sync: boolean
   }): Promise<void> {
@@ -74,7 +74,7 @@ export class SecureStorageNative extends SecureStorageBase {
   }
 
   // @native
-  protected async getPrefixedKeys(_options: {
+  protected async internalGetPrefixedKeys(_options: {
     prefix: string
     sync: boolean
   }): Promise<{ keys: string[] }> {

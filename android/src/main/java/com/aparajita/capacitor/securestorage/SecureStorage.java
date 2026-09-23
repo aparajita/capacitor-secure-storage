@@ -94,18 +94,28 @@ public class SecureStorage extends Plugin {
   }
 
   @PluginMethod
-  public void clearItemsWithPrefix(final PluginCall call) {
+  public void internalClearItemsWithPrefix(final PluginCall call) {
     tryStorageOp(call, () -> {
-      String prefix = call.getString("prefix", "");
+      String prefix = getPrefixParam(call);
+
+      if (prefix == null) {
+        return;
+      }
+
       clearKeyStore(prefix);
       call.resolve();
     });
   }
 
   @PluginMethod
-  public void getPrefixedKeys(final PluginCall call) {
+  public void internalGetPrefixedKeys(final PluginCall call) {
     tryStorageOp(call, () -> {
-      String prefix = call.getString("prefix", "");
+      String prefix = getPrefixParam(call);
+
+      if (prefix == null) {
+        return;
+      }
+
       ArrayList<String> keys = getKeysWithPrefix(prefix);
       JSONArray array = new JSONArray(keys);
 
@@ -113,6 +123,17 @@ public class SecureStorage extends Plugin {
       result.put("keys", array);
       call.resolve(result);
     });
+  }
+
+  private String getPrefixParam(final PluginCall call) {
+    String prefix = call.getString("prefix", "");
+
+    if (prefix != null && !prefix.isBlank()) {
+      return prefix;
+    }
+
+    KeyStoreException.reject(call, KeyStoreException.ErrorKind.missingPrefix);
+    return null;
   }
 
   private SharedPreferences getPrefs() {

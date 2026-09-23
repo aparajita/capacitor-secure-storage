@@ -11,13 +11,15 @@ public class KeychainError: Error {
     case invalidData
     case osError
     case unknownError
+    case missingPrefix
   }
 
   private static let errorMap: [KeychainError.ErrorKind: String] = [
-    .missingKey: "Empty key",
+    .missingKey: "Missing or empty key param",
     .invalidData: "The data is in an invalid format",
     .osError: "An OS error occurred (%d)",
-    .unknownError: "An unknown error occurred"
+    .unknownError: "An unknown error occurred",
+    .missingPrefix: "Missing or empty prefix param"
   ]
 
   var message: String = ""

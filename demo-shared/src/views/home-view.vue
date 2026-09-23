@@ -217,8 +217,45 @@ async function onClear(): Promise<void> {
 }
 
 async function onSetPrefix(): Promise<void> {
-  await SecureStorage.setKeyPrefix(prefix.value)
-  await showAlert(`Prefix set to "${prefix.value}".`)
+  const alert = await alertController.create({
+    header: 'Set Prefix',
+    message: 'Enter a non-empty key prefix.',
+    buttons: [
+      'Cancel',
+      {
+        text: 'OK',
+        handler: async (data: { prefix: string }): Promise<void> =>
+          setPrefix(data.prefix),
+      },
+    ],
+    inputs: [
+      {
+        name: 'prefix',
+        type: 'text',
+        value: prefix.value,
+        attributes: {
+          autocapitalize: 'off',
+          autocorrect: 'off',
+          spellcheck: false,
+        },
+      },
+    ],
+  })
+
+  await alert.present()
+}
+
+async function setPrefix(newPrefix: string): Promise<void> {
+  const currentPrefix = await SecureStorage.getKeyPrefix()
+
+  try {
+    await SecureStorage.setKeyPrefix(newPrefix)
+    prefix.value = newPrefix
+    await showAlert(`Prefix set to "${prefix.value}".`)
+  } catch (error) {
+    prefix.value = currentPrefix
+    await showErrorAlert(error)
+  }
 }
 
 async function onShowKeys(): Promise<void> {
@@ -346,12 +383,8 @@ async function showAlert(message: string): Promise<void> {
             lines="inset"
             class="w-full"
           >
-            <ion-input
-              v-model="prefix"
-              label="Prefix:"
-              type="text"
-              class="flex-1"
-            />
+            Prefix:
+            <ion-label class="pl-3">{{ prefix }}</ion-label>
           </ion-item>
 
           <ion-button

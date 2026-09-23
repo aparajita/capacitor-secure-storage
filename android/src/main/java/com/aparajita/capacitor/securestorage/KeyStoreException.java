@@ -10,13 +10,14 @@ public class KeyStoreException extends Throwable {
 
   static {
     errorMap = new HashMap<>();
-    errorMap.put(ErrorKind.missingKey, "Empty key or missing key param");
+    errorMap.put(ErrorKind.missingKey, "Missing or empty key param");
     errorMap.put(
       ErrorKind.invalidData,
       "The data in the store is in an invalid format"
     );
     errorMap.put(ErrorKind.osError, "An OS error occurred (%s)");
     errorMap.put(ErrorKind.unknownError, "An unknown error occurred: %s");
+    errorMap.put(ErrorKind.missingPrefix, "Missing or empty prefix param");
   }
 
   private String message = "";
@@ -80,5 +81,6 @@ public class KeyStoreException extends Throwable {
     invalidData,
     osError,
     unknownError,
+    missingPrefix,
   }
 }

@@ -43,7 +43,7 @@ export class SecureStorageWeb extends SecureStorageBase {
   }
 
   async clear(): Promise<void> {
-    const { keys } = await this.getPrefixedKeys({ prefix: this.prefix })
+    const { keys } = await this.internalGetPrefixedKeys({ prefix: this.prefix })
 
     for (const key of keys) {
       localStorage.removeItem(key)
@@ -52,15 +52,15 @@ export class SecureStorageWeb extends SecureStorageBase {
 
   // @native
   // eslint-disable-next-line @typescript-eslint/require-await
-  protected async clearItemsWithPrefix(_options: {
+  protected async internalClearItemsWithPrefix(_options: {
     prefix: string
   }): Promise<void> {
-    console.warn('clearItemsWithPrefix is native only')
+    console.warn('internalClearItemsWithPrefix is native only')
   }
 
   // @native
   // eslint-disable-next-line @typescript-eslint/require-await
-  protected async getPrefixedKeys(options: {
+  protected async internalGetPrefixedKeys(options: {
     prefix: string
   }): Promise<{ keys: string[] }> {
     const keys: string[] = []

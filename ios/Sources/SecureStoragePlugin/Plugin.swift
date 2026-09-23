@@ -11,8 +11,8 @@ public class SecureStorage: CAPPlugin, CAPBridgedPlugin {
     .init(#selector(internalSetItem)),
     .init(#selector(internalGetItem)),
     .init(#selector(internalRemoveItem)),
-    .init(#selector(clearItemsWithPrefix)),
-    .init(#selector(getPrefixedKeys))
+    .init(#selector(internalClearItemsWithPrefix)),
+    .init(#selector(internalGetPrefixedKeys))
   ]
 
   let kKeyOption = "prefixedKey"
@@ -63,19 +63,36 @@ public class SecureStorage: CAPPlugin, CAPBridgedPlugin {
     }
   }
 
-  @objc func clearItemsWithPrefix(_ call: CAPPluginCall) {
+  @objc func internalClearItemsWithPrefix(_ call: CAPPluginCall) {
     tryKeychainOp(call, getSyncParam(from: call)) {
-      let prefix = call.getString("prefix") ?? ""
+      guard let prefix = getPrefixParam(from: call) else {
+        return
+      }
+
       try clearData(withPrefix: prefix)
       call.resolve()
     }
   }
 
-  @objc func getPrefixedKeys(_ call: CAPPluginCall) {
+  @objc func internalGetPrefixedKeys(_ call: CAPPluginCall) {
     tryKeychainOp(call, getSyncParam(from: call)) {
-      let prefix = call.getString("prefix") ?? ""
+      guard let prefix = getPrefixParam(from: call) else {
+        return
+      }
+
       call.resolve(["keys": keychain.allKeys.filter { $0.starts(with: prefix) }])
     }
+  }
+
+  func getPrefixParam(from call: CAPPluginCall) -> String? {
+    let prefix = call.getString("prefix", "").trimmingCharacters(in: .whitespaces)
+
+    if !prefix.isEmpty {
+      return prefix
+    }
+
+    KeychainError.reject(call: call, kind: .missingPrefix)
+    return nil
   }
 
   func getKeyParam(from call: CAPPluginCall) -> String? {

@@ -36,7 +36,7 @@ export interface SecureStoragePluginNative {
     prefixedKey: string
   }) => Promise<{ success: boolean }>
 
-  clearItemsWithPrefix: (options: { prefix: string }) => Promise<void>
+  internalClearItemsWithPrefix: (options: { prefix: string }) => Promise<void>
 
   getPrefixedKeys: (options: { prefix: string }) => Promise<{ keys: string[] }>
 }
@@ -237,15 +237,40 @@ export abstract class SecureStorageBase
 
   abstract clear(sync?: boolean): Promise<void>
 
+  async clearItemsWithPrefix(options: {
+    prefix: string
+    sync: boolean
+  }): Promise<void> {
+    const prefix = this.checkPrefix(options.prefix)
+
+    await this.tryOperation(async () =>
+      this.internalClearItemsWithPrefix({
+        prefix,
+        sync: this.sync,
+      }),
+    )
+  }
+
   // @native
-  protected abstract clearItemsWithPrefix(options: {
+  protected abstract internalClearItemsWithPrefix(options: {
     prefix: string
     sync: boolean
   }): Promise<void>
 
+  checkPrefix(prefix: string): string {
+    if (prefix.trim().length === 0) {
+      throw new StorageError(
+        'Non-blank prefix provided',
+        StorageErrorType.missingPrefix,
+      )
+    }
+
+    return prefix
+  }
+
   async keys(sync?: boolean): Promise<string[]> {
     const { keys } = await this.tryOperation(async () =>
-      this.getPrefixedKeys({
+      this.internalGetPrefixedKeys({
         prefix: this.prefix,
         sync: sync ?? this.sync,
       }),
@@ -256,7 +281,7 @@ export abstract class SecureStorageBase
   }
 
   // @native
-  protected abstract getPrefixedKeys(options: {
+  protected abstract internalGetPrefixedKeys(options: {
     prefix: string
     sync: boolean
   }): Promise<{ keys: string[] }>
@@ -266,7 +291,7 @@ export abstract class SecureStorageBase
   }
 
   async setKeyPrefix(prefix: string): Promise<void> {
-    this.prefix = prefix
+    this.prefix = this.checkPrefix(prefix)
   }
 
   protected prefixedKey(key: string): string {
