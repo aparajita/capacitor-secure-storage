@@ -5,9 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
-  '@ionic/cli@7.2.1':
-    hash: 68ad987b9ab1dc503e8bdb5cbd12929ca5d5cae537e7e866c5d97b923c8b00bd
-    path: patches/@ionic__cli@7.2.1.patch
+  '@ionic/cli@7.2.1': 68ad987b9ab1dc503e8bdb5cbd12929ca5d5cae537e7e866c5d97b923c8b00bd
 
 importers:
 
