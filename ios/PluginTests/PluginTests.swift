@@ -1,9 +1,9 @@
 import Testing
+@testable import Plugin
 
 struct PluginTests {
-
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-    }
-
+  @Test func prefixValidationPreservesNonblankWhitespace() {
+    #expect(SecureStorage.validatedPrefix(" prefix ") == " prefix ")
+    #expect(SecureStorage.validatedPrefix(" \t\n") == nil)
+  }
 }

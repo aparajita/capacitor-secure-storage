@@ -85,14 +85,22 @@ public class SecureStorage: CAPPlugin, CAPBridgedPlugin {
   }
 
   func getPrefixParam(from call: CAPPluginCall) -> String? {
-    let prefix = call.getString("prefix", "").trimmingCharacters(in: .whitespaces)
+    let prefix = call.getString("prefix", "")
 
-    if !prefix.isEmpty {
-      return prefix
+    if let validatedPrefix = Self.validatedPrefix(prefix) {
+      return validatedPrefix
     }
 
     KeychainError.reject(call: call, kind: .missingPrefix)
     return nil
+  }
+
+  static func validatedPrefix(_ prefix: String) -> String? {
+    guard !prefix.trimmingCharacters(in: .whitespaces).isEmpty else {
+      return nil
+    }
+
+    return prefix
   }
 
   func getKeyParam(from call: CAPPluginCall) -> String? {
